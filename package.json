@@ -1,0 +1,41 @@
+{
+  "name": "spv-toolpack",
+  "version": "0.1.0",
+  "description": "Vue 3 component library wrapping Bootstrap 5.3",
+  "type": "module",
+  "main": "./dist/spv-toolpack.umd.js",
+  "module": "./dist/spv-toolpack.es.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/spv-toolpack.es.js",
+      "require": "./dist/spv-toolpack.umd.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "dev": "vite dev",
+    "build": "vue-tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "typecheck": "vue-tsc --noEmit"
+  },
+  "peerDependencies": {
+    "vue": "^3.0.0"
+  },
+  "dependencies": {
+    "ramda": "^0.30.0"
+  },
+  "devDependencies": {
+    "@types/ramda": "^0.30.0",
+    "@types/node": "^20.0.0",
+    "@vitejs/plugin-vue": "^5.0.0",
+    "typescript": "^5.0.0",
+    "vite": "^5.0.0",
+    "vite-plugin-dts": "^3.0.0",
+    "vue": "^3.4.0",
+    "vue-tsc": "^2.0.0"
+  }
+}
