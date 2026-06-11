@@ -78,6 +78,13 @@ const props = defineProps<{
    * When omitted, a smart fallback tries common property names automatically.
    */
   optionLabel?: OptionLabelResolver
+
+  /**
+   * When true, input is restricted to values present in the options list.
+   * Validated on blur — invalid values are cleared, valid values are
+   * normalised to their canonical casing from the options list.
+   */
+  optionStrict?: boolean
 }>()
 
 const emit = defineEmits<{
@@ -136,6 +143,7 @@ const passThrough = computed(() => ({
   timezone:           props.timezone,
   options:            props.options,
   optionLabel:        props.optionLabel,
+  optionStrict:       props.optionStrict,
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 } as any))
 </script>

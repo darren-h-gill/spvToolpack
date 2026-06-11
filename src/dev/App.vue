@@ -152,6 +152,17 @@ const selectOptions = [
             </div>
             <div class="col-md-4">
               <SpvFormControl
+                sp-type="Text"
+                v-model="fcText"
+                label="Text — strict (must match list)"
+                placeholder="Type a fruit exactly..."
+                :options="textSuggestions"
+                option-strict
+                required
+              />
+            </div>
+            <div class="col-md-4">
+              <SpvFormControl
                 type="number"
                 v-model="fcNumber"
                 label="Number field"

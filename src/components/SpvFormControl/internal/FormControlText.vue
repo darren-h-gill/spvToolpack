@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import FormControlWrapper from './FormControlWrapper.vue'
 import { useFormControl } from '../useFormControl'
 import type { TListItem, OptionLabelResolver } from '../types'
@@ -25,6 +25,13 @@ const props = withDefaults(defineProps<{
    * When omitted, a smart fallback tries common property names automatically.
    */
   optionLabel?: OptionLabelResolver
+  /**
+   * When true, the value is only valid if it exactly matches an entry in the
+   * options list (case-insensitive). Validated on blur — the field is cleared
+   * if no match is found, and the canonical label is emitted if the casing differs.
+   * Has no effect when options is empty or not provided.
+   */
+  optionStrict?: boolean
 }>(), {
   modelValue: null,
   maxlength: 255
@@ -36,21 +43,72 @@ const emit = defineEmits<{
 
 const { id, haveValue, requiredPass, labelClasses } = useFormControl(props)
 
-defineExpose({ requiredPass })
+// --- Strict mode validity tracking ---------------------------------------
+// We only validate on blur, so we track whether the field has been blurred
+// and whether the last blur produced a valid selection.
+// Initial values from data are assumed valid (they came from SP, not user input).
 
-// Stable ID for the datalist — derived from the control ID so label/input/list
-// are all linked without generating a second random value
+const hasBeenBlurred = ref(false)
+const isValidSelection = ref(true)
+
+// Exposed requiredPass factors in strict-mode validity after first blur.
+// Before blur: behave as normal (don't penalise mid-typing).
+const exposedRequiredPass = computed<boolean>(() => {
+  const basePass = requiredPass.value
+  if (!props.optionStrict || !hasBeenBlurred.value) return basePass
+  // In strict mode post-blur: must also be a valid selection (or empty, which
+  // the base required check already handles)
+  return basePass && (haveValue.value ? isValidSelection.value : true)
+})
+
+defineExpose({ requiredPass: exposedRequiredPass })
+
+// --- Datalist ------------------------------------------------------------
+
 const datalistId = computed(() => props.options?.length ? `${id}-list` : undefined)
 
-// Resolved display strings for each option
 const optionLabels = computed<string[]>(() => {
   if (!props.options?.length) return []
   return props.options.map(item => resolveLabel(item, props.optionLabel))
 })
 
+// --- Event handlers ------------------------------------------------------
+
 function onInput(e: Event) {
   const val = (e.target as HTMLInputElement).value
   emit('update:modelValue', val === '' ? null : val)
+}
+
+function onBlur(e: FocusEvent) {
+  if (!props.optionStrict || !props.options?.length) return
+
+  hasBeenBlurred.value = true
+
+  const input = e.target as HTMLInputElement
+  const val = input.value
+
+  // Empty field — not a strict violation, handled by required separately
+  if (!val) {
+    isValidSelection.value = true
+    return
+  }
+
+  const lower = val.toLowerCase()
+  const canonical = optionLabels.value.find(label => label.toLowerCase() === lower)
+
+  if (canonical) {
+    isValidSelection.value = true
+    // Emit canonical casing if the user typed it differently
+    if (canonical !== val) {
+      input.value = canonical
+      emit('update:modelValue', canonical)
+    }
+  } else {
+    // No match — clear the field
+    isValidSelection.value = false
+    input.value = ''
+    emit('update:modelValue', null)
+  }
 }
 </script>
 
@@ -75,9 +133,9 @@ function onInput(e: Event) {
       :maxlength="maxlength"
       :list="datalistId"
       @input="onInput"
+      @blur="onBlur"
     >
 
-    <!-- Datalist — only rendered when options are provided -->
     <datalist v-if="datalistId" :id="datalistId">
       <option
         v-for="label in optionLabels"
