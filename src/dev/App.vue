@@ -24,6 +24,7 @@ const customSuggestions = [
   { code: 'C003', description: 'Widget Type C' },
 ]
 
+const fcPassword = ref<string | null>(null)
 const fcText    = ref<string | null>(null)
 const fcNumber  = ref<number | null>(null)
 const fcPercent = ref<number | null>(0.8)           // stored as decimal
@@ -122,6 +123,15 @@ const selectOptions = [
         <div class="pt-3">
           <h5>SpvFormControl</h5>
           <div class="row g-3">
+            <div class="col-md-4">
+              <SpvFormControl
+                type="password"
+                v-model="fcPassword"
+                label="Password"
+                placeholder="Enter password"
+                required
+              />
+            </div>
             <div class="col-md-4">
               <SpvFormControl
                 sp-type="Text"

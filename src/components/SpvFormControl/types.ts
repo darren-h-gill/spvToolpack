@@ -5,6 +5,7 @@
 // -----------------------------------------------------------------------------
 export type FormControlType =
   | 'text'
+  | 'password'
   | 'textarea'
   | 'number'
   | 'percent'
@@ -115,6 +116,7 @@ export interface SharedControlProps {
 // -----------------------------------------------------------------------------
 export const TYPE_ICON: Record<FormControlType, string> = {
   text:             'fa-font',
+  password:         'fa-lock',
   textarea:         'fa-pen-fancy',
   number:           'fa-hashtag',
   percent:          'fa-percent',

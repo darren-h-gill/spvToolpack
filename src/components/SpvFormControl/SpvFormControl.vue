@@ -22,6 +22,7 @@ import { computed, ref } from 'vue'
 import type { FormControlType, SpType, TListItem, OptionLabelResolver } from './types'
 import { SP_TYPE_DEFAULTS, SP_TYPE_MAXLENGTH } from './types'
 import FormControlText from './internal/FormControlText.vue'
+import FormControlPassword from './internal/FormControlPassword.vue'
 import FormControlNumber from './internal/FormControlNumber.vue'
 import FormControlPercent from './internal/FormControlPercent.vue'
 import FormControlDate from './internal/FormControlDate.vue'
@@ -110,6 +111,7 @@ const resolvedMaxlength = computed<number | undefined>(() => {
 // Resolve which internal component to render
 const resolvedComponent = computed(() => {
   switch (resolvedType.value) {
+    case 'password':       return FormControlPassword
     case 'number':         return FormControlNumber
     case 'percent':        return FormControlPercent
     case 'date':           return FormControlDate
