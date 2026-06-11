@@ -45,6 +45,12 @@ const props = defineProps<{
 
 const emit = defineEmits<{
   'update:modelValue': [value: unknown[] | null]
+  /**
+   * Fired on every input keystroke with the current query string.
+   * Emit an empty string when the dropdown closes.
+   * Consumers can use this to populate `options` asynchronously.
+   */
+  'search': [query: string]
 }>()
 
 // ─── Form control base ────────────────────────────────────────────────────────
@@ -149,6 +155,7 @@ function closeDropdown() {
   isOpen.value    = false
   inputText.value = ''
   highlightedIndex.value = 0
+  emit('search', '')
 }
 
 function selectOption(opt: ComputedOption) {
@@ -173,6 +180,7 @@ function removeItem(key: string) {
 function onInput() {
   isOpen.value           = true
   highlightedIndex.value = 0
+  emit('search', inputText.value)
 }
 
 function onFocus() {

@@ -116,6 +116,8 @@ const props = defineProps<{
 
 const emit = defineEmits<{
   'update:modelValue': [value: unknown]
+  /** Forwarded from FormControlLookupMulti — current typeahead query, '' on close */
+  'search': [query: string]
 }>()
 
 // Resolved control type: explicit `type` prop wins, otherwise derived from spType,
@@ -189,5 +191,6 @@ const passThrough = computed(() => ({
     ref="innerRef"
     v-bind="passThrough"
     @update:model-value="emit('update:modelValue', $event)"
+    @search="emit('search', $event)"
   />
 </template>

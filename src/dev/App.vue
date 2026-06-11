@@ -59,6 +59,39 @@ const departmentOptions = [
 ]
 const skillOptions = ['Vue', 'TypeScript', 'SharePoint', 'React', 'Node.js', 'CSS', 'Testing']
 
+// Async user search — simulates SP UserMulti with a live API
+const fcAsyncUsers     = ref<number[] | null>(null)
+const asyncUserOptions = ref<{ Id: number; Title: string }[]>([])
+const asyncUserLoading = ref(false)
+
+let searchDebounceTimer: ReturnType<typeof setTimeout> | null = null
+
+async function onUserSearch(query: string) {
+  if (searchDebounceTimer) clearTimeout(searchDebounceTimer)
+
+  if (!query) {
+    asyncUserOptions.value = []
+    asyncUserLoading.value = false
+    return
+  }
+
+  searchDebounceTimer = setTimeout(async () => {
+    asyncUserLoading.value = true
+    try {
+      const res  = await fetch(`https://dummyjson.com/users/search?q=${encodeURIComponent(query)}&limit=8&select=id,firstName,lastName`)
+      const data = await res.json() as { users: { id: number; firstName: string; lastName: string }[] }
+      asyncUserOptions.value = data.users.map(u => ({
+        Id:    u.id,
+        Title: `${u.firstName} ${u.lastName}`,
+      }))
+    } catch {
+      asyncUserOptions.value = []
+    } finally {
+      asyncUserLoading.value = false
+    }
+  }, 300)
+}
+
 const tabs: TabItem[] = [
   { key: 'tab1', label: 'Alerts & Toast' },
   { key: 'tab2', label: 'Modal & Offcanvas' },
@@ -356,9 +389,30 @@ const selectOptions = [
             </div>
 
           </div>
+            <div class="col-12">
+              <hr class="my-1">
+              <h6 class="mt-2">Async — live user search (dummyjson.com)</h6>
+            </div>
+
+            <div class="col-md-6">
+              <SpvFormControl
+                sp-type="UserMulti"
+                v-model="fcAsyncUsers"
+                label="UserMulti — async search"
+                placeholder="Type a name to search…"
+                :options="asyncUserOptions"
+                required
+                @search="onUserSearch"
+              />
+              <div v-if="asyncUserLoading" class="text-muted small mt-1">
+                <i class="fas fa-spinner fa-spin me-1" /> Searching…
+              </div>
+            </div>
+
+          </div>
           <hr>
           <h6 class="text-muted">Stored values:</h6>
-          <pre class="bg-light p-2 rounded"><code>{{ { fcMultiIds, fcMultiObjs, fcMultiStrings } }}</code></pre>
+          <pre class="bg-light p-2 rounded"><code>{{ { fcMultiIds, fcMultiObjs, fcMultiStrings, fcAsyncUsers } }}</code></pre>
         </div>
       </template>
 
