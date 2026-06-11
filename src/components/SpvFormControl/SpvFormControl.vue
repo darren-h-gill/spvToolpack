@@ -27,6 +27,7 @@ import FormControlNumber from './internal/FormControlNumber.vue'
 import FormControlPercent from './internal/FormControlPercent.vue'
 import FormControlDate from './internal/FormControlDate.vue'
 import FormControlDateTimeLocal from './internal/FormControlDateTimeLocal.vue'
+import FormControlSelect from './internal/FormControlSelect.vue'
 
 const props = defineProps<{
   /** SharePoint field TypeAsString — drives default type and SP-specific behaviour */
@@ -81,6 +82,14 @@ const props = defineProps<{
   optionLabel?: OptionLabelResolver
 
   /**
+   * How to extract the stored/emitted value from each option object.
+   * For plain strings/numbers the primitive itself is always emitted.
+   * For objects: string = property name (e.g. "Id"), function = custom extractor.
+   * When omitted for objects, the entire object is emitted.
+   */
+  optionValue?: OptionLabelResolver
+
+  /**
    * When true, input is restricted to values present in the options list.
    * Validated on blur — invalid values are cleared, valid values are
    * normalised to their canonical casing from the options list.
@@ -132,6 +141,7 @@ const resolvedComponent = computed(() => {
     case 'percent':        return FormControlPercent
     case 'date':           return FormControlDate
     case 'datetime-local': return FormControlDateTimeLocal
+    case 'select':         return FormControlSelect
     case 'text':
     default:               return FormControlText
   }
@@ -161,6 +171,7 @@ const passThrough = computed(() => ({
   timezone:           props.timezone,
   options:            props.options,
   optionLabel:        props.optionLabel,
+  optionValue:        props.optionValue,
   optionStrict:       props.optionStrict,
   minLength:          props.minLength,
   requiredCharacters: props.requiredCharacters,

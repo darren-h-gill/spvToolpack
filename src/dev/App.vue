@@ -32,11 +32,24 @@ const fcPercent = ref<number | null>(0.8)           // stored as decimal
 const fcDate    = ref<string | null>('2026-06-08T00:00:00Z')  // SP date-only
 const fcDt      = ref<string | null>('2026-06-08T13:30:00Z')  // SP datetime UTC
 
+// SpvFormControl select test values
+const fcSelectString  = ref<string | null>(null)        // plain string choice
+const fcSelectLookup  = ref<Record<string, unknown> | null>(null)  // whole object
+const fcSelectLookupId = ref<number | null>(null)       // just the Id
+
+const choiceOptions   = ['Yes', 'No', 'N/A']
+const lookupOptions   = [
+  { Id: 1, Title: 'Finance' },
+  { Id: 2, Title: 'Operations' },
+  { Id: 3, Title: 'Technology' },
+]
+
 const tabs: TabItem[] = [
   { key: 'tab1', label: 'Alerts & Toast' },
   { key: 'tab2', label: 'Modal & Offcanvas' },
   { key: 'tab3', label: 'Form Controls' },
-  { key: 'tab4', label: 'SpvFormControl' }
+  { key: 'tab4', label: 'SpvFormControl' },
+  { key: 'tab5', label: 'Select' },
 ]
 
 const selectOptions = [
@@ -244,6 +257,51 @@ const selectOptions = [
           </div>
         </div>
       </template>
+      <template #tab5>
+        <div class="pt-3">
+          <h5>SpvFormControl — Select</h5>
+          <div class="row g-3">
+
+            <div class="col-md-4">
+              <SpvFormControl
+                sp-type="Choice"
+                v-model="fcSelectString"
+                label="Choice — plain strings (Yes/No/N/A)"
+                placeholder="Select a value..."
+                :options="choiceOptions"
+                required
+              />
+            </div>
+
+            <div class="col-md-4">
+              <SpvFormControl
+                sp-type="Lookup"
+                v-model="fcSelectLookup"
+                label="Lookup — emit whole object"
+                placeholder="Select a department..."
+                :options="lookupOptions"
+              />
+            </div>
+
+            <div class="col-md-4">
+              <SpvFormControl
+                sp-type="Lookup"
+                v-model="fcSelectLookupId"
+                label="Lookup — emit Id only"
+                placeholder="Select a department..."
+                :options="lookupOptions"
+                option-value="Id"
+                required
+              />
+            </div>
+
+          </div>
+          <hr>
+          <h6 class="text-muted">Stored values:</h6>
+          <pre class="bg-light p-2 rounded"><code>{{ { fcSelectString, fcSelectLookup, fcSelectLookupId } }}</code></pre>
+        </div>
+      </template>
+
     </SpvNavTabs>
   </div>
 </template>
