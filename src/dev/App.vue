@@ -27,6 +27,7 @@ const customSuggestions = [
 const fcPassword        = ref<string | null>(null)
 const fcPasswordConfirm = ref<string | null>(null)
 const fcText    = ref<string | null>(null)
+const fcColour  = ref<string | null>(null)
 const fcNumber  = ref<number | null>(null)
 const fcPercent = ref<number | null>(0.8)           // stored as decimal
 const fcDate    = ref<string | null>('2026-06-08T00:00:00Z')  // SP date-only
@@ -219,6 +220,14 @@ const selectOptions = [
             </div>
             <div class="col-md-4">
               <SpvFormControl
+                sp-type="color"
+                v-model="fcColour"
+                label="Color picker"
+                placeholder="Choose a color..."
+              />
+            </div>
+            <div class="col-md-4">
+              <SpvFormControl
                 sp-type="Text"
                 v-model="fcText"
                 label="Text — object options (auto Title fallback)"
@@ -388,7 +397,7 @@ const selectOptions = [
               />
             </div>
 
-          </div>
+
             <div class="col-12">
               <hr class="my-1">
               <h6 class="mt-2">Async — live user search (dummyjson.com)</h6>
