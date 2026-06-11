@@ -86,6 +86,22 @@ const props = defineProps<{
    * normalised to their canonical casing from the options list.
    */
   optionStrict?: boolean
+
+  // ── Password validation rules (type="password" only) ─────────────────────
+  /** Minimum number of characters */
+  minLength?: number
+  /**
+   * Array of character sets — at least one char from each set must be present.
+   * e.g. ["0123456789", "!@#$%^&*()"] requires a digit AND a special character.
+   */
+  requiredCharacters?: string[]
+  /** Must contain both upper and lowercase letters */
+  mixedCase?: boolean
+  /**
+   * Must equal this value — pass the other password field's modelValue reactively.
+   * e.g. :must-match="confirmPassword"
+   */
+  mustMatch?: string | null
 }>()
 
 const emit = defineEmits<{
@@ -146,6 +162,10 @@ const passThrough = computed(() => ({
   options:            props.options,
   optionLabel:        props.optionLabel,
   optionStrict:       props.optionStrict,
+  minLength:          props.minLength,
+  requiredCharacters: props.requiredCharacters,
+  mixedCase:          props.mixedCase,
+  mustMatch:          props.mustMatch,
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 } as any))
 </script>

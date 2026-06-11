@@ -24,7 +24,8 @@ const customSuggestions = [
   { code: 'C003', description: 'Widget Type C' },
 ]
 
-const fcPassword = ref<string | null>(null)
+const fcPassword        = ref<string | null>(null)
+const fcPasswordConfirm = ref<string | null>(null)
 const fcText    = ref<string | null>(null)
 const fcNumber  = ref<number | null>(null)
 const fcPercent = ref<number | null>(0.8)           // stored as decimal
@@ -130,6 +131,19 @@ const selectOptions = [
                 label="Password"
                 placeholder="Enter password"
                 required
+                :min-length="8"
+                :mixed-case="true"
+                :required-characters="['0123456789', '!@#$%^&*()']"
+              />
+            </div>
+            <div class="col-md-4">
+              <SpvFormControl
+                type="password"
+                v-model="fcPasswordConfirm"
+                label="Confirm password"
+                placeholder="Repeat password"
+                required
+                :must-match="fcPassword"
               />
             </div>
             <div class="col-md-4">
