@@ -31,6 +31,10 @@ import FormControlSelect from './internal/FormControlSelect.vue'
 import FormControlLookupMulti from './internal/FormControlLookupMulti.vue'
 import FormControlColor from './internal/FormControlColor.vue'
 import FormControlOptions from './internal/FormControlOptions.vue'
+import FormControlTextarea from './internal/FormControlTextarea.vue'
+import FormControlSwitch from './internal/FormControlSwitch.vue'
+import FormControlCurrency from './internal/FormControlCurrency.vue'
+import FormControlLookup from './internal/FormControlLookup.vue'
 
 const props = defineProps<{
   /** SharePoint field TypeAsString — drives default type and SP-specific behaviour */
@@ -63,8 +67,15 @@ const props = defineProps<{
   max?: number
   step?: number
 
-  // text props — maxlength derived from spType (Text → 255) when omitted
+  // text / textarea props
   maxlength?: number
+  /** Number of visible rows for textarea controls. Defaults to 3. */
+  rows?: number
+
+  /** ISO 4217 currency code for currency controls, e.g. "GBP", "USD". Defaults to "GBP". */
+  currency?: string
+  /** BCP 47 locale string for currency symbol extraction. Defaults to browser locale. */
+  locale?: string
 
   /**
    * IANA timezone string for DateTime controls, e.g. "Europe/London".
@@ -153,6 +164,10 @@ const resolvedComponent = computed(() => {
     case 'color':          return FormControlColor
     case 'checkboxes':     return FormControlOptions
     case 'radio':          return FormControlOptions
+    case 'textarea':       return FormControlTextarea
+    case 'switch':         return FormControlSwitch
+    case 'currency':       return FormControlCurrency
+    case 'lookup':         return FormControlLookup
     case 'text':
     default:               return FormControlText
   }
@@ -181,6 +196,9 @@ const passThrough = computed(() => ({
   max:                props.max,
   step:               props.step,
   maxlength:          resolvedMaxlength.value,
+  rows:               props.rows,
+  currency:           props.currency,
+  locale:             props.locale,
   timezone:           props.timezone,
   options:            props.options,
   optionLabel:        props.optionLabel,

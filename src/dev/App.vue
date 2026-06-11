@@ -45,12 +45,14 @@ const customSuggestions = [
 
 const fcPassword        = ref<string | null>(null)
 const fcPasswordConfirm = ref<string | null>(null)
-const fcText    = ref<string | null>(null)
-const fcColour  = ref<string | null>(null)
-const fcNumber  = ref<number | null>(null)
-const fcPercent = ref<number | null>(0.8)
-const fcDate    = ref<string | null>('2026-06-08T00:00:00Z')
-const fcDt      = ref<string | null>('2026-06-08T13:30:00Z')
+const fcText     = ref<string | null>(null)
+const fcTextarea = ref<string | null>(null)
+const fcColour   = ref<string | null>(null)
+const fcNumber   = ref<number | null>(null)
+const fcPercent  = ref<number | null>(0.8)
+const fcCurrency = ref<number | null>(null)
+const fcDate     = ref<string | null>('2026-06-08T00:00:00Z')
+const fcDt       = ref<string | null>('2026-06-08T13:30:00Z')
 
 const C_PASSWORD = `\
 <SpvFormControl
@@ -70,6 +72,15 @@ const C_PASSWORD_CONFIRM = `\
   label="Confirm password"
   required
   :must-match="fcPassword"
+/>`
+
+const C_TEXTAREA = `\
+<SpvFormControl
+  sp-type="Note"
+  v-model="fcTextarea"
+  label="Textarea (Note field)"
+  placeholder="Write something..."
+  :rows="4"
 />`
 
 const C_TEXT_PLAIN = `\
@@ -108,6 +119,16 @@ const C_TEXT_STRICT = `\
   placeholder="Type a fruit exactly..."
   :options="textSuggestions"
   option-strict
+  required
+/>`
+
+const C_CURRENCY = `\
+<SpvFormControl
+  sp-type="Currency"
+  v-model="fcCurrency"
+  label="Currency field (GBP)"
+  placeholder="0.00"
+  :min="0"
   required
 />`
 
@@ -178,9 +199,12 @@ const lookupOptions = [
 const fcSelectString   = ref<string | null>(null)
 const fcSelectLookup   = ref<Record<string, unknown> | null>(null)
 const fcSelectLookupId = ref<number | null>(null)
+const fcLookupSingle   = ref<number | null>(null)
 const fcRadio          = ref<string | null>(null)
 const fcCheckboxes     = ref<string[] | null>(null)
 const fcCheckboxesStacked = ref<string[] | null>(null)
+const fcSwitch         = ref<boolean | null>(null)
+const fcSwitchRequired = ref<boolean | null>(null)
 
 const C_CHOICE_STRING = `\
 <SpvFormControl
@@ -208,6 +232,32 @@ const C_LOOKUP_ID = `\
   label="Lookup — Id only (auto from sp-type)"
   placeholder="Select a department..."
   :options="lookupOptions"
+  required
+/>`
+
+const C_LOOKUP_SINGLE = `\
+<SpvFormControl
+  sp-type="Lookup"
+  type="lookup"
+  v-model="fcLookupSingle"
+  label="Lookup — single typeahead"
+  placeholder="Search departments…"
+  :options="lookupOptions"
+  required
+/>`
+
+const C_SWITCH = `\
+<SpvFormControl
+  sp-type="Boolean"
+  v-model="fcSwitch"
+  label="Switch (optional)"
+/>`
+
+const C_SWITCH_REQUIRED = `\
+<SpvFormControl
+  sp-type="Boolean"
+  v-model="fcSwitchRequired"
+  label="Switch (required — must be toggled)"
   required
 />`
 
@@ -434,8 +484,19 @@ const C_MULTI_ASYNC = `\
             </div>
           </div>
 
-          <h5 class="mt-4">Text</h5>
+          <h5 class="mt-4">Text &amp; Textarea</h5>
           <div class="row g-3">
+            <div class="col-md-4">
+              <PlaygroundItem :code="C_TEXTAREA">
+                <SpvFormControl
+                  sp-type="Note"
+                  v-model="fcTextarea"
+                  label="Textarea (Note field)"
+                  placeholder="Write something..."
+                  :rows="4"
+                />
+              </PlaygroundItem>
+            </div>
             <div class="col-md-4">
               <PlaygroundItem :code="C_TEXT_PLAIN">
                 <SpvFormControl
@@ -487,6 +548,18 @@ const C_MULTI_ASYNC = `\
 
           <h5 class="mt-4">Numeric &amp; Colour</h5>
           <div class="row g-3">
+            <div class="col-md-4">
+              <PlaygroundItem :code="C_CURRENCY">
+                <SpvFormControl
+                  sp-type="Currency"
+                  v-model="fcCurrency"
+                  label="Currency field (GBP)"
+                  placeholder="0.00"
+                  :min="0"
+                  required
+                />
+              </PlaygroundItem>
+            </div>
             <div class="col-md-4">
               <PlaygroundItem :code="C_NUMBER">
                 <SpvFormControl
@@ -562,7 +635,7 @@ const C_MULTI_ASYNC = `\
 
           <hr>
           <h6 class="text-muted">SP (stored) values:</h6>
-          <pre class="bg-light p-2 rounded"><code>{{ { fcText, fcNumber, fcPercent, fcColour, fcDate, fcDt } }}</code></pre>
+          <pre class="bg-light p-2 rounded"><code>{{ { fcTextarea, fcText, fcCurrency, fcNumber, fcPercent, fcColour, fcDate, fcDt } }}</code></pre>
           <div class="mt-2 text-muted small">
             <strong>Percent note:</strong> display shows {{ fcPercent != null ? (fcPercent * 100) : '–' }}%,
             stored value is {{ fcPercent }}
@@ -610,6 +683,42 @@ const C_MULTI_ASYNC = `\
                 />
               </PlaygroundItem>
             </div>
+            <div class="col-md-4">
+              <PlaygroundItem :code="C_LOOKUP_SINGLE">
+                <SpvFormControl
+                  sp-type="Lookup"
+                  type="lookup"
+                  v-model="fcLookupSingle"
+                  label="Lookup — single typeahead"
+                  placeholder="Search departments…"
+                  :options="lookupOptions"
+                  required
+                />
+              </PlaygroundItem>
+            </div>
+          </div>
+
+          <h5 class="mt-4">Switch</h5>
+          <div class="row g-3">
+            <div class="col-md-4">
+              <PlaygroundItem :code="C_SWITCH">
+                <SpvFormControl
+                  sp-type="Boolean"
+                  v-model="fcSwitch"
+                  label="Switch (optional)"
+                />
+              </PlaygroundItem>
+            </div>
+            <div class="col-md-4">
+              <PlaygroundItem :code="C_SWITCH_REQUIRED">
+                <SpvFormControl
+                  sp-type="Boolean"
+                  v-model="fcSwitchRequired"
+                  label="Switch (required — must be toggled)"
+                  required
+                />
+              </PlaygroundItem>
+            </div>
           </div>
 
           <h5 class="mt-4">Radio &amp; Checkboxes</h5>
@@ -651,7 +760,7 @@ const C_MULTI_ASYNC = `\
 
           <hr>
           <h6 class="text-muted">Stored values:</h6>
-          <pre class="bg-light p-2 rounded"><code>{{ { fcSelectString, fcSelectLookup, fcSelectLookupId, fcRadio, fcCheckboxes, fcCheckboxesStacked } }}</code></pre>
+          <pre class="bg-light p-2 rounded"><code>{{ { fcSelectString, fcSelectLookup, fcSelectLookupId, fcLookupSingle, fcSwitch, fcSwitchRequired, fcRadio, fcCheckboxes, fcCheckboxesStacked } }}</code></pre>
         </div>
       </template>
 
