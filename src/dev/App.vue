@@ -44,12 +44,28 @@ const lookupOptions   = [
   { Id: 3, Title: 'Technology' },
 ]
 
+// SpvFormControl lookup multi test values
+const fcMultiIds    = ref<number[] | null>(null)
+const fcMultiObjs   = ref<Record<string, unknown>[] | null>(null)
+const fcMultiStrings = ref<string[] | null>(null)
+
+const departmentOptions = [
+  { Id: 1, Title: 'Finance' },
+  { Id: 2, Title: 'Operations' },
+  { Id: 3, Title: 'Technology' },
+  { Id: 4, Title: 'Human Resources' },
+  { Id: 5, Title: 'Marketing' },
+  { Id: 6, Title: 'Legal' },
+]
+const skillOptions = ['Vue', 'TypeScript', 'SharePoint', 'React', 'Node.js', 'CSS', 'Testing']
+
 const tabs: TabItem[] = [
   { key: 'tab1', label: 'Alerts & Toast' },
   { key: 'tab2', label: 'Modal & Offcanvas' },
   { key: 'tab3', label: 'Form Controls' },
   { key: 'tab4', label: 'SpvFormControl' },
   { key: 'tab5', label: 'Select' },
+  { key: 'tab6', label: 'LookupMulti' },
 ]
 
 const selectOptions = [
@@ -298,6 +314,51 @@ const selectOptions = [
           <hr>
           <h6 class="text-muted">Stored values:</h6>
           <pre class="bg-light p-2 rounded"><code>{{ { fcSelectString, fcSelectLookup, fcSelectLookupId } }}</code></pre>
+        </div>
+      </template>
+
+      <template #tab6>
+        <div class="pt-3">
+          <h5>SpvFormControl — LookupMulti</h5>
+          <div class="row g-3">
+
+            <div class="col-md-6">
+              <SpvFormControl
+                sp-type="LookupMulti"
+                v-model="fcMultiIds"
+                label="LookupMulti — emit Id array (default)"
+                placeholder="Search departments…"
+                :options="departmentOptions"
+                required
+              />
+            </div>
+
+            <div class="col-md-6">
+              <SpvFormControl
+                sp-type="LookupMulti"
+                v-model="fcMultiObjs"
+                label="LookupMulti — emit whole objects (explicit optionValue overridden)"
+                placeholder="Search departments…"
+                :options="departmentOptions"
+                :option-value="(item: Record<string, unknown>) => item"
+              />
+            </div>
+
+            <div class="col-md-6">
+              <SpvFormControl
+                sp-type="MultiChoice"
+                type="lookupMulti"
+                v-model="fcMultiStrings"
+                label="MultiChoice — plain string options (typeahead)"
+                placeholder="Search skills…"
+                :options="skillOptions"
+              />
+            </div>
+
+          </div>
+          <hr>
+          <h6 class="text-muted">Stored values:</h6>
+          <pre class="bg-light p-2 rounded"><code>{{ { fcMultiIds, fcMultiObjs, fcMultiStrings } }}</code></pre>
         </div>
       </template>
 
