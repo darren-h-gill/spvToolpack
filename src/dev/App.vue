@@ -1,17 +1,36 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import type { TabItem } from '../components/SpvNavTabs/SpvNavTabs.vue'
+import PlaygroundItem from './PlaygroundItem.vue'
 
-const alertVisible = ref(true)
-const modalOpen = ref(false)
-const toastShow = ref(false)
+// ─── General component refs ───────────────────────────────────────────────────
+
+const alertVisible  = ref(true)
+const modalOpen     = ref(false)
+const toastShow     = ref(false)
 const offcanvasOpen = ref(false)
-const activeTab = ref('tab1')
-const inputVal = ref('')
-const selectVal = ref('')
-const textareaVal = ref('')
+const activeTab     = ref('tab1')
+const inputVal      = ref('')
+const selectVal     = ref('')
+const textareaVal   = ref('')
 
-// SpvFormControl test values — text datalist options
+const selectOptions = [
+  { value: 'a', label: 'Option A' },
+  { value: 'b', label: 'Option B' },
+  { value: 'c', label: 'Option C' },
+]
+
+const tabs: TabItem[] = [
+  { key: 'tab1', label: 'Alerts & Toast' },
+  { key: 'tab2', label: 'Modal & Offcanvas' },
+  { key: 'tab3', label: 'Form Controls' },
+  { key: 'tab4', label: 'SpvFormControl' },
+  { key: 'tab5', label: 'Select & Options' },
+  { key: 'tab6', label: 'LookupMulti' },
+]
+
+// ─── Tab 4 — SpvFormControl values ───────────────────────────────────────────
+
 const textSuggestions = ['Apple', 'Banana', 'Cherry', 'Date', 'Elderberry']
 const objectSuggestions = [
   { Id: 1, Title: 'Project Alpha' },
@@ -29,31 +48,197 @@ const fcPasswordConfirm = ref<string | null>(null)
 const fcText    = ref<string | null>(null)
 const fcColour  = ref<string | null>(null)
 const fcNumber  = ref<number | null>(null)
-const fcPercent = ref<number | null>(0.8)           // stored as decimal
-const fcDate    = ref<string | null>('2026-06-08T00:00:00Z')  // SP date-only
-const fcDt      = ref<string | null>('2026-06-08T13:30:00Z')  // SP datetime UTC
+const fcPercent = ref<number | null>(0.8)
+const fcDate    = ref<string | null>('2026-06-08T00:00:00Z')
+const fcDt      = ref<string | null>('2026-06-08T13:30:00Z')
 
-// SpvFormControl select test values
-const fcSelectString  = ref<string | null>(null)        // plain string choice
-const fcSelectLookup  = ref<Record<string, unknown> | null>(null)  // whole object
-const fcSelectLookupId = ref<number | null>(null)       // just the Id
+const C_PASSWORD = `\
+<SpvFormControl
+  type="password"
+  v-model="fcPassword"
+  label="Password"
+  required
+  :min-length="8"
+  :mixed-case="true"
+  :required-characters="['0123456789', '!@#$%^&*()']"
+/>`
 
-const choiceOptions   = ['Yes', 'No', 'N/A']
-const lookupOptions   = [
+const C_PASSWORD_CONFIRM = `\
+<SpvFormControl
+  type="password"
+  v-model="fcPasswordConfirm"
+  label="Confirm password"
+  required
+  :must-match="fcPassword"
+/>`
+
+const C_TEXT_PLAIN = `\
+<SpvFormControl
+  sp-type="Text"
+  v-model="fcText"
+  label="Text — plain string suggestions"
+  placeholder="Type a fruit..."
+  :options="textSuggestions"
+/>`
+
+const C_TEXT_OBJ_AUTO = `\
+<SpvFormControl
+  sp-type="Text"
+  v-model="fcText"
+  label="Text — object options (auto Title fallback)"
+  placeholder="Type a project..."
+  :options="objectSuggestions"
+/>`
+
+const C_TEXT_OBJ_LABEL = `\
+<SpvFormControl
+  sp-type="Text"
+  v-model="fcText"
+  label="Text — object options (explicit optionLabel)"
+  placeholder="Type a widget..."
+  :options="customSuggestions"
+  option-label="description"
+/>`
+
+const C_TEXT_STRICT = `\
+<SpvFormControl
+  sp-type="Text"
+  v-model="fcText"
+  label="Text — strict (must match list)"
+  placeholder="Type a fruit exactly..."
+  :options="textSuggestions"
+  option-strict
+  required
+/>`
+
+const C_NUMBER = `\
+<SpvFormControl
+  type="number"
+  v-model="fcNumber"
+  label="Number field"
+  placeholder="Enter a number"
+  :min="0"
+  :max="1000"
+  required
+/>`
+
+const C_PERCENT = `\
+<SpvFormControl
+  type="percent"
+  v-model="fcPercent"
+  label="Percent field"
+  placeholder="Enter %"
+  :min="0"
+  :max="100"
+  required
+/>`
+
+const C_COLOUR = `\
+<SpvFormControl
+  type="color"
+  v-model="fcColour"
+  label="Colour picker"
+  required
+/>`
+
+const C_DATE = `\
+<SpvFormControl
+  sp-type="DateTime"
+  type="date"
+  v-model="fcDate"
+  label="Date only (no TZ conversion)"
+/>`
+
+const C_DATETIME_BROWSER = `\
+<SpvFormControl
+  sp-type="DateTime"
+  type="datetime-local"
+  v-model="fcDt"
+  label="DateTime (browser TZ)"
+/>`
+
+const C_DATETIME_NY = `\
+<SpvFormControl
+  sp-type="DateTime"
+  type="datetime-local"
+  timezone="America/New_York"
+  v-model="fcDt"
+  label="DateTime (New York TZ)"
+/>`
+
+// ─── Tab 5 — Select & Options values ─────────────────────────────────────────
+
+const choiceOptions = ['Yes', 'No', 'N/A']
+const lookupOptions = [
   { Id: 1, Title: 'Finance' },
   { Id: 2, Title: 'Operations' },
   { Id: 3, Title: 'Technology' },
 ]
 
-// SpvFormControl options (radio / checkboxes) test values
-const fcRadio       = ref<string | null>(null)
-const fcCheckboxes  = ref<string[] | null>(null)
+const fcSelectString   = ref<string | null>(null)
+const fcSelectLookup   = ref<Record<string, unknown> | null>(null)
+const fcSelectLookupId = ref<number | null>(null)
+const fcRadio          = ref<string | null>(null)
+const fcCheckboxes     = ref<string[] | null>(null)
 const fcCheckboxesStacked = ref<string[] | null>(null)
 
-// SpvFormControl lookup multi test values
-const fcMultiIds    = ref<number[] | null>(null)
-const fcMultiObjs   = ref<Record<string, unknown>[] | null>(null)
-const fcMultiStrings = ref<string[] | null>(null)
+const C_CHOICE_STRING = `\
+<SpvFormControl
+  sp-type="Choice"
+  v-model="fcSelectString"
+  label="Choice — plain strings (Yes/No/N/A)"
+  placeholder="Select a value..."
+  :options="choiceOptions"
+  required
+/>`
+
+const C_CHOICE_OBJ = `\
+<SpvFormControl
+  sp-type="Choice"
+  v-model="fcSelectLookup"
+  label="Choice — emit whole object"
+  placeholder="Select a department..."
+  :options="lookupOptions"
+/>`
+
+const C_LOOKUP_ID = `\
+<SpvFormControl
+  sp-type="Lookup"
+  v-model="fcSelectLookupId"
+  label="Lookup — Id only (auto from sp-type)"
+  placeholder="Select a department..."
+  :options="lookupOptions"
+  required
+/>`
+
+const C_RADIO = `\
+<SpvFormControl
+  type="radio"
+  v-model="fcRadio"
+  label="Radio — single choice (click again to deselect)"
+  :options="choiceOptions"
+  required
+/>`
+
+const C_CHECKBOXES = `\
+<SpvFormControl
+  type="checkboxes"
+  v-model="fcCheckboxes"
+  label="Checkboxes — inline (default)"
+  :options="choiceOptions"
+/>`
+
+const C_CHECKBOXES_STACKED = `\
+<SpvFormControl
+  type="checkboxes"
+  v-model="fcCheckboxesStacked"
+  label="Checkboxes — stacked"
+  :options="choiceOptions"
+  stacked
+  required
+/>`
+
+// ─── Tab 6 — LookupMulti values ──────────────────────────────────────────────
 
 const departmentOptions = [
   { Id: 1, Title: 'Finance' },
@@ -65,8 +250,11 @@ const departmentOptions = [
 ]
 const skillOptions = ['Vue', 'TypeScript', 'SharePoint', 'React', 'Node.js', 'CSS', 'Testing']
 
-// Async user search — simulates SP UserMulti with a live API
-const fcAsyncUsers     = ref<number[] | null>(null)
+const fcMultiIds     = ref<number[] | null>(null)
+const fcMultiObjs    = ref<Record<string, unknown>[] | null>(null)
+const fcMultiStrings = ref<string[] | null>(null)
+const fcAsyncUsers   = ref<number[] | null>(null)
+
 const asyncUserOptions = ref<{ Id: number; Title: string }[]>([])
 const asyncUserLoading = ref(false)
 
@@ -74,22 +262,17 @@ let searchDebounceTimer: ReturnType<typeof setTimeout> | null = null
 
 async function onUserSearch(query: string) {
   if (searchDebounceTimer) clearTimeout(searchDebounceTimer)
-
   if (!query) {
     asyncUserOptions.value = []
     asyncUserLoading.value = false
     return
   }
-
   searchDebounceTimer = setTimeout(async () => {
     asyncUserLoading.value = true
     try {
       const res  = await fetch(`https://dummyjson.com/users/search?q=${encodeURIComponent(query)}&limit=8&select=id,firstName,lastName`)
       const data = await res.json() as { users: { id: number; firstName: string; lastName: string }[] }
-      asyncUserOptions.value = data.users.map(u => ({
-        Id:    u.id,
-        Title: `${u.firstName} ${u.lastName}`,
-      }))
+      asyncUserOptions.value = data.users.map(u => ({ Id: u.id, Title: `${u.firstName} ${u.lastName}` }))
     } catch {
       asyncUserOptions.value = []
     } finally {
@@ -98,20 +281,46 @@ async function onUserSearch(query: string) {
   }, 300)
 }
 
-const tabs: TabItem[] = [
-  { key: 'tab1', label: 'Alerts & Toast' },
-  { key: 'tab2', label: 'Modal & Offcanvas' },
-  { key: 'tab3', label: 'Form Controls' },
-  { key: 'tab4', label: 'SpvFormControl' },
-  { key: 'tab5', label: 'Select' },
-  { key: 'tab6', label: 'LookupMulti' },
-]
+const C_MULTI_IDS = `\
+<SpvFormControl
+  sp-type="LookupMulti"
+  v-model="fcMultiIds"
+  label="LookupMulti — Id array (default)"
+  placeholder="Search departments…"
+  :options="departmentOptions"
+  required
+/>`
 
-const selectOptions = [
-  { value: 'a', label: 'Option A' },
-  { value: 'b', label: 'Option B' },
-  { value: 'c', label: 'Option C' }
-]
+const C_MULTI_OBJS = `\
+<SpvFormControl
+  sp-type="LookupMulti"
+  v-model="fcMultiObjs"
+  label="LookupMulti — whole objects"
+  placeholder="Search departments…"
+  :options="departmentOptions"
+  :option-value="(item) => item"
+/>`
+
+const C_MULTI_STRINGS = `\
+<SpvFormControl
+  sp-type="MultiChoice"
+  type="lookupMulti"
+  v-model="fcMultiStrings"
+  label="MultiChoice — plain string options"
+  placeholder="Search skills…"
+  :options="skillOptions"
+/>`
+
+const C_MULTI_ASYNC = `\
+<SpvFormControl
+  sp-type="UserMulti"
+  v-model="fcAsyncUsers"
+  label="UserMulti — async search"
+  placeholder="Type a name to search…"
+  :options="asyncUserOptions"
+  required
+  @search="onUserSearch"
+/>`
 </script>
 
 <template>
@@ -119,6 +328,8 @@ const selectOptions = [
     <h1 class="mb-4">spvToolpack Dev Playground</h1>
 
     <SpvNavTabs v-model="activeTab" :tabs="tabs">
+
+      <!-- ── Tab 1: Alerts & Toast ──────────────────────────────────────── -->
       <template #tab1>
         <div class="pt-3">
           <h5>Alerts</h5>
@@ -141,6 +352,7 @@ const selectOptions = [
         </div>
       </template>
 
+      <!-- ── Tab 2: Modal & Offcanvas ──────────────────────────────────── -->
       <template #tab2>
         <div class="pt-3">
           <h5>Modal</h5>
@@ -161,6 +373,7 @@ const selectOptions = [
         </div>
       </template>
 
+      <!-- ── Tab 3: Basic Form Controls ────────────────────────────────── -->
       <template #tab3>
         <div class="pt-3">
           <SpvInput
@@ -188,137 +401,165 @@ const selectOptions = [
         </div>
       </template>
 
+      <!-- ── Tab 4: SpvFormControl ──────────────────────────────────────── -->
       <template #tab4>
         <div class="pt-3">
-          <h5>SpvFormControl</h5>
+          <h5>Password</h5>
+          <div class="row g-3">
+            <div class="col-md-6">
+              <PlaygroundItem :code="C_PASSWORD">
+                <SpvFormControl
+                  type="password"
+                  v-model="fcPassword"
+                  label="Password"
+                  placeholder="Enter password"
+                  required
+                  :min-length="8"
+                  :mixed-case="true"
+                  :required-characters="['0123456789', '!@#$%^&*()']"
+                />
+              </PlaygroundItem>
+            </div>
+            <div class="col-md-6">
+              <PlaygroundItem :code="C_PASSWORD_CONFIRM">
+                <SpvFormControl
+                  type="password"
+                  v-model="fcPasswordConfirm"
+                  label="Confirm password"
+                  placeholder="Repeat password"
+                  required
+                  :must-match="fcPassword"
+                />
+              </PlaygroundItem>
+            </div>
+          </div>
+
+          <h5 class="mt-4">Text</h5>
           <div class="row g-3">
             <div class="col-md-4">
-              <SpvFormControl
-                type="password"
-                v-model="fcPassword"
-                label="Password"
-                placeholder="Enter password"
-                required
-                :min-length="8"
-                :mixed-case="true"
-                :required-characters="['0123456789', '!@#$%^&*()']"
-              />
+              <PlaygroundItem :code="C_TEXT_PLAIN">
+                <SpvFormControl
+                  sp-type="Text"
+                  v-model="fcText"
+                  label="Text — plain string suggestions"
+                  placeholder="Type a fruit..."
+                  :options="textSuggestions"
+                />
+              </PlaygroundItem>
             </div>
             <div class="col-md-4">
-              <SpvFormControl
-                type="password"
-                v-model="fcPasswordConfirm"
-                label="Confirm password"
-                placeholder="Repeat password"
-                required
-                :must-match="fcPassword"
-              />
+              <PlaygroundItem :code="C_TEXT_OBJ_AUTO">
+                <SpvFormControl
+                  sp-type="Text"
+                  v-model="fcText"
+                  label="Text — object options (auto Title fallback)"
+                  placeholder="Type a project..."
+                  :options="objectSuggestions"
+                />
+              </PlaygroundItem>
             </div>
             <div class="col-md-4">
-              <SpvFormControl
-                sp-type="Text"
-                v-model="fcText"
-                label="Text — plain string suggestions"
-                placeholder="Type a fruit..."
-                :options="textSuggestions"
-              />
+              <PlaygroundItem :code="C_TEXT_OBJ_LABEL">
+                <SpvFormControl
+                  sp-type="Text"
+                  v-model="fcText"
+                  label="Text — object options (explicit optionLabel)"
+                  placeholder="Type a widget..."
+                  :options="customSuggestions"
+                  option-label="description"
+                />
+              </PlaygroundItem>
             </div>
             <div class="col-md-4">
-              <SpvFormControl
-                type="color" sp-type="text"
-                v-model="fcColour"
-                label="Color picker"
-                placeholder="Choose a color..."
-              />
-            </div>
-            <div class="col-md-4">
-              <SpvFormControl
-                sp-type="Text"
-                v-model="fcText"
-                label="Text — object options (auto Title fallback)"
-                placeholder="Type a project..."
-                :options="objectSuggestions"
-              />
-            </div>
-            <div class="col-md-4">
-              <SpvFormControl
-                sp-type="Text"
-                v-model="fcText"
-                label="Text — object options (explicit optionLabel)"
-                placeholder="Type a widget..."
-                :options="customSuggestions"
-                option-label="description"
-              />
-            </div>
-            <div class="col-md-4">
-              <SpvFormControl
-                sp-type="Text"
-                v-model="fcText"
-                label="Text — strict (must match list)"
-                placeholder="Type a fruit exactly..."
-                :options="textSuggestions"
-                option-strict
-                required
-              />
-            </div>
-            <div class="col-md-4">
-              <SpvFormControl
-                type="number"
-                v-model="fcNumber"
-                label="Number field"
-                placeholder="Enter a number"
-                :min="0"
-                :max="1000"
-                required
-              />
-            </div>
-            <div class="col-md-4">
-              <SpvFormControl
-                type="percent"
-                v-model="fcPercent"
-                label="Percent field"
-                placeholder="Enter %"
-                :min="0"
-                :max="100"
-                required
-              />
-            </div>
-            <div class="col-md-4">
-              <SpvFormControl
-                type="color"
-                v-model="fcColour"
-                label="Colour picker"
-                required
-              />
+              <PlaygroundItem :code="C_TEXT_STRICT">
+                <SpvFormControl
+                  sp-type="Text"
+                  v-model="fcText"
+                  label="Text — strict (must match list)"
+                  placeholder="Type a fruit exactly..."
+                  :options="textSuggestions"
+                  option-strict
+                  required
+                />
+              </PlaygroundItem>
             </div>
           </div>
-          <div class="row g-3 mt-1">
+
+          <h5 class="mt-4">Numeric &amp; Colour</h5>
+          <div class="row g-3">
             <div class="col-md-4">
-              <SpvFormControl
-                sp-type="DateTime"
-                type="date"
-                v-model="fcDate"
-                label="Date only (no TZ conversion)"
-              />
+              <PlaygroundItem :code="C_NUMBER">
+                <SpvFormControl
+                  type="number"
+                  v-model="fcNumber"
+                  label="Number field"
+                  placeholder="Enter a number"
+                  :min="0"
+                  :max="1000"
+                  required
+                />
+              </PlaygroundItem>
             </div>
             <div class="col-md-4">
-              <SpvFormControl
-                sp-type="DateTime"
-                type="datetime-local"
-                v-model="fcDt"
-                label="DateTime (browser TZ)"
-              />
+              <PlaygroundItem :code="C_PERCENT">
+                <SpvFormControl
+                  type="percent"
+                  v-model="fcPercent"
+                  label="Percent field"
+                  placeholder="Enter %"
+                  :min="0"
+                  :max="100"
+                  required
+                />
+              </PlaygroundItem>
             </div>
             <div class="col-md-4">
-              <SpvFormControl
-                sp-type="DateTime"
-                type="datetime-local"
-                timezone="America/New_York"
-                v-model="fcDt"
-                label="DateTime (New York TZ)"
-              />
+              <PlaygroundItem :code="C_COLOUR">
+                <SpvFormControl
+                  type="color"
+                  v-model="fcColour"
+                  label="Colour picker"
+                  required
+                />
+              </PlaygroundItem>
             </div>
           </div>
+
+          <h5 class="mt-4">Date &amp; Time</h5>
+          <div class="row g-3">
+            <div class="col-md-4">
+              <PlaygroundItem :code="C_DATE">
+                <SpvFormControl
+                  sp-type="DateTime"
+                  type="date"
+                  v-model="fcDate"
+                  label="Date only (no TZ conversion)"
+                />
+              </PlaygroundItem>
+            </div>
+            <div class="col-md-4">
+              <PlaygroundItem :code="C_DATETIME_BROWSER">
+                <SpvFormControl
+                  sp-type="DateTime"
+                  type="datetime-local"
+                  v-model="fcDt"
+                  label="DateTime (browser TZ)"
+                />
+              </PlaygroundItem>
+            </div>
+            <div class="col-md-4">
+              <PlaygroundItem :code="C_DATETIME_NY">
+                <SpvFormControl
+                  sp-type="DateTime"
+                  type="datetime-local"
+                  timezone="America/New_York"
+                  v-model="fcDt"
+                  label="DateTime (New York TZ)"
+                />
+              </PlaygroundItem>
+            </div>
+          </div>
+
           <hr>
           <h6 class="text-muted">SP (stored) values:</h6>
           <pre class="bg-light p-2 rounded"><code>{{ { fcText, fcNumber, fcPercent, fcColour, fcDate, fcDt } }}</code></pre>
@@ -328,78 +569,84 @@ const selectOptions = [
           </div>
         </div>
       </template>
+
+      <!-- ── Tab 5: Select & Options ────────────────────────────────────── -->
       <template #tab5>
         <div class="pt-3">
-          <h5>SpvFormControl — Select</h5>
+          <h5>Select</h5>
           <div class="row g-3">
-
             <div class="col-md-4">
-              <SpvFormControl
-                sp-type="Choice"
-                v-model="fcSelectString"
-                label="Choice — plain strings (Yes/No/N/A)"
-                placeholder="Select a value..."
-                :options="choiceOptions"
-                required
-              />
+              <PlaygroundItem :code="C_CHOICE_STRING">
+                <SpvFormControl
+                  sp-type="Choice"
+                  v-model="fcSelectString"
+                  label="Choice — plain strings (Yes/No/N/A)"
+                  placeholder="Select a value..."
+                  :options="choiceOptions"
+                  required
+                />
+              </PlaygroundItem>
             </div>
-
             <div class="col-md-4">
-              <SpvFormControl
-                sp-type="Choice"
-                v-model="fcSelectLookup"
-                label="Choice — emit whole object (explicit)"
-                placeholder="Select a department..."
-                :options="lookupOptions"
-              />
+              <PlaygroundItem :code="C_CHOICE_OBJ">
+                <SpvFormControl
+                  sp-type="Choice"
+                  v-model="fcSelectLookup"
+                  label="Choice — emit whole object"
+                  placeholder="Select a department..."
+                  :options="lookupOptions"
+                />
+              </PlaygroundItem>
             </div>
-
             <div class="col-md-4">
-              <SpvFormControl
-                sp-type="Lookup"
-                v-model="fcSelectLookupId"
-                label="Lookup — Id only (auto from sp-type)"
-                placeholder="Select a department..."
-                :options="lookupOptions"
-                required
-              />
+              <PlaygroundItem :code="C_LOOKUP_ID">
+                <SpvFormControl
+                  sp-type="Lookup"
+                  v-model="fcSelectLookupId"
+                  label="Lookup — Id only (auto from sp-type)"
+                  placeholder="Select a department..."
+                  :options="lookupOptions"
+                  required
+                />
+              </PlaygroundItem>
             </div>
-
           </div>
-          <hr class="mt-4">
-          <h5>Radio &amp; Checkboxes</h5>
+
+          <h5 class="mt-4">Radio &amp; Checkboxes</h5>
           <div class="row g-3">
-
             <div class="col-md-4">
-              <SpvFormControl
-                type="radio"
-                v-model="fcRadio"
-                label="Radio — single choice (click again to deselect)"
-                :options="choiceOptions"
-                required
-              />
+              <PlaygroundItem :code="C_RADIO">
+                <SpvFormControl
+                  type="radio"
+                  v-model="fcRadio"
+                  label="Radio — single choice (click again to deselect)"
+                  :options="choiceOptions"
+                  required
+                />
+              </PlaygroundItem>
             </div>
-
             <div class="col-md-4">
-              <SpvFormControl
-                type="checkboxes"
-                v-model="fcCheckboxes"
-                label="Checkboxes — inline (default)"
-                :options="choiceOptions"
-              />
+              <PlaygroundItem :code="C_CHECKBOXES">
+                <SpvFormControl
+                  type="checkboxes"
+                  v-model="fcCheckboxes"
+                  label="Checkboxes — inline (default)"
+                  :options="choiceOptions"
+                />
+              </PlaygroundItem>
             </div>
-
             <div class="col-md-4">
-              <SpvFormControl
-                type="checkboxes"
-                v-model="fcCheckboxesStacked"
-                label="Checkboxes — stacked"
-                :options="choiceOptions"
-                stacked
-                required
-              />
+              <PlaygroundItem :code="C_CHECKBOXES_STACKED">
+                <SpvFormControl
+                  type="checkboxes"
+                  v-model="fcCheckboxesStacked"
+                  label="Checkboxes — stacked"
+                  :options="choiceOptions"
+                  stacked
+                  required
+                />
+              </PlaygroundItem>
             </div>
-
           </div>
 
           <hr>
@@ -408,66 +655,65 @@ const selectOptions = [
         </div>
       </template>
 
+      <!-- ── Tab 6: LookupMulti ─────────────────────────────────────────── -->
       <template #tab6>
         <div class="pt-3">
-          <h5>SpvFormControl — LookupMulti</h5>
+          <h5>LookupMulti</h5>
           <div class="row g-3">
-
             <div class="col-md-6">
-              <SpvFormControl
-                sp-type="LookupMulti"
-                v-model="fcMultiIds"
-                label="LookupMulti — emit Id array (default)"
-                placeholder="Search departments…"
-                :options="departmentOptions"
-                required
-              />
+              <PlaygroundItem :code="C_MULTI_IDS">
+                <SpvFormControl
+                  sp-type="LookupMulti"
+                  v-model="fcMultiIds"
+                  label="LookupMulti — Id array (default)"
+                  placeholder="Search departments…"
+                  :options="departmentOptions"
+                  required
+                />
+              </PlaygroundItem>
             </div>
-
             <div class="col-md-6">
-              <SpvFormControl
-                sp-type="LookupMulti"
-                v-model="fcMultiObjs"
-                label="LookupMulti — emit whole objects (explicit optionValue overridden)"
-                placeholder="Search departments…"
-                :options="departmentOptions"
-                :option-value="(item: Record<string, unknown>) => item"
-              />
+              <PlaygroundItem :code="C_MULTI_OBJS">
+                <SpvFormControl
+                  sp-type="LookupMulti"
+                  v-model="fcMultiObjs"
+                  label="LookupMulti — whole objects"
+                  placeholder="Search departments…"
+                  :options="departmentOptions"
+                  :option-value="(item: Record<string, unknown>) => item"
+                />
+              </PlaygroundItem>
             </div>
-
             <div class="col-md-6">
-              <SpvFormControl
-                sp-type="MultiChoice"
-                type="lookupMulti"
-                v-model="fcMultiStrings"
-                label="MultiChoice — plain string options (typeahead)"
-                placeholder="Search skills…"
-                :options="skillOptions"
-              />
+              <PlaygroundItem :code="C_MULTI_STRINGS">
+                <SpvFormControl
+                  sp-type="MultiChoice"
+                  type="lookupMulti"
+                  v-model="fcMultiStrings"
+                  label="MultiChoice — plain string options"
+                  placeholder="Search skills…"
+                  :options="skillOptions"
+                />
+              </PlaygroundItem>
             </div>
-
-
-            <div class="col-12">
-              <hr class="my-1">
-              <h6 class="mt-2">Async — live user search (dummyjson.com)</h6>
-            </div>
-
             <div class="col-md-6">
-              <SpvFormControl
-                sp-type="UserMulti"
-                v-model="fcAsyncUsers"
-                label="UserMulti — async search"
-                placeholder="Type a name to search…"
-                :options="asyncUserOptions"
-                required
-                @search="onUserSearch"
-              />
-              <div v-if="asyncUserLoading" class="text-muted small mt-1">
-                <i class="fas fa-spinner fa-spin me-1" /> Searching…
-              </div>
+              <PlaygroundItem :code="C_MULTI_ASYNC">
+                <SpvFormControl
+                  sp-type="UserMulti"
+                  v-model="fcAsyncUsers"
+                  label="UserMulti — async search (dummyjson.com)"
+                  placeholder="Type a name to search…"
+                  :options="asyncUserOptions"
+                  required
+                  @search="onUserSearch"
+                />
+                <div v-if="asyncUserLoading" class="text-muted small mt-1">
+                  <i class="fas fa-spinner fa-spin me-1" /> Searching…
+                </div>
+              </PlaygroundItem>
             </div>
-
           </div>
+
           <hr>
           <h6 class="text-muted">Stored values:</h6>
           <pre class="bg-light p-2 rounded"><code>{{ { fcMultiIds, fcMultiObjs, fcMultiStrings, fcAsyncUsers } }}</code></pre>
