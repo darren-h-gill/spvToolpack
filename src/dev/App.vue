@@ -45,6 +45,11 @@ const lookupOptions   = [
   { Id: 3, Title: 'Technology' },
 ]
 
+// SpvFormControl options (radio / checkboxes) test values
+const fcRadio       = ref<string | null>(null)
+const fcCheckboxes  = ref<string[] | null>(null)
+const fcCheckboxesStacked = ref<string[] | null>(null)
+
 // SpvFormControl lookup multi test values
 const fcMultiIds    = ref<number[] | null>(null)
 const fcMultiObjs   = ref<Record<string, unknown>[] | null>(null)
@@ -220,7 +225,7 @@ const selectOptions = [
             </div>
             <div class="col-md-4">
               <SpvFormControl
-                sp-type="color"
+                type="color" sp-type="text"
                 v-model="fcColour"
                 label="Color picker"
                 placeholder="Choose a color..."
@@ -361,9 +366,45 @@ const selectOptions = [
             </div>
 
           </div>
+          <hr class="mt-4">
+          <h5>Radio &amp; Checkboxes</h5>
+          <div class="row g-3">
+
+            <div class="col-md-4">
+              <SpvFormControl
+                type="radio"
+                v-model="fcRadio"
+                label="Radio — single choice (click again to deselect)"
+                :options="choiceOptions"
+                required
+              />
+            </div>
+
+            <div class="col-md-4">
+              <SpvFormControl
+                type="checkboxes"
+                v-model="fcCheckboxes"
+                label="Checkboxes — inline (default)"
+                :options="choiceOptions"
+              />
+            </div>
+
+            <div class="col-md-4">
+              <SpvFormControl
+                type="checkboxes"
+                v-model="fcCheckboxesStacked"
+                label="Checkboxes — stacked"
+                :options="choiceOptions"
+                stacked
+                required
+              />
+            </div>
+
+          </div>
+
           <hr>
           <h6 class="text-muted">Stored values:</h6>
-          <pre class="bg-light p-2 rounded"><code>{{ { fcSelectString, fcSelectLookup, fcSelectLookupId } }}</code></pre>
+          <pre class="bg-light p-2 rounded"><code>{{ { fcSelectString, fcSelectLookup, fcSelectLookupId, fcRadio, fcCheckboxes, fcCheckboxesStacked } }}</code></pre>
         </div>
       </template>
 

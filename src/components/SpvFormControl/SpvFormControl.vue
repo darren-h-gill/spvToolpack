@@ -30,6 +30,7 @@ import FormControlDateTimeLocal from './internal/FormControlDateTimeLocal.vue'
 import FormControlSelect from './internal/FormControlSelect.vue'
 import FormControlLookupMulti from './internal/FormControlLookupMulti.vue'
 import FormControlColor from './internal/FormControlColor.vue'
+import FormControlOptions from './internal/FormControlOptions.vue'
 
 const props = defineProps<{
   /** SharePoint field TypeAsString — drives default type and SP-specific behaviour */
@@ -54,6 +55,8 @@ const props = defineProps<{
   required?: boolean
   readonly?: boolean
   suppressPrefixIcon?: boolean
+  /** Render checkboxes/radio options one per line. Defaults to inline. */
+  stacked?: boolean
 
   // number / percent props
   min?: number
@@ -148,6 +151,8 @@ const resolvedComponent = computed(() => {
     case 'select':         return FormControlSelect
     case 'lookupMulti':    return FormControlLookupMulti
     case 'color':          return FormControlColor
+    case 'checkboxes':     return FormControlOptions
+    case 'radio':          return FormControlOptions
     case 'text':
     default:               return FormControlText
   }
@@ -170,6 +175,8 @@ const passThrough = computed(() => ({
   required:           props.required,
   readonly:           props.readonly,
   suppressPrefixIcon: props.suppressPrefixIcon,
+  stacked:            props.stacked,
+  multi:              resolvedType.value === 'checkboxes',
   min:                props.min,
   max:                props.max,
   step:               props.step,
