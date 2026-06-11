@@ -2,13 +2,14 @@
 import { computed } from 'vue'
 import FormControlWrapper from './FormControlWrapper.vue'
 import { useFormControl } from '../useFormControl'
-import type { TListItem, OptionLabelResolver } from '../types'
+import type { TListItem, OptionLabelResolver, SpType } from '../types'
 import { resolveLabel } from '../utils/optionUtils'
 
 // ─── Props ────────────────────────────────────────────────────────────────────
 
 const props = defineProps<{
   modelValue: unknown
+  spType?: SpType
   label?: string
   labelClass?: string
   placeholder?: string
@@ -30,9 +31,9 @@ const props = defineProps<{
    *
    *   string   — property name, e.g. "Id" emits item.Id
    *   function — custom extractor, e.g. item => item.Id
-   *   omitted  — for plain strings/numbers emits the primitive; for objects
-   *              emits the entire object (useful for SP lookup bindings where
-   *              you want to store { Id, Title } as a whole unit).
+   *   omitted  — behaviour depends on spType:
+   *              • Lookup / User → defaults to emitting item.Id (number)
+   *              • everything else → emits the whole object (or the primitive)
    */
   optionValue?: OptionLabelResolver
 }>()
@@ -47,17 +48,40 @@ defineExpose({ requiredPass })
 // ─── Value resolution ─────────────────────────────────────────────────────────
 
 /**
- * Extract the stored/emitted value from a TListItem, using optionValue if
- * provided, otherwise the primitive itself or the whole object.
+ * SP types that represent a single lookup to another list.
+ * When no explicit optionValue prop is provided these default to emitting
+ * the numeric Id of the selected item rather than the whole object.
+ */
+const LOOKUP_SP_TYPES: SpType[] = ['Lookup', 'User']
+
+/**
+ * Extract the stored/emitted value from a TListItem.
+ *
+ * Priority:
+ *   1. Explicit optionValue prop (string property name or function)
+ *   2. Primitives — return as-is
+ *   3. Lookup / User spType — default to item.Id
+ *   4. Everything else — emit the whole object
  */
 function resolveValue(item: TListItem): unknown {
-  if (typeof item === 'string' || typeof item === 'number') return item
+  // Explicit resolver always wins
   if (typeof props.optionValue === 'function') return props.optionValue(item)
   if (typeof props.optionValue === 'string') {
+    if (typeof item === 'string' || typeof item === 'number') return item
     const val = (item as Record<string, unknown>)[props.optionValue]
     return val ?? null
   }
-  // No optionValue — emit the whole object
+
+  // Primitives — no resolution needed
+  if (typeof item === 'string' || typeof item === 'number') return item
+
+  // Lookup / User spType default: emit just the Id
+  if (props.spType && LOOKUP_SP_TYPES.includes(props.spType)) {
+    const id = (item as Record<string, unknown>)['Id']
+    return id ?? null
+  }
+
+  // Default — emit the whole object
   return item
 }
 
@@ -116,6 +140,18 @@ function onChange(e: Event) {
   const matched = selectOptions.value.find(opt => opt.key === key)
   emit('update:modelValue', matched ? matched.value : null)
 }
+
+/**
+ * Delete or Backspace on a select clears the selection back to null.
+ * The browser won't do this natively — we intercept the key and
+ * programmatically reset to the placeholder option.
+ */
+function onKeydown(e: KeyboardEvent) {
+  if (e.key !== 'Delete' && e.key !== 'Backspace') return
+  if (props.readonly) return
+  e.preventDefault()
+  emit('update:modelValue', null)
+}
 </script>
 
 <template>
@@ -135,6 +171,7 @@ function onChange(e: Event) {
       :value="selectedKey"
       :disabled="readonly"
       @change="onChange"
+      @keydown="onKeydown"
     >
       <!-- Placeholder option -->
       <option value="" :disabled="required">

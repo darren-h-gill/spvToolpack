@@ -275,9 +275,9 @@ const selectOptions = [
 
             <div class="col-md-4">
               <SpvFormControl
-                sp-type="Lookup"
+                sp-type="Choice"
                 v-model="fcSelectLookup"
-                label="Lookup — emit whole object"
+                label="Choice — emit whole object (explicit)"
                 placeholder="Select a department..."
                 :options="lookupOptions"
               />
@@ -287,10 +287,9 @@ const selectOptions = [
               <SpvFormControl
                 sp-type="Lookup"
                 v-model="fcSelectLookupId"
-                label="Lookup — emit Id only"
+                label="Lookup — Id only (auto from sp-type)"
                 placeholder="Select a department..."
                 :options="lookupOptions"
-                option-value="Id"
                 required
               />
             </div>
