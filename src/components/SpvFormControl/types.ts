@@ -74,6 +74,28 @@ export const SP_TYPE_MAXLENGTH: Partial<Record<SpType, number>> = {
 }
 
 // -----------------------------------------------------------------------------
+// Options / list items — shared across text (datalist), select, checkboxes, radio
+// -----------------------------------------------------------------------------
+
+/**
+ * A single item in any options list.
+ * Can be a plain string, a number, or a rich object (e.g. a SP lookup result).
+ */
+export type TListItem = string | number | Record<string, unknown>
+
+/**
+ * Tells the control how to extract a display string from a TListItem.
+ *
+ *   string   — the property name on the object to use, e.g. "Title"
+ *   function — a custom formatter: (item) => string
+ *
+ * When omitted the control uses a smart fallback, trying common property
+ * names in order before calling toString(). This handles typical SP objects
+ * like { Id: 1, Title: "Something" } automatically with no config.
+ */
+export type OptionLabelResolver = string | ((item: TListItem) => string)
+
+// -----------------------------------------------------------------------------
 // Props shared by ALL internal control components
 // -----------------------------------------------------------------------------
 export interface SharedControlProps {

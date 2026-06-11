@@ -11,7 +11,19 @@ const inputVal = ref('')
 const selectVal = ref('')
 const textareaVal = ref('')
 
-// SpvFormControl test values
+// SpvFormControl test values — text datalist options
+const textSuggestions = ['Apple', 'Banana', 'Cherry', 'Date', 'Elderberry']
+const objectSuggestions = [
+  { Id: 1, Title: 'Project Alpha' },
+  { Id: 2, Title: 'Project Beta' },
+  { Id: 3, Title: 'Project Gamma' },
+]
+const customSuggestions = [
+  { code: 'A001', description: 'Widget Type A' },
+  { code: 'B002', description: 'Widget Type B' },
+  { code: 'C003', description: 'Widget Type C' },
+]
+
 const fcText    = ref<string | null>(null)
 const fcNumber  = ref<number | null>(null)
 const fcPercent = ref<number | null>(0.8)           // stored as decimal
@@ -112,11 +124,30 @@ const selectOptions = [
           <div class="row g-3">
             <div class="col-md-4">
               <SpvFormControl
-                type="text"
+                sp-type="Text"
                 v-model="fcText"
-                label="Text field"
-                placeholder="Enter some text"
-                required
+                label="Text — plain string suggestions"
+                placeholder="Type a fruit..."
+                :options="textSuggestions"
+              />
+            </div>
+            <div class="col-md-4">
+              <SpvFormControl
+                sp-type="Text"
+                v-model="fcText"
+                label="Text — object options (auto Title fallback)"
+                placeholder="Type a project..."
+                :options="objectSuggestions"
+              />
+            </div>
+            <div class="col-md-4">
+              <SpvFormControl
+                sp-type="Text"
+                v-model="fcText"
+                label="Text — object options (explicit optionLabel)"
+                placeholder="Type a widget..."
+                :options="customSuggestions"
+                option-label="description"
               />
             </div>
             <div class="col-md-4">

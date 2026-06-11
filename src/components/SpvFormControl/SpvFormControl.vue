@@ -19,7 +19,7 @@
  *              Defaults to the browser's local timezone. Ignored for date-only controls.
  */
 import { computed, ref } from 'vue'
-import type { FormControlType, SpType } from './types'
+import type { FormControlType, SpType, TListItem, OptionLabelResolver } from './types'
 import { SP_TYPE_DEFAULTS, SP_TYPE_MAXLENGTH } from './types'
 import FormControlText from './internal/FormControlText.vue'
 import FormControlNumber from './internal/FormControlNumber.vue'
@@ -65,6 +65,19 @@ const props = defineProps<{
    * Has no effect on date-only controls.
    */
   timezone?: string
+
+  /**
+   * Optional list of items for suggestion lists (datalist) or option-based
+   * controls (select, checkboxes, radio). Items may be strings, numbers, or objects.
+   */
+  options?: TListItem[]
+
+  /**
+   * How to extract the display string from each option when options contains
+   * objects. Either a property name ("Title") or a formatter function.
+   * When omitted, a smart fallback tries common property names automatically.
+   */
+  optionLabel?: OptionLabelResolver
 }>()
 
 const emit = defineEmits<{
@@ -121,6 +134,8 @@ const passThrough = computed(() => ({
   step:               props.step,
   maxlength:          resolvedMaxlength.value,
   timezone:           props.timezone,
+  options:            props.options,
+  optionLabel:        props.optionLabel,
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 } as any))
 </script>
