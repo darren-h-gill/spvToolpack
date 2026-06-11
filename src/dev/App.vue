@@ -278,6 +278,14 @@ const selectOptions = [
                 required
               />
             </div>
+            <div class="col-md-4">
+              <SpvFormControl
+                type="color"
+                v-model="fcColour"
+                label="Colour picker"
+                required
+              />
+            </div>
           </div>
           <div class="row g-3 mt-1">
             <div class="col-md-4">
@@ -308,7 +316,7 @@ const selectOptions = [
           </div>
           <hr>
           <h6 class="text-muted">SP (stored) values:</h6>
-          <pre class="bg-light p-2 rounded"><code>{{ { fcText, fcNumber, fcPercent, fcDate, fcDt } }}</code></pre>
+          <pre class="bg-light p-2 rounded"><code>{{ { fcText, fcNumber, fcPercent, fcColour, fcDate, fcDt } }}</code></pre>
           <div class="mt-2 text-muted small">
             <strong>Percent note:</strong> display shows {{ fcPercent != null ? (fcPercent * 100) : '–' }}%,
             stored value is {{ fcPercent }}

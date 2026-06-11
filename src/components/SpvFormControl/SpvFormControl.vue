@@ -29,6 +29,7 @@ import FormControlDate from './internal/FormControlDate.vue'
 import FormControlDateTimeLocal from './internal/FormControlDateTimeLocal.vue'
 import FormControlSelect from './internal/FormControlSelect.vue'
 import FormControlLookupMulti from './internal/FormControlLookupMulti.vue'
+import FormControlColor from './internal/FormControlColor.vue'
 
 const props = defineProps<{
   /** SharePoint field TypeAsString — drives default type and SP-specific behaviour */
@@ -146,6 +147,7 @@ const resolvedComponent = computed(() => {
     case 'datetime-local': return FormControlDateTimeLocal
     case 'select':         return FormControlSelect
     case 'lookupMulti':    return FormControlLookupMulti
+    case 'color':          return FormControlColor
     case 'text':
     default:               return FormControlText
   }
