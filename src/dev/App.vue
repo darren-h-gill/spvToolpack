@@ -10,20 +10,10 @@ const modalOpen     = ref(false)
 const toastShow     = ref(false)
 const offcanvasOpen = ref(false)
 const activeTab     = ref('tab1')
-const inputVal      = ref('')
-const selectVal     = ref('')
-const textareaVal   = ref('')
-
-const selectOptions = [
-  { value: 'a', label: 'Option A' },
-  { value: 'b', label: 'Option B' },
-  { value: 'c', label: 'Option C' },
-]
 
 const tabs: TabItem[] = [
   { key: 'tab1', label: 'Alerts & Toast' },
   { key: 'tab2', label: 'Modal & Offcanvas' },
-  { key: 'tab3', label: 'Form Controls' },
   { key: 'tab4', label: 'SpvFormControl' },
   { key: 'tab5', label: 'Select & Options' },
   { key: 'tab6', label: 'LookupMulti' },
@@ -120,6 +110,15 @@ const C_TEXT_STRICT = `\
   :options="textSuggestions"
   option-strict
   required
+/>`
+
+const C_HELP_TEXT = `\
+<SpvFormControl
+  sp-type="Text"
+  v-model="fcText"
+  label="Text — with help text"
+  placeholder="Enter a value..."
+  help-text="Shown beneath the control via the helpText prop."
 />`
 
 const C_CURRENCY = `\
@@ -423,34 +422,6 @@ const C_MULTI_ASYNC = `\
         </div>
       </template>
 
-      <!-- ── Tab 3: Basic Form Controls ────────────────────────────────── -->
-      <template #tab3>
-        <div class="pt-3">
-          <SpvInput
-            v-model="inputVal"
-            id="dev-input"
-            label="Text Input"
-            placeholder="Type something..."
-            help-text="This is help text beneath the input."
-          />
-          <SpvSelect
-            v-model="selectVal"
-            id="dev-select"
-            label="Select"
-            placeholder="Choose an option"
-            :options="selectOptions"
-          />
-          <SpvTextarea
-            v-model="textareaVal"
-            id="dev-textarea"
-            label="Textarea"
-            placeholder="Write something..."
-            :rows="4"
-          />
-          <pre class="bg-light p-2 rounded mt-3"><code>{{ { inputVal, selectVal, textareaVal } }}</code></pre>
-        </div>
-      </template>
-
       <!-- ── Tab 4: SpvFormControl ──────────────────────────────────────── -->
       <template #tab4>
         <div class="pt-3">
@@ -541,6 +512,17 @@ const C_MULTI_ASYNC = `\
                   :options="textSuggestions"
                   option-strict
                   required
+                />
+              </PlaygroundItem>
+            </div>
+            <div class="col-md-4">
+              <PlaygroundItem :code="C_HELP_TEXT">
+                <SpvFormControl
+                  sp-type="Text"
+                  v-model="fcText"
+                  label="Text — with help text"
+                  placeholder="Enter a value..."
+                  help-text="Shown beneath the control via the helpText prop."
                 />
               </PlaygroundItem>
             </div>

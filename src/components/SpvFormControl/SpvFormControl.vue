@@ -112,6 +112,9 @@ const props = defineProps<{
    */
   optionStrict?: boolean
 
+  /** Optional helper text rendered below the control (Bootstrap .form-text) */
+  helpText?: string
+
   // ── Password validation rules (type="password" only) ─────────────────────
   /** Minimum number of characters */
   minLength?: number
@@ -213,11 +216,14 @@ const passThrough = computed(() => ({
 </script>
 
 <template>
-  <component
-    :is="resolvedComponent"
-    ref="innerRef"
-    v-bind="passThrough"
-    @update:model-value="emit('update:modelValue', $event)"
-    @search="emit('search', $event)"
-  />
+  <div>
+    <component
+      :is="resolvedComponent"
+      ref="innerRef"
+      v-bind="passThrough"
+      @update:model-value="emit('update:modelValue', $event)"
+      @search="emit('search', $event)"
+    />
+    <div v-if="helpText" class="form-text text-muted">{{ helpText }}</div>
+  </div>
 </template>
