@@ -17,38 +17,31 @@ import { useFormControl } from '../useFormControl'
 import type { TListItem, OptionLabelResolver, SpType } from '../types'
 import { resolveLabel } from '../utils/optionUtils'
 
-// ─── Props ────────────────────────────────────────────────────────────────────
-
 const props = defineProps<{
   modelValue: unknown
-  /** true → checkboxes (multi-select);  false → radio (single-select) */
   multi?: boolean
   spType?: SpType
   label?: string
   labelClass?: string
   required?: boolean
   readonly?: boolean
-  /** One option per line. Defaults to inline (false). */
   stacked?: boolean
-
   options?: TListItem[]
   optionLabel?: OptionLabelResolver
   optionValue?: OptionLabelResolver
-
-  // Accepted for passThrough compatibility — not used by this component
   suppressPrefixIcon?: boolean
+  errorMessage?: string
 }>()
 
 const emit = defineEmits<{
   'update:modelValue': [value: unknown]
 }>()
 
-// ─── Form control base ────────────────────────────────────────────────────────
+const { id, haveValue, requiredPass, labelClasses, touched, touch } = useFormControl(props)
 
-const { id, haveValue, requiredPass, labelClasses } = useFormControl(props)
-defineExpose({ requiredPass })
+const isInvalid = computed(() => touched.value && !requiredPass.value)
 
-// ─── Value resolution ─────────────────────────────────────────────────────────
+defineExpose({ requiredPass, touch })
 
 const LOOKUP_SP_TYPES: SpType[] = ['Lookup', 'LookupMulti', 'User', 'UserMulti']
 
@@ -71,8 +64,6 @@ function valueToKey(v: unknown): string {
   return String(v)
 }
 
-// ─── Option list ──────────────────────────────────────────────────────────────
-
 interface ComputedOption {
   label: string
   value: unknown
@@ -87,8 +78,6 @@ const allOptions = computed<ComputedOption[]>(() =>
   }))
 )
 
-// ─── Selection state ──────────────────────────────────────────────────────────
-
 const selectedArray = computed<unknown[]>(() =>
   props.multi && Array.isArray(props.modelValue) ? props.modelValue : []
 )
@@ -100,10 +89,9 @@ function isChecked(key: string): boolean {
   return valueToKey(props.modelValue) === key
 }
 
-// ─── Event handlers ───────────────────────────────────────────────────────────
-
 function onToggle(opt: ComputedOption) {
   if (props.readonly) return
+  touch()
 
   if (props.multi) {
     const already = selectedArray.value.some(v => valueToKey(v) === opt.key)
@@ -114,7 +102,6 @@ function onToggle(opt: ComputedOption) {
       emit('update:modelValue', [...selectedArray.value, opt.value])
     }
   } else {
-    // Radio: clicking the selected option deselects it back to null
     if (valueToKey(props.modelValue) === opt.key) {
       emit('update:modelValue', null)
     } else {
@@ -122,12 +109,15 @@ function onToggle(opt: ComputedOption) {
     }
   }
 }
+
+const defaultError = computed(() =>
+  props.multi ? 'Please select at least one option' : 'Please select an option'
+)
 </script>
 
 <template>
   <div role="group" :aria-labelledby="label ? `${id}-label` : undefined">
 
-    <!-- Group label with inline required indicator -->
     <div
       v-if="label"
       :id="`${id}-label`"
@@ -141,7 +131,6 @@ function onToggle(opt: ComputedOption) {
       />
     </div>
 
-    <!-- Option list — inline by default, stacked when prop set -->
     <div>
       <div
         v-for="(opt, i) in allOptions"
@@ -153,6 +142,7 @@ function onToggle(opt: ComputedOption) {
           :id="`${id}-opt-${i}`"
           :type="multi ? 'checkbox' : 'radio'"
           class="form-check-input"
+          :class="{ 'is-invalid': isInvalid }"
           :checked="isChecked(opt.key)"
           :disabled="readonly"
           :name="multi ? undefined : id"
@@ -162,6 +152,10 @@ function onToggle(opt: ComputedOption) {
           {{ opt.label }}
         </label>
       </div>
+    </div>
+
+    <div v-if="isInvalid" class="invalid-feedback d-block">
+      {{ errorMessage ?? defaultError }}
     </div>
 
   </div>

@@ -21,8 +21,9 @@ const props = withDefaults(defineProps<{
   required?: boolean
   readonly?: boolean
   suppressPrefixIcon?: boolean
-  min?: string   // ISO date string for min constraint, e.g. "2020-01-01T00:00:00Z"
-  max?: string   // ISO date string for max constraint
+  min?: string
+  max?: string
+  errorMessage?: string
 }>(), {
   modelValue: null
 })
@@ -31,18 +32,18 @@ const emit = defineEmits<{
   'update:modelValue': [value: string | null]
 }>()
 
-const { id, haveValue, requiredPass, labelClasses } = useFormControl(props)
+const { id, haveValue, requiredPass, labelClasses, touched, touch } = useFormControl(props)
 
-defineExpose({ requiredPass })
+const isInvalid = computed(() => touched.value && !requiredPass.value)
 
-// Convert SP ISO → input-friendly YYYY-MM-DD
+defineExpose({ requiredPass, touch })
+
 const displayValue = computed<string>(() => isoToDateInput(props.modelValue))
-
-// min/max also need converting to input format if provided as ISO strings
 const inputMin = computed(() => props.min ? isoToDateInput(props.min) : undefined)
 const inputMax = computed(() => props.max ? isoToDateInput(props.max) : undefined)
 
 function onChange(e: Event) {
+  touch()
   const val = (e.target as HTMLInputElement).value
   emit('update:modelValue', dateInputToIso(val))
 }
@@ -58,11 +59,14 @@ function onChange(e: Event) {
     :required="required"
     :readonly="readonly"
     :suppress-prefix-icon="suppressPrefixIcon"
+    :is-invalid="isInvalid"
+    :error-message="errorMessage ?? 'This field is required'"
   >
     <input
       :id="id"
       type="date"
       class="form-control"
+      :class="{ 'is-invalid': isInvalid }"
       :value="displayValue"
       :readonly="readonly"
       :min="inputMin"

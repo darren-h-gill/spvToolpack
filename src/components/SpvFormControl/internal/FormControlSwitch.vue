@@ -7,9 +7,7 @@
  *   false — explicitly OFF
  *   true  — ON
  *
- * Required indicator sits inline after the label text (no input-group wrapper
- * needed for a single checkbox/switch). The asterisk turns green once the user
- * has made any selection (true or false); null = red.
+ * Required: null = not satisfied; true or false = satisfied (user made a choice).
  */
 import { computed } from 'vue'
 import { useFormControl } from '../useFormControl'
@@ -20,43 +18,54 @@ const props = defineProps<{
   labelClass?: string
   required?: boolean
   readonly?: boolean
-  // Accepted for passThrough compatibility — not used
   suppressPrefixIcon?: boolean
+  errorMessage?: string
 }>()
 
 const emit = defineEmits<{
   'update:modelValue': [value: boolean | null]
 }>()
 
-const { id, haveValue, requiredPass, labelClasses } = useFormControl(props)
-defineExpose({ requiredPass })
+const { id, haveValue, requiredPass, labelClasses, touched, touch } = useFormControl(props)
+
+const isInvalid = computed(() => touched.value && !requiredPass.value)
+
+defineExpose({ requiredPass, touch })
 
 const checked = computed(() => props.modelValue === true)
 
 function onToggle() {
   if (props.readonly) return
-  // null or false → true;  true → false
+  touch()
   emit('update:modelValue', props.modelValue !== true)
 }
 </script>
 
 <template>
-  <div class="form-check form-switch">
-    <input
-      :id="id"
-      type="checkbox"
-      role="switch"
-      class="form-check-input"
-      :checked="checked"
-      :disabled="readonly"
-      @click.prevent="onToggle"
-    >
-    <label :for="id" :class="['form-check-label', ...labelClasses.filter(c => c !== 'form-label')]">
-      {{ label }}
-      <i
-        v-if="required"
-        :class="['fas fa-asterisk fa-xs ms-1', haveValue ? 'text-success' : 'text-danger']"
-      />
-    </label>
+  <div>
+    <div class="form-check form-switch">
+      <input
+        :id="id"
+        type="checkbox"
+        role="switch"
+        class="form-check-input"
+        :class="{ 'is-invalid': isInvalid }"
+        :checked="checked"
+        :disabled="readonly"
+        @click.prevent="onToggle"
+      >
+      <label :for="id" :class="['form-check-label', ...labelClasses.filter(c => c !== 'form-label')]">
+        {{ label }}
+        <i
+          v-if="required"
+          :class="['fas fa-asterisk fa-xs ms-1', haveValue ? 'text-success' : 'text-danger']"
+        />
+      </label>
+    </div>
+
+    <!-- Error shown below the switch row; only when required and not yet set -->
+    <div v-if="isInvalid" class="invalid-feedback d-block">
+      {{ errorMessage ?? 'This field is required' }}
+    </div>
   </div>
 </template>

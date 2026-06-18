@@ -14,16 +14,7 @@ const props = withDefaults(defineProps<{
   readonly?: boolean
   suppressPrefixIcon?: boolean
   maxlength?: number
-  /**
-   * Optional list of suggestions rendered as a <datalist>.
-   * Items can be plain strings or objects — see optionLabel for object config.
-   */
   options?: TListItem[]
-  /**
-   * How to extract the display string from each option when options contains
-   * objects. Either a property name ("Title") or a formatter function.
-   * When omitted, a smart fallback tries common property names automatically.
-   */
   optionLabel?: OptionLabelResolver
   /**
    * When true, the value is only valid if it exactly matches an entry in the
@@ -32,6 +23,7 @@ const props = withDefaults(defineProps<{
    * Has no effect when options is empty or not provided.
    */
   optionStrict?: boolean
+  errorMessage?: string
 }>(), {
   modelValue: null,
   maxlength: 255
@@ -41,27 +33,25 @@ const emit = defineEmits<{
   'update:modelValue': [value: string | null]
 }>()
 
-const { id, haveValue, requiredPass, labelClasses } = useFormControl(props)
+const { id, haveValue, requiredPass, labelClasses, touched, touch } = useFormControl(props)
 
 // --- Strict mode validity tracking ---------------------------------------
-// We only validate on blur, so we track whether the field has been blurred
-// and whether the last blur produced a valid selection.
+// isValidSelection tracks whether the last blur produced a valid selection.
 // Initial values from data are assumed valid (they came from SP, not user input).
 
-const hasBeenBlurred = ref(false)
 const isValidSelection = ref(true)
 
-// Exposed requiredPass factors in strict-mode validity after first blur.
-// Before blur: behave as normal (don't penalise mid-typing).
+// In strict mode post-touch: must also be a valid selection (or empty, which
+// the base required check already handles)
 const exposedRequiredPass = computed<boolean>(() => {
   const basePass = requiredPass.value
-  if (!props.optionStrict || !hasBeenBlurred.value) return basePass
-  // In strict mode post-blur: must also be a valid selection (or empty, which
-  // the base required check already handles)
+  if (!props.optionStrict || !touched.value) return basePass
   return basePass && (haveValue.value ? isValidSelection.value : true)
 })
 
-defineExpose({ requiredPass: exposedRequiredPass })
+const isInvalid = computed(() => touched.value && !exposedRequiredPass.value)
+
+defineExpose({ requiredPass: exposedRequiredPass, touch })
 
 // --- Datalist ------------------------------------------------------------
 
@@ -80,14 +70,13 @@ function onInput(e: Event) {
 }
 
 function onBlur(e: FocusEvent) {
-  if (!props.optionStrict || !props.options?.length) return
+  touch()
 
-  hasBeenBlurred.value = true
+  if (!props.optionStrict || !props.options?.length) return
 
   const input = e.target as HTMLInputElement
   const val = input.value
 
-  // Empty field — not a strict violation, handled by required separately
   if (!val) {
     isValidSelection.value = true
     return
@@ -98,13 +87,11 @@ function onBlur(e: FocusEvent) {
 
   if (canonical) {
     isValidSelection.value = true
-    // Emit canonical casing if the user typed it differently
     if (canonical !== val) {
       input.value = canonical
       emit('update:modelValue', canonical)
     }
   } else {
-    // No match — clear the field
     isValidSelection.value = false
     input.value = ''
     emit('update:modelValue', null)
@@ -122,11 +109,14 @@ function onBlur(e: FocusEvent) {
     :required="required"
     :readonly="readonly"
     :suppress-prefix-icon="suppressPrefixIcon"
+    :is-invalid="isInvalid"
+    :error-message="errorMessage ?? 'This field is required'"
   >
     <input
       :id="id"
       type="text"
       class="form-control"
+      :class="{ 'is-invalid': isInvalid }"
       :value="modelValue ?? ''"
       :placeholder="placeholder"
       :readonly="readonly"

@@ -21,8 +21,6 @@ import { useFormControl } from '../useFormControl'
 import type { TListItem, OptionLabelResolver, SpType } from '../types'
 import { resolveLabel } from '../utils/optionUtils'
 
-// ─── Props ────────────────────────────────────────────────────────────────────
-
 const props = defineProps<{
   modelValue: unknown
   spType?: SpType
@@ -35,6 +33,7 @@ const props = defineProps<{
   options?: TListItem[]
   optionLabel?: OptionLabelResolver
   optionValue?: OptionLabelResolver
+  errorMessage?: string
 }>()
 
 const emit = defineEmits<{
@@ -42,12 +41,11 @@ const emit = defineEmits<{
   'search': [query: string]
 }>()
 
-// ─── Form control base ────────────────────────────────────────────────────────
+const { id, haveValue, requiredPass, labelClasses, touched, touch } = useFormControl(props)
 
-const { id, haveValue, requiredPass, labelClasses } = useFormControl(props)
-defineExpose({ requiredPass })
+const isInvalid = computed(() => touched.value && !requiredPass.value)
 
-// ─── Value resolution ─────────────────────────────────────────────────────────
+defineExpose({ requiredPass, touch })
 
 const LOOKUP_SP_TYPES: SpType[] = ['Lookup', 'LookupMulti', 'User', 'UserMulti']
 
@@ -70,8 +68,6 @@ function valueToKey(v: unknown): string {
   return String(v)
 }
 
-// ─── Option list ──────────────────────────────────────────────────────────────
-
 interface ComputedOption {
   label: string
   value: unknown
@@ -86,9 +82,6 @@ const allOptions = computed<ComputedOption[]>(() =>
   }))
 )
 
-// ─── Selected label ───────────────────────────────────────────────────────────
-
-/** Display label for the currently selected value, or null when nothing selected */
 const selectedLabel = computed<string | null>(() => {
   if (props.modelValue === null || props.modelValue === undefined) return null
   const key = valueToKey(props.modelValue)
@@ -96,15 +89,11 @@ const selectedLabel = computed<string | null>(() => {
   return match?.label ?? String(props.modelValue)
 })
 
-// ─── Typeahead state ──────────────────────────────────────────────────────────
-
 const inputText        = ref('')
 const isOpen           = ref(false)
 const highlightedIndex = ref(0)
 const inputRef         = ref<HTMLInputElement | null>(null)
 
-// When modelValue is set (including on initial load / async options arriving),
-// show the resolved label in the input
 watch(selectedLabel, (label) => {
   if (label !== null) inputText.value = label
 }, { immediate: true })
@@ -113,7 +102,7 @@ const filteredOptions = computed<ComputedOption[]>(() => {
   const q = inputText.value.trim().toLowerCase()
   const selectedKey = valueToKey(props.modelValue)
   return allOptions.value.filter(opt => {
-    if (opt.key === selectedKey) return false   // hide already-selected option
+    if (opt.key === selectedKey) return false
     if (!q) return true
     return opt.label.toLowerCase().includes(q)
   })
@@ -123,8 +112,6 @@ watch(filteredOptions, (opts) => {
   if (highlightedIndex.value >= opts.length) highlightedIndex.value = 0
 })
 
-// ─── Helpers ──────────────────────────────────────────────────────────────────
-
 function openDropdown() {
   if (props.readonly) return
   isOpen.value = true
@@ -132,10 +119,10 @@ function openDropdown() {
 }
 
 function closeDropdown() {
+  touch()
   isOpen.value = false
   highlightedIndex.value = 0
   emit('search', '')
-  // Restore the selected label if one exists; otherwise leave the text as-is
   if (selectedLabel.value !== null) {
     inputText.value = selectedLabel.value
   }
@@ -155,10 +142,7 @@ function clearSelection() {
   nextTick(() => inputRef.value?.focus())
 }
 
-// ─── Event handlers ───────────────────────────────────────────────────────────
-
 function onInput() {
-  // If the user types while a value is selected, clear the selection
   if (props.modelValue !== null && props.modelValue !== undefined) {
     emit('update:modelValue', null)
   }
@@ -223,24 +207,21 @@ function onKeydown(e: KeyboardEvent) {
 
 <template>
   <div>
-    <!-- Label -->
     <label v-if="label" :for="id" :class="labelClasses">{{ label }}</label>
 
-    <!-- Input group: icon | input+dropdown | clear button | required indicator -->
-    <div class="input-group">
+    <div class="input-group" :class="{ 'has-validation': isInvalid }">
 
       <span v-if="!suppressPrefixIcon" class="input-group-text">
         <i class="fas fa-search" />
       </span>
 
-      <!-- Input and dropdown share a position-relative wrapper so the dropdown
-           is anchored to the input rather than the full input-group width -->
       <div class="position-relative flex-grow-1 d-flex">
         <input
           :id="id"
           ref="inputRef"
           type="text"
           class="form-control border-end-0"
+          :class="{ 'is-invalid': isInvalid }"
           v-model="inputText"
           :placeholder="placeholder ?? 'Type to search…'"
           :readonly="readonly"
@@ -251,7 +232,6 @@ function onKeydown(e: KeyboardEvent) {
           @keydown="onKeydown"
         >
 
-        <!-- Suggestion dropdown -->
         <ul
           v-if="isOpen && filteredOptions.length"
           class="dropdown-menu show position-absolute w-100 p-0 mb-0"
@@ -274,7 +254,6 @@ function onKeydown(e: KeyboardEvent) {
           </li>
         </ul>
 
-        <!-- No-match hint -->
         <ul
           v-else-if="isOpen && inputText && !filteredOptions.length"
           class="dropdown-menu show position-absolute w-100 p-0 mb-0"
@@ -284,7 +263,10 @@ function onKeydown(e: KeyboardEvent) {
         </ul>
       </div>
 
-      <!-- Clear button — shown only when a value is selected -->
+      <div v-if="isInvalid" class="invalid-feedback">
+        {{ errorMessage ?? 'Please select a value' }}
+      </div>
+
       <button
         v-if="haveValue && !readonly"
         type="button"
@@ -297,7 +279,6 @@ function onKeydown(e: KeyboardEvent) {
         <i class="fas fa-times" />
       </button>
 
-      <!-- Required indicator -->
       <span v-if="required" class="input-group-text">
         <i :class="['fas fa-asterisk fa-xs', haveValue ? 'text-success' : 'text-danger']" />
       </span>

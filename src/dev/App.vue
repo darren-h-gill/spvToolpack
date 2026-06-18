@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import type { TabItem } from '../components/SpvNavTabs/SpvNavTabs.vue'
 import PlaygroundItem from './PlaygroundItem.vue'
 
@@ -17,6 +17,7 @@ const tabs: TabItem[] = [
   { key: 'tab4', label: 'SpvFormControl' },
   { key: 'tab5', label: 'Select & Options' },
   { key: 'tab6', label: 'LookupMulti' },
+  { key: 'tab7', label: 'Validation' },
 ]
 
 // ─── Tab 4 — SpvFormControl values ───────────────────────────────────────────
@@ -370,6 +371,57 @@ const C_MULTI_ASYNC = `\
   required
   @search="onUserSearch"
 />`
+
+// ─── Tab 7 — Validation ───────────────────────────────────────────────────────
+
+interface SpvFCRef {
+  requiredPass: boolean
+  touch: () => void
+}
+
+const vName      = ref<string | null>(null)
+const vDept      = ref<number | null>(null)
+const vBudget    = ref<number | null>(null)
+const vNotes     = ref<string | null>(null)
+const vSkills    = ref<string[] | null>(null)
+const vAgree     = ref<boolean | null>(null)
+
+const vNameRef   = ref<SpvFCRef | null>(null)
+const vDeptRef   = ref<SpvFCRef | null>(null)
+const vBudgetRef = ref<SpvFCRef | null>(null)
+const vNotesRef  = ref<SpvFCRef | null>(null)
+const vSkillsRef = ref<SpvFCRef | null>(null)
+const vAgreeRef  = ref<SpvFCRef | null>(null)
+
+const allRefs = [vNameRef, vDeptRef, vBudgetRef, vNotesRef, vSkillsRef, vAgreeRef]
+
+const formValid = computed(() =>
+  allRefs.every(r => r.value?.requiredPass ?? true)
+)
+
+const submitted = ref(false)
+
+function onValidationSubmit() {
+  allRefs.forEach(r => r.value?.touch())
+  submitted.value = formValid.value
+}
+
+function onValidationReset() {
+  vName.value = null
+  vDept.value = null
+  vBudget.value = null
+  vNotes.value = null
+  vSkills.value = null
+  vAgree.value = null
+  submitted.value = false
+}
+
+const validationDepts = [
+  { Id: 1, Title: 'Finance' },
+  { Id: 2, Title: 'Operations' },
+  { Id: 3, Title: 'Technology' },
+]
+const validationSkills = ['Vue', 'TypeScript', 'SharePoint', 'React', 'CSS']
 </script>
 
 <template>
@@ -808,6 +860,123 @@ const C_MULTI_ASYNC = `\
           <hr>
           <h6 class="text-muted">Stored values:</h6>
           <pre class="bg-light p-2 rounded"><code>{{ { fcMultiIds, fcMultiObjs, fcMultiStrings, fcAsyncUsers } }}</code></pre>
+        </div>
+      </template>
+
+      <!-- ── Tab 7: Validation ─────────────────────────────────────────── -->
+      <template #tab7>
+        <div class="pt-3">
+          <p class="text-muted mb-3">
+            Errors only appear <strong>after the user interacts</strong> with a field (blur / change / click).
+            Clicking <em>Submit</em> calls <code>touch()</code> on every control via the exposed ref,
+            revealing all outstanding errors at once.
+          </p>
+
+          <div class="row g-3">
+            <div class="col-md-6">
+              <!-- Name — custom error message -->
+              <SpvFormControl
+                ref="vNameRef"
+                sp-type="Text"
+                v-model="vName"
+                label="Full name"
+                placeholder="Enter your full name"
+                required
+                error-message="Please enter your full name"
+              />
+            </div>
+            <div class="col-md-6">
+              <!-- Department — lookup select -->
+              <SpvFormControl
+                ref="vDeptRef"
+                sp-type="Lookup"
+                v-model="vDept"
+                label="Department"
+                placeholder="Choose a department…"
+                :options="validationDepts"
+                required
+              />
+            </div>
+            <div class="col-md-6">
+              <!-- Budget — currency, min 0 -->
+              <SpvFormControl
+                ref="vBudgetRef"
+                sp-type="Currency"
+                v-model="vBudget"
+                label="Budget"
+                placeholder="0.00"
+                :min="0"
+                required
+                error-message="Please enter a budget amount"
+              />
+            </div>
+            <div class="col-md-6">
+              <!-- Notes — textarea, optional but shows help-text -->
+              <SpvFormControl
+                ref="vNotesRef"
+                sp-type="Note"
+                v-model="vNotes"
+                label="Notes"
+                placeholder="Any additional notes…"
+                :rows="3"
+                help-text="Optional — leave blank if not applicable."
+              />
+            </div>
+            <div class="col-md-6">
+              <!-- Skills — required checkboxes -->
+              <SpvFormControl
+                ref="vSkillsRef"
+                type="checkboxes"
+                v-model="vSkills"
+                label="Skills"
+                :options="validationSkills"
+                required
+              />
+            </div>
+            <div class="col-md-6">
+              <!-- Agree — required switch -->
+              <SpvFormControl
+                ref="vAgreeRef"
+                sp-type="Boolean"
+                v-model="vAgree"
+                label="I agree to the terms and conditions"
+                required
+                error-message="You must agree before submitting"
+              />
+            </div>
+          </div>
+
+          <div class="d-flex align-items-center gap-3 mt-4">
+            <button class="btn btn-primary" @click="onValidationSubmit">Submit form</button>
+            <button class="btn btn-outline-secondary" @click="onValidationReset">Reset</button>
+            <span v-if="submitted" class="text-success fw-semibold">
+              <i class="fas fa-check me-1" /> Submitted successfully!
+            </span>
+            <span v-else-if="!formValid" class="text-danger small">
+              Form has errors — fix them before submitting
+            </span>
+          </div>
+
+          <hr class="mt-4">
+          <h6 class="text-muted">How it works</h6>
+          <pre class="bg-light p-3 rounded small"><code>// 1. Hold a typed ref to each control
+const nameRef = ref&lt;{ requiredPass: boolean; touch: () => void } | null>(null)
+
+// 2. Touch all fields on submit to reveal errors
+function onSubmit() {
+  nameRef.value?.touch()
+  // ... repeat for each field
+  if (nameRef.value?.requiredPass) {
+    // proceed
+  }
+}
+
+// 3. In the template
+&lt;SpvFormControl ref="nameRef" required error-message="Please enter your name" /></code></pre>
+
+          <hr>
+          <h6 class="text-muted">Stored values:</h6>
+          <pre class="bg-light p-2 rounded"><code>{{ { vName, vDept, vBudget, vNotes, vSkills, vAgree, formValid } }}</code></pre>
         </div>
       </template>
 

@@ -115,6 +115,13 @@ const props = defineProps<{
   /** Optional helper text rendered below the control (Bootstrap .form-text) */
   helpText?: string
 
+  /**
+   * Error message shown beneath the control when the field is touched and invalid.
+   * Each control type has a sensible default; use this to override it.
+   * e.g. "Please enter your full name"
+   */
+  errorMessage?: string
+
   // ── Password validation rules (type="password" only) ─────────────────────
   /** Minimum number of characters */
   minLength?: number
@@ -176,10 +183,11 @@ const resolvedComponent = computed(() => {
   }
 })
 
-// Forward the inner component's requiredPass up to the consumer
-const innerRef = ref<{ requiredPass: boolean } | null>(null)
+// Forward the inner component's requiredPass and touch() up to the consumer
+const innerRef = ref<{ requiredPass: boolean; touch?: () => void } | null>(null)
 const requiredPass = computed(() => innerRef.value?.requiredPass ?? true)
-defineExpose({ requiredPass })
+function touch() { innerRef.value?.touch?.() }
+defineExpose({ requiredPass, touch })
 
 // Props passed through to whichever internal component is active.
 // Cast to any: the outer shell deliberately accepts unknown modelValue and
@@ -207,6 +215,7 @@ const passThrough = computed(() => ({
   optionLabel:        props.optionLabel,
   optionValue:        props.optionValue,
   optionStrict:       props.optionStrict,
+  errorMessage:       props.errorMessage,
   minLength:          props.minLength,
   requiredCharacters: props.requiredCharacters,
   mixedCase:          props.mixedCase,

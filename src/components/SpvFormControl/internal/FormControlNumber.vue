@@ -15,6 +15,7 @@ const props = withDefaults(defineProps<{
   min?: number
   max?: number
   step?: number
+  errorMessage?: string
 }>(), {
   modelValue: null
 })
@@ -23,11 +24,12 @@ const emit = defineEmits<{
   'update:modelValue': [value: number | null]
 }>()
 
-const { id, haveValue, requiredPass, labelClasses } = useFormControl(props)
+const { id, haveValue, requiredPass, labelClasses, touched, touch } = useFormControl(props)
 
-defineExpose({ requiredPass })
+const isInvalid = computed(() => touched.value && !requiredPass.value)
 
-// The raw string inside the input — keeps the input from jumping while typing
+defineExpose({ requiredPass, touch })
+
 const inputRef = ref<HTMLInputElement | null>(null)
 
 const displayValue = computed<string>(() => {
@@ -45,7 +47,6 @@ function onInput(e: Event) {
   const parsed = parseFloat(raw)
 
   if (isNaN(parsed)) {
-    // Restore the last valid display value
     if (inputRef.value) inputRef.value.value = displayValue.value
     return
   }
@@ -54,7 +55,6 @@ function onInput(e: Event) {
   const maxVal = isNil(props.max) ? Number.POSITIVE_INFINITY : props.max
   const clamped = clamp(minVal, maxVal, parsed)
 
-  // If clamping changed the value, update the input visually
   if (clamped !== parsed && inputRef.value) {
     inputRef.value.value = String(clamped)
   }
@@ -73,12 +73,15 @@ function onInput(e: Event) {
     :required="required"
     :readonly="readonly"
     :suppress-prefix-icon="suppressPrefixIcon"
+    :is-invalid="isInvalid"
+    :error-message="errorMessage ?? 'This field is required'"
   >
     <input
       :id="id"
       ref="inputRef"
       type="number"
       class="form-control"
+      :class="{ 'is-invalid': isInvalid }"
       :value="displayValue"
       :placeholder="placeholder"
       :readonly="readonly"
@@ -86,6 +89,7 @@ function onInput(e: Event) {
       :max="max"
       :step="step"
       @input="onInput"
+      @blur="touch"
     >
   </FormControlWrapper>
 </template>

@@ -3,8 +3,6 @@ import { ref, computed } from 'vue'
 import FormControlWrapper from './FormControlWrapper.vue'
 import { useFormControl } from '../useFormControl'
 
-// ─── Props ────────────────────────────────────────────────────────────────────
-
 const props = withDefaults(defineProps<{
   modelValue: string | null
   label?: string
@@ -13,26 +11,11 @@ const props = withDefaults(defineProps<{
   required?: boolean
   readonly?: boolean
   suppressPrefixIcon?: boolean
-
-  /** Minimum number of characters required */
   minLength?: number
-
-  /**
-   * Array of character sets — at least one character from each set must
-   * appear in the password.
-   * e.g. ["0123456789", "!@#$%^&*()"] requires a digit AND a special char.
-   */
   requiredCharacters?: string[]
-
-  /** Password must contain both uppercase and lowercase letters */
   mixedCase?: boolean
-
-  /**
-   * Password must equal this value — pass the other password field's modelValue.
-   * Reactive: re-validates automatically when the other field changes.
-   * e.g. :must-match="confirmPassword"
-   */
   mustMatch?: string | null
+  errorMessage?: string
 }>(), {
   modelValue: null
 })
@@ -41,15 +24,10 @@ const emit = defineEmits<{
   'update:modelValue': [value: string | null]
 }>()
 
-const { id, haveValue, labelClasses } = useFormControl(props)
-
-// ─── Visibility toggle ────────────────────────────────────────────────────────
+const { id, haveValue, labelClasses, touched, touch } = useFormControl(props)
 
 const visible = ref(false)
-
-// ─── Validation ───────────────────────────────────────────────────────────────
-
-// Only show the validation checklist after the user starts typing
+// hasInteracted gates checklist visibility — show rules as user types, not just on blur
 const hasInteracted = ref(false)
 
 interface ValidationRule {
@@ -58,7 +36,6 @@ interface ValidationRule {
   passed: boolean
 }
 
-/** Produce a human-readable label for a required character set */
 function describeCharSet(chars: string): string {
   if (/^\d+$/.test(chars))        return 'At least one number (0–9)'
   if (/^[a-z]+$/i.test(chars))    return 'At least one letter'
@@ -105,22 +82,18 @@ const validationRules = computed<ValidationRule[]>(() => {
   return rules
 })
 
-const allRulesPassed = computed(() =>
-  validationRules.value.every(r => r.passed)
-)
-
+const allRulesPassed = computed(() => validationRules.value.every(r => r.passed))
 const hasRules = computed(() => validationRules.value.length > 0)
 
-// requiredPass: required AND has a value AND (no rules OR all rules pass)
 const requiredPass = computed<boolean>(() => {
   if (!props.required && !hasRules.value) return true
   if (props.required && !haveValue.value)  return false
   return allRulesPassed.value
 })
 
-defineExpose({ requiredPass })
+const isInvalid = computed(() => touched.value && !requiredPass.value)
 
-// ─── Event handlers ───────────────────────────────────────────────────────────
+defineExpose({ requiredPass, touch })
 
 function onInput(e: Event) {
   hasInteracted.value = true
@@ -140,16 +113,20 @@ function onInput(e: Event) {
       :required="required || hasRules"
       :readonly="readonly"
       :suppress-prefix-icon="suppressPrefixIcon"
+      :is-invalid="isInvalid"
+      :error-message="errorMessage ?? 'This field is required'"
     >
       <input
         :id="id"
         :type="visible ? 'text' : 'password'"
         class="form-control"
+        :class="{ 'is-invalid': isInvalid }"
         :value="modelValue ?? ''"
         :placeholder="placeholder"
         :readonly="readonly"
         autocomplete="current-password"
         @input="onInput"
+        @blur="touch"
       >
 
       <template #suffix>

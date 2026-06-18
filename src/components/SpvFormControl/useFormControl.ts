@@ -1,4 +1,4 @@
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { isNil } from 'ramda'
 
 export interface UseFormControlOptions {
@@ -40,5 +40,10 @@ export function useFormControl(props: UseFormControlOptions) {
     return base
   })
 
-  return { id, haveValue, requiredPass, labelClasses }
+  // Touched state — set on first blur/interaction; gates invalid styling so errors
+  // only appear after the user has had a chance to fill in the field.
+  const touched = ref(false)
+  const touch = () => { touched.value = true }
+
+  return { id, haveValue, requiredPass, labelClasses, touched, touch }
 }

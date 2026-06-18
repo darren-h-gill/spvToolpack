@@ -1,8 +1,7 @@
 <script setup lang="ts">
+import { computed } from 'vue'
 import FormControlWrapper from './FormControlWrapper.vue'
 import { useFormControl } from '../useFormControl'
-
-// ─── Props ────────────────────────────────────────────────────────────────────
 
 const props = defineProps<{
   modelValue: string | null
@@ -11,25 +10,24 @@ const props = defineProps<{
   required?: boolean
   readonly?: boolean
   suppressPrefixIcon?: boolean
+  errorMessage?: string
 }>()
 
 const emit = defineEmits<{
   'update:modelValue': [value: string | null]
 }>()
 
-const { id, haveValue, requiredPass, labelClasses } = useFormControl(props)
-defineExpose({ requiredPass })
+const { id, haveValue, requiredPass, labelClasses, touched, touch } = useFormControl(props)
 
-// ─── Event handlers ───────────────────────────────────────────────────────────
+const isInvalid = computed(() => touched.value && !requiredPass.value)
+
+defineExpose({ requiredPass, touch })
 
 function onChange(e: Event) {
+  touch()
   emit('update:modelValue', (e.target as HTMLInputElement).value)
 }
 
-/**
- * Delete / Backspace clears back to null — consistent with FormControlSelect.
- * The native color input has no empty state so we handle it in JS.
- */
 function onKeydown(e: KeyboardEvent) {
   if (e.key !== 'Delete' && e.key !== 'Backspace') return
   if (props.readonly) return
@@ -48,11 +46,14 @@ function onKeydown(e: KeyboardEvent) {
     :required="required"
     :readonly="readonly"
     :suppress-prefix-icon="suppressPrefixIcon"
+    :is-invalid="isInvalid"
+    :error-message="errorMessage ?? 'This field is required'"
   >
     <input
       :id="id"
       type="color"
       class="form-control form-control-color flex-grow-1"
+      :class="{ 'is-invalid': isInvalid }"
       :value="modelValue ?? '#000000'"
       :disabled="readonly"
       :title="modelValue ?? 'Choose a colour'"

@@ -7,9 +7,6 @@
  * Full timezone conversion both ways:
  *   SP UTC → local display:  "2026-06-08T13:30:00Z" in BST → input shows "2026-06-08T14:30"
  *   Local input → SP UTC:    "2026-06-08T14:30" in BST     → emits "2026-06-08T13:30:00Z"
- *
- * The `timezone` prop accepts any IANA timezone string (e.g. "Europe/London").
- * Defaults to the browser's own timezone.
  */
 import { computed } from 'vue'
 import FormControlWrapper from './FormControlWrapper.vue'
@@ -24,10 +21,10 @@ const props = withDefaults(defineProps<{
   required?: boolean
   readonly?: boolean
   suppressPrefixIcon?: boolean
-  /** IANA timezone string. Defaults to the browser's local timezone. */
   timezone?: string
-  min?: string   // ISO datetime string
-  max?: string   // ISO datetime string
+  min?: string
+  max?: string
+  errorMessage?: string
 }>(), {
   modelValue: null
 })
@@ -36,18 +33,17 @@ const emit = defineEmits<{
   'update:modelValue': [value: string | null]
 }>()
 
-const { id, haveValue, requiredPass, labelClasses } = useFormControl(props)
+const { id, haveValue, requiredPass, labelClasses, touched, touch } = useFormControl(props)
 
-defineExpose({ requiredPass })
+const isInvalid = computed(() => touched.value && !requiredPass.value)
+
+defineExpose({ requiredPass, touch })
 
 const resolvedTimezone = computed(() => props.timezone ?? getBrowserTimezone())
 
-// SP ISO UTC → local datetime-local input value
 const displayValue = computed<string>(() =>
   isoToDateTimeInput(props.modelValue, resolvedTimezone.value)
 )
-
-// min/max in ISO → input format in the same timezone
 const inputMin = computed(() =>
   props.min ? isoToDateTimeInput(props.min, resolvedTimezone.value) : undefined
 )
@@ -56,6 +52,7 @@ const inputMax = computed(() =>
 )
 
 function onChange(e: Event) {
+  touch()
   const val = (e.target as HTMLInputElement).value
   emit('update:modelValue', dateTimeInputToIso(val, resolvedTimezone.value))
 }
@@ -71,19 +68,20 @@ function onChange(e: Event) {
     :required="required"
     :readonly="readonly"
     :suppress-prefix-icon="suppressPrefixIcon"
+    :is-invalid="isInvalid"
+    :error-message="errorMessage ?? 'This field is required'"
   >
     <input
       :id="id"
       type="datetime-local"
       class="form-control"
+      :class="{ 'is-invalid': isInvalid }"
       :value="displayValue"
       :readonly="readonly"
       :min="inputMin"
       :max="inputMax"
       @change="onChange"
     >
-    <!-- Timezone indicator — shown when an explicit timezone is set so the user
-         knows the control is not using their local time -->
     <span
       v-if="timezone"
       class="input-group-text text-muted small"

@@ -1,8 +1,7 @@
 <script setup lang="ts">
 /**
  * Internal shared wrapper — renders the label, Bootstrap input-group,
- * type icon prefix and required indicator. The actual <input> / <select>
- * etc. goes in the default slot.
+ * type icon prefix, required indicator, and (when invalid) the error message.
  *
  * Not exported from the library — only used inside SpvFormControl.
  */
@@ -15,6 +14,10 @@ defineProps<{
   required?: boolean
   readonly?: boolean
   suppressPrefixIcon?: boolean
+  /** When true adds has-validation to the group and renders invalid-feedback */
+  isInvalid?: boolean
+  /** Error text shown when isInvalid. Hidden when falsy. */
+  errorMessage?: string
 }>()
 </script>
 
@@ -24,7 +27,7 @@ defineProps<{
     <label v-if="label" :for="id" :class="labelClasses">{{ label }}</label>
 
     <!-- Bootstrap input-group -->
-    <div class="input-group">
+    <div class="input-group" :class="{ 'has-validation': isInvalid }">
 
       <!-- Type icon prefix -->
       <span
@@ -37,6 +40,13 @@ defineProps<{
       <!-- The actual control (input / select / textarea etc.) -->
       <slot />
 
+      <!-- Validation feedback — must follow the form-control slot for the CSS
+           sibling selector (.is-invalid ~ .invalid-feedback) to work -->
+      <div v-if="isInvalid && errorMessage" class="invalid-feedback">{{ errorMessage }}</div>
+
+      <!-- Optional suffix slot (e.g. a button appended to the group) -->
+      <slot name="suffix" />
+
       <!-- Required indicator — right side of the group -->
       <span v-if="required" class="input-group-text">
         <i
@@ -46,9 +56,6 @@ defineProps<{
           ]"
         />
       </span>
-
-      <!-- Optional suffix slot (e.g. a button appended to the group) -->
-      <slot name="suffix" />
 
     </div>
   </div>

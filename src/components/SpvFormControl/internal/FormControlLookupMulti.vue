@@ -21,8 +21,6 @@ import { useFormControl } from '../useFormControl'
 import type { TListItem, OptionLabelResolver, SpType } from '../types'
 import { resolveLabel } from '../utils/optionUtils'
 
-// ─── Props ────────────────────────────────────────────────────────────────────
-
 const props = defineProps<{
   modelValue: unknown
   spType?: SpType
@@ -34,28 +32,16 @@ const props = defineProps<{
   suppressPrefixIcon?: boolean
   options?: TListItem[]
   optionLabel?: OptionLabelResolver
-
-  /**
-   * How to extract the stored value from each option object.
-   * Omitted + spType LookupMulti/UserMulti → defaults to item.Id.
-   * Omitted + other types → emits the whole object.
-   */
   optionValue?: OptionLabelResolver
+  errorMessage?: string
 }>()
 
 const emit = defineEmits<{
   'update:modelValue': [value: unknown[] | null]
-  /**
-   * Fired on every input keystroke with the current query string.
-   * Emit an empty string when the dropdown closes.
-   * Consumers can use this to populate `options` asynchronously.
-   */
   'search': [query: string]
 }>()
 
-// ─── Form control base ────────────────────────────────────────────────────────
-
-const { id, labelClasses } = useFormControl(props)
+const { id, labelClasses, touched, touch } = useFormControl(props)
 
 const selectedArray = computed<unknown[]>(() =>
   Array.isArray(props.modelValue) ? props.modelValue : []
@@ -63,11 +49,10 @@ const selectedArray = computed<unknown[]>(() =>
 
 const haveValue = computed(() => selectedArray.value.length > 0)
 const requiredPass = computed(() => !props.required || haveValue.value)
-defineExpose({ requiredPass })
+const isInvalid = computed(() => touched.value && !requiredPass.value)
 
-// ─── Value resolution ─────────────────────────────────────────────────────────
+defineExpose({ requiredPass, touch })
 
-/** SP types that default to emitting item.Id when no optionValue is set */
 const LOOKUP_SP_TYPES: SpType[] = ['Lookup', 'LookupMulti', 'User', 'UserMulti']
 
 function resolveValue(item: TListItem): unknown {
@@ -89,8 +74,6 @@ function valueToKey(v: unknown): string {
   return String(v)
 }
 
-// ─── Option list ──────────────────────────────────────────────────────────────
-
 interface ComputedOption {
   label: string
   value: unknown
@@ -105,10 +88,8 @@ const allOptions = computed<ComputedOption[]>(() =>
   }))
 )
 
-/** Keys of currently selected values — used for fast exclusion from the dropdown */
 const selectedKeys = computed(() => new Set(selectedArray.value.map(valueToKey)))
 
-/** Selected items enriched with display labels — drives badge rendering */
 interface SelectedItem { label: string; value: unknown; key: string }
 
 const selectedItems = computed<SelectedItem[]>(() =>
@@ -119,14 +100,11 @@ const selectedItems = computed<SelectedItem[]>(() =>
   })
 )
 
-// ─── Typeahead state ──────────────────────────────────────────────────────────
-
 const inputText       = ref('')
 const isOpen          = ref(false)
 const highlightedIndex = ref(0)
 const inputRef        = ref<HTMLInputElement | null>(null)
 
-/** Options matching the current query, with already-selected items removed */
 const filteredOptions = computed<ComputedOption[]>(() => {
   const q = inputText.value.trim().toLowerCase()
   return allOptions.value.filter(opt => {
@@ -136,14 +114,11 @@ const filteredOptions = computed<ComputedOption[]>(() => {
   })
 })
 
-// Keep highlight in bounds when the filtered list shrinks
 watch(filteredOptions, (opts) => {
   if (highlightedIndex.value >= opts.length) {
     highlightedIndex.value = 0
   }
 })
-
-// ─── Helpers ──────────────────────────────────────────────────────────────────
 
 function openDropdown() {
   if (props.readonly) return
@@ -152,6 +127,7 @@ function openDropdown() {
 }
 
 function closeDropdown() {
+  touch()
   isOpen.value    = false
   inputText.value = ''
   highlightedIndex.value = 0
@@ -163,7 +139,6 @@ function selectOption(opt: ComputedOption) {
   emit('update:modelValue', next)
   inputText.value        = ''
   highlightedIndex.value = 0
-  // Keep the dropdown open so the user can add more items
   nextTick(() => {
     inputRef.value?.focus()
     isOpen.value = true
@@ -174,8 +149,6 @@ function removeItem(key: string) {
   const next = selectedArray.value.filter(v => valueToKey(v) !== key)
   emit('update:modelValue', next.length ? next : null)
 }
-
-// ─── Event handlers ───────────────────────────────────────────────────────────
 
 function onInput() {
   isOpen.value           = true
@@ -188,7 +161,6 @@ function onFocus() {
 }
 
 function onBlur() {
-  // Brief delay so a mousedown on a dropdown item fires before blur hides the list
   setTimeout(closeDropdown, 150)
 }
 
@@ -228,7 +200,6 @@ function onKeydown(e: KeyboardEvent) {
       break
 
     case 'Backspace':
-      // Empty input + Backspace removes the last badge
       if (!inputText.value && selectedArray.value.length) {
         const last = selectedItems.value[selectedItems.value.length - 1]
         removeItem(last.key)
@@ -240,25 +211,20 @@ function onKeydown(e: KeyboardEvent) {
 
 <template>
   <div>
-    <!-- Label -->
     <label v-if="label" :for="id" :class="labelClasses">{{ label }}</label>
 
-    <!-- Input-group: icon | badge+input area | required indicator -->
-    <div class="input-group">
+    <div class="input-group" :class="{ 'has-validation': isInvalid }">
 
-      <!-- Type icon prefix -->
       <span v-if="!suppressPrefixIcon" class="input-group-text">
         <i class="fas fa-search-plus" />
       </span>
 
-      <!-- Badge + text input container — styled to look like a form-control -->
       <div
         class="form-control d-flex flex-wrap gap-1 align-items-center h-auto py-1 position-relative"
-        :class="{ 'bg-body-secondary': readonly }"
+        :class="{ 'bg-body-secondary': readonly, 'is-invalid': isInvalid }"
         style="cursor: text; min-height: 2.375rem;"
         @click="inputRef?.focus()"
       >
-        <!-- Selected item badges -->
         <span
           v-for="item in selectedItems"
           :key="item.key"
@@ -276,7 +242,6 @@ function onKeydown(e: KeyboardEvent) {
           />
         </span>
 
-        <!-- Typeahead input -->
         <input
           v-if="!readonly"
           :id="id"
@@ -293,7 +258,6 @@ function onKeydown(e: KeyboardEvent) {
           @keydown="onKeydown"
         >
 
-        <!-- Dropdown suggestion list -->
         <ul
           v-if="isOpen && filteredOptions.length"
           class="dropdown-menu show position-absolute w-100 p-0 mb-0"
@@ -316,7 +280,6 @@ function onKeydown(e: KeyboardEvent) {
           </li>
         </ul>
 
-        <!-- Empty-state hint when open with no matches -->
         <ul
           v-else-if="isOpen && inputText && !filteredOptions.length"
           class="dropdown-menu show position-absolute w-100 p-0 mb-0"
@@ -326,11 +289,12 @@ function onKeydown(e: KeyboardEvent) {
         </ul>
       </div>
 
-      <!-- Required indicator -->
+      <div v-if="isInvalid" class="invalid-feedback">
+        {{ errorMessage ?? 'Please select at least one value' }}
+      </div>
+
       <span v-if="required" class="input-group-text">
-        <i
-          :class="['fas fa-asterisk fa-xs', haveValue ? 'text-success' : 'text-danger']"
-        />
+        <i :class="['fas fa-asterisk fa-xs', haveValue ? 'text-success' : 'text-danger']" />
       </span>
 
     </div>
