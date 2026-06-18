@@ -313,7 +313,8 @@ let searchDebounceTimer: ReturnType<typeof setTimeout> | null = null
 async function onUserSearch(query: string) {
   if (searchDebounceTimer) clearTimeout(searchDebounceTimer)
   if (!query) {
-    asyncUserOptions.value = []
+    // Don't clear options — stale results are harmless (dropdown shows nothing
+    // when query is empty) but are needed for badge label resolution on selected items.
     asyncUserLoading.value = false
     return
   }
@@ -322,9 +323,15 @@ async function onUserSearch(query: string) {
     try {
       const res  = await fetch(`https://dummyjson.com/users/search?q=${encodeURIComponent(query)}&limit=8&select=id,firstName,lastName`)
       const data = await res.json() as { users: { id: number; firstName: string; lastName: string }[] }
-      asyncUserOptions.value = data.users.map(u => ({ Id: u.id, Title: `${u.firstName} ${u.lastName}` }))
+      // Merge new results into existing options so previously selected items keep their labels
+      const incoming = data.users.map(u => ({ Id: u.id, Title: `${u.firstName} ${u.lastName}` }))
+      const existingIds = new Set(asyncUserOptions.value.map(u => u.Id))
+      asyncUserOptions.value = [
+        ...asyncUserOptions.value,
+        ...incoming.filter(u => !existingIds.has(u.Id)),
+      ]
     } catch {
-      asyncUserOptions.value = []
+      // leave existing options intact on error
     } finally {
       asyncUserLoading.value = false
     }

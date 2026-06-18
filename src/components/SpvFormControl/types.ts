@@ -32,7 +32,7 @@ export type SpType =
   | 'DateTime'       // Date or date+time
   | 'Boolean'        // Yes/No
   | 'Choice'         // Single choice from a defined list
-  | 'MultiChoice'    // Multiple choices — stored as array of strings
+  | 'MultiChoice'    // Multiple choices — stored as array of strings (SP uses MultiChoice, not ChoiceMulti)
   | 'Lookup'         // Single lookup to another list item
   | 'LookupMulti'    // Multiple lookups — stored as array of {Id, Title}
   | 'User'           // Single person/group
