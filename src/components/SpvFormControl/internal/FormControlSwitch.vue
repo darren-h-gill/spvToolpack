@@ -32,13 +32,17 @@ const isInvalid = computed(() => touched.value && !requiredPass.value)
 
 defineExpose({ requiredPass, touch })
 
-const checked = computed(() => props.modelValue === true)
-
-function onToggle() {
-  if (props.readonly) return
-  touch()
-  emit('update:modelValue', props.modelValue !== true)
-}
+// Writable computed drives v-model on the native checkbox, avoiding the
+// :checked + @click.prevent pattern which fights the browser's DOM state.
+// null and false both display as unchecked; first check always emits true.
+const switchValue = computed({
+  get: () => props.modelValue === true,
+  set: (val: boolean) => {
+    if (props.readonly) return
+    touch()
+    emit('update:modelValue', val)
+  },
+})
 </script>
 
 <template>
@@ -50,9 +54,8 @@ function onToggle() {
         role="switch"
         class="form-check-input"
         :class="{ 'is-invalid': isInvalid }"
-        :checked="checked"
+        v-model="switchValue"
         :disabled="readonly"
-        @click.prevent="onToggle"
       >
       <label :for="id" :class="['form-check-label', ...labelClasses.filter(c => c !== 'form-label')]">
         {{ label }}

@@ -1,5 +1,5 @@
-import { defineComponent as E, openBlock as u, createElementBlock as f, normalizeClass as C, renderSlot as z, createCommentVNode as P, ref as U, onMounted as ne, onBeforeUnmount as de, watch as X, createElementVNode as x, toDisplayString as F, nextTick as ce, Fragment as j, renderList as Z, computed as m, createBlock as G, unref as c, withCtx as Y, createVNode as ge, createTextVNode as oe, withModifiers as ae, withDirectives as me, vModelText as ye, normalizeStyle as he, resolveDynamicComponent as xe, mergeProps as ke } from "vue";
-const Ve = /* @__PURE__ */ E({
+import { defineComponent as E, openBlock as u, createElementBlock as f, normalizeClass as C, renderSlot as z, createCommentVNode as P, ref as U, onMounted as ae, onBeforeUnmount as de, watch as X, createElementVNode as k, toDisplayString as F, nextTick as ce, Fragment as j, renderList as Z, computed as m, createBlock as G, unref as c, withCtx as Y, createVNode as ge, createTextVNode as ne, withModifiers as ie, withDirectives as fe, vModelText as ye, normalizeStyle as he, vModelCheckbox as xe, resolveDynamicComponent as ke, mergeProps as Ve } from "vue";
+const $e = /* @__PURE__ */ E({
   __name: "SpvAlert",
   props: {
     variant: { default: "primary" },
@@ -27,13 +27,13 @@ const Ve = /* @__PURE__ */ E({
       })) : P("", !0)
     ], 2)) : P("", !0);
   }
-}), $e = { class: "modal-content" }, we = {
+}), we = { class: "modal-content" }, Ce = {
   key: 0,
   class: "modal-header"
-}, Ce = { class: "modal-title" }, Te = { class: "modal-body" }, Be = {
+}, Te = { class: "modal-title" }, Be = { class: "modal-body" }, Ie = {
   key: 1,
   class: "modal-footer"
-}, Ie = /* @__PURE__ */ E({
+}, Pe = /* @__PURE__ */ E({
   __name: "SpvModal",
   props: {
     modelValue: { type: Boolean },
@@ -47,7 +47,7 @@ const Ve = /* @__PURE__ */ E({
   setup(e, { emit: i }) {
     const a = e, l = i, o = U(null);
     let t = null;
-    ne(() => {
+    ae(() => {
       o.value && (t = new window.bootstrap.Modal(o.value, {
         backdrop: a.staticBackdrop ? "static" : !0,
         keyboard: !a.staticBackdrop
@@ -71,37 +71,37 @@ const Ve = /* @__PURE__ */ E({
       class: "modal fade",
       tabindex: "-1"
     }, [
-      x("div", {
+      k("div", {
         class: C(v())
       }, [
-        x("div", $e, [
-          e.title || d.$slots.header ? (u(), f("div", we, [
+        k("div", we, [
+          e.title || d.$slots.header ? (u(), f("div", Ce, [
             z(d.$slots, "header", {}, () => [
-              x("h5", Ce, F(e.title), 1)
+              k("h5", Te, F(e.title), 1)
             ]),
-            x("button", {
+            k("button", {
               type: "button",
               class: "btn-close",
               onClick: T[0] || (T[0] = (h) => l("update:modelValue", !1))
             })
           ])) : P("", !0),
-          x("div", Te, [
+          k("div", Be, [
             z(d.$slots, "default")
           ]),
-          d.$slots.footer ? (u(), f("div", Be, [
+          d.$slots.footer ? (u(), f("div", Ie, [
             z(d.$slots, "footer")
           ])) : P("", !0)
         ])
       ], 2)
     ], 512));
   }
-}), Pe = {
+}), Se = {
   key: 0,
   class: "toast-header"
-}, Se = {
+}, qe = {
   key: 0,
   class: "me-auto"
-}, qe = { key: 1 }, Me = { class: "toast-body" }, Le = /* @__PURE__ */ E({
+}, Me = { key: 1 }, Le = { class: "toast-body" }, Fe = /* @__PURE__ */ E({
   __name: "SpvToast",
   props: {
     modelValue: { type: Boolean },
@@ -115,7 +115,7 @@ const Ve = /* @__PURE__ */ E({
   setup(e, { emit: i }) {
     const a = e, l = i, o = U(null);
     let t = null;
-    return ne(() => {
+    return ae(() => {
       o.value && (t = new window.bootstrap.Toast(o.value, {
         autohide: a.autohide,
         delay: a.delay
@@ -134,23 +134,23 @@ const Ve = /* @__PURE__ */ E({
       "aria-live": "assertive",
       "aria-atomic": "true"
     }, [
-      e.title || e.subtitle ? (u(), f("div", Pe, [
+      e.title || e.subtitle ? (u(), f("div", Se, [
         z(v.$slots, "header", {}, () => [
-          e.title ? (u(), f("strong", Se, F(e.title), 1)) : P("", !0),
-          e.subtitle ? (u(), f("small", qe, F(e.subtitle), 1)) : P("", !0)
+          e.title ? (u(), f("strong", qe, F(e.title), 1)) : P("", !0),
+          e.subtitle ? (u(), f("small", Me, F(e.subtitle), 1)) : P("", !0)
         ]),
-        x("button", {
+        k("button", {
           type: "button",
           class: "btn-close",
           onClick: d[0] || (d[0] = (T) => l("update:modelValue", !1))
         })
       ])) : P("", !0),
-      x("div", Me, [
+      k("div", Le, [
         z(v.$slots, "default")
       ])
     ], 2));
   }
-}), Fe = { class: "offcanvas-header" }, De = { class: "offcanvas-title" }, Ne = { class: "offcanvas-body" }, Oe = /* @__PURE__ */ E({
+}), De = { class: "offcanvas-header" }, Ne = { class: "offcanvas-title" }, Oe = { class: "offcanvas-body" }, Ee = /* @__PURE__ */ E({
   __name: "SpvOffcanvas",
   props: {
     modelValue: { type: Boolean },
@@ -163,7 +163,7 @@ const Ve = /* @__PURE__ */ E({
   setup(e, { emit: i }) {
     const a = e, l = i, o = U(null);
     let t = null;
-    return ne(() => {
+    return ae(() => {
       o.value && (t = new window.bootstrap.Offcanvas(o.value, {
         backdrop: a.staticBackdrop ? "static" : !0,
         keyboard: !a.staticBackdrop,
@@ -181,22 +181,22 @@ const Ve = /* @__PURE__ */ E({
       class: C(["offcanvas", `offcanvas-${e.placement}`]),
       tabindex: "-1"
     }, [
-      x("div", Fe, [
+      k("div", De, [
         z(v.$slots, "header", {}, () => [
-          x("h5", De, F(e.title), 1)
+          k("h5", Ne, F(e.title), 1)
         ]),
-        x("button", {
+        k("button", {
           type: "button",
           class: "btn-close",
           onClick: d[0] || (d[0] = (T) => l("update:modelValue", !1))
         })
       ]),
-      x("div", Ne, [
+      k("div", Oe, [
         z(v.$slots, "default")
       ])
     ], 2));
   }
-}), Ee = ["data-bs-toggle", "data-bs-target", "aria-controls", "aria-selected", "onShown"], Ue = { class: "tab-content" }, Ae = ["id"], Re = /* @__PURE__ */ E({
+}), Ue = ["data-bs-toggle", "data-bs-target", "aria-controls", "aria-selected", "onShown"], Ae = { class: "tab-content" }, Re = ["id"], ze = /* @__PURE__ */ E({
   __name: "SpvNavTabs",
   props: {
     modelValue: {},
@@ -211,14 +211,14 @@ const Ve = /* @__PURE__ */ E({
       if (!T) return;
       window.bootstrap.Tab.getOrCreateInstance(T).show();
     }
-    ne(() => {
+    ae(() => {
       ce(() => t(a.modelValue));
     }), X(() => a.modelValue, (d) => t(d));
     function v(d) {
       l("update:modelValue", d), l("change", d);
     }
     return (d, T) => (u(), f("div", null, [
-      x("ul", {
+      k("ul", {
         class: C(["nav", e.pills ? "nav-pills" : "nav-tabs"]),
         role: "tablist"
       }, [
@@ -227,7 +227,7 @@ const Ve = /* @__PURE__ */ E({
           class: "nav-item",
           role: "presentation"
         }, [
-          x("button", {
+          k("button", {
             ref_for: !0,
             ref: (p) => {
               p && (o.value[h.key] = p);
@@ -240,10 +240,10 @@ const Ve = /* @__PURE__ */ E({
             "aria-controls": `tab-pane-${h.key}`,
             "aria-selected": e.modelValue === h.key,
             onShown: (p) => v(h.key)
-          }, F(h.label), 43, Ee)
+          }, F(h.label), 43, Ue)
         ]))), 128))
       ], 2),
-      x("div", Ue, [
+      k("div", Ae, [
         (u(!0), f(j, null, Z(e.tabs, (h) => (u(), f("div", {
           id: `tab-pane-${h.key}`,
           key: h.key,
@@ -251,11 +251,11 @@ const Ve = /* @__PURE__ */ E({
           role: "tabpanel"
         }, [
           z(d.$slots, h.key)
-        ], 10, Ae))), 128))
+        ], 10, Re))), 128))
       ])
     ]));
   }
-}), ze = {
+}), Ke = {
   Text: "text",
   Note: "textarea",
   Number: "number",
@@ -275,16 +275,16 @@ const Ve = /* @__PURE__ */ E({
   // always readonly
   TaxonomyFieldType: "select",
   TaxonomyFieldTypeMulti: "lookupMulti"
-}, Ke = {
+}, Ye = {
   Text: 255
   // SP enforces 255 char limit on single-line text fields
-}, Ye = ["for"], je = {
+}, je = ["for"], Ze = {
   key: 0,
   class: "input-group-text"
-}, Ze = {
+}, Ge = {
   key: 1,
   class: "invalid-feedback"
-}, Ge = {
+}, Je = {
   key: 2,
   class: "input-group-text"
 }, J = /* @__PURE__ */ E({
@@ -307,20 +307,20 @@ const Ve = /* @__PURE__ */ E({
         key: 0,
         for: e.id,
         class: C(e.labelClasses)
-      }, F(e.label), 11, Ye)) : P("", !0),
-      x("div", {
+      }, F(e.label), 11, je)) : P("", !0),
+      k("div", {
         class: C(["input-group", { "has-validation": e.isInvalid }])
       }, [
-        !e.suppressPrefixIcon && e.iconClass ? (u(), f("span", je, [
-          x("i", {
+        !e.suppressPrefixIcon && e.iconClass ? (u(), f("span", Ze, [
+          k("i", {
             class: C(["fas", e.iconClass])
           }, null, 2)
         ])) : P("", !0),
         z(i.$slots, "default"),
-        e.isInvalid && e.errorMessage ? (u(), f("div", Ze, F(e.errorMessage), 1)) : P("", !0),
+        e.isInvalid && e.errorMessage ? (u(), f("div", Ge, F(e.errorMessage), 1)) : P("", !0),
         z(i.$slots, "suffix"),
-        e.required ? (u(), f("span", Ge, [
-          x("i", {
+        e.required ? (u(), f("span", Je, [
+          k("i", {
             class: C([
               "fas fa-asterisk fa-xs",
               e.haveValue ? "text-success" : "text-danger"
@@ -357,7 +357,7 @@ function Q(e) {
     }
   };
 }
-function Je(e) {
+function He(e) {
   return function i(a, l, o) {
     switch (arguments.length) {
       case 0:
@@ -393,16 +393,16 @@ function Je(e) {
 }
 var W = /* @__PURE__ */ H(function(i) {
   return i == null;
-}), fe = /* @__PURE__ */ Je(function(i, a, l) {
+}), ve = /* @__PURE__ */ He(function(i, a, l) {
   if (i > a)
     throw new Error("min must not be greater than max in clamp(min, max, value)");
   return l < i ? i : l > a ? a : l;
 });
-function He() {
+function We() {
   return typeof crypto < "u" && crypto.randomUUID ? `spv-fc-${crypto.randomUUID()}` : `spv-fc-${Math.random().toString(36).slice(2)}`;
 }
 function A(e) {
-  const i = He(), a = m(() => {
+  const i = We(), a = m(() => {
     const d = e.modelValue;
     return !(W(d) || typeof d == "string" && d.trim() === "" || Array.isArray(d) && d.length === 0);
   }), l = m(() => !e.required || a.value), o = m(() => {
@@ -413,7 +413,7 @@ function A(e) {
     t.value = !0;
   } };
 }
-const We = [
+const Xe = [
   "label",
   "title",
   "Title",
@@ -433,11 +433,11 @@ function ee(e, i) {
     const a = e[i];
     return a != null ? String(a) : "";
   }
-  for (const a of We)
+  for (const a of Xe)
     if (a in e && e[a] != null) return String(e[a]);
   return JSON.stringify(e);
 }
-const Xe = ["id", "value", "placeholder", "readonly", "maxlength", "list"], Qe = ["id"], _e = ["value"], el = /* @__PURE__ */ E({
+const Qe = ["id", "value", "placeholder", "readonly", "maxlength", "list"], _e = ["id"], el = ["value"], ll = /* @__PURE__ */ E({
   __name: "FormControlText",
   props: {
     modelValue: { default: null },
@@ -460,18 +460,18 @@ const Xe = ["id", "value", "placeholder", "readonly", "maxlength", "list"], Qe =
       return !l.optionStrict || !h.value ? r : r && (v.value ? V.value : !0);
     }), w = m(() => h.value && !b.value);
     i({ requiredPass: b, touch: p });
-    const k = m(() => {
+    const g = m(() => {
       var r;
       return (r = l.options) != null && r.length ? `${t}-list` : void 0;
-    }), q = m(() => {
+    }), I = m(() => {
       var r;
       return (r = l.options) != null && r.length ? l.options.map((s) => ee(s, l.optionLabel)) : [];
     });
-    function B(r) {
+    function S(r) {
       const s = r.target.value;
       o("update:modelValue", s === "" ? null : s);
     }
-    function I(r) {
+    function B(r) {
       var O;
       if (p(), !l.optionStrict || !((O = l.options) != null && O.length)) return;
       const s = r.target, n = s.value;
@@ -479,7 +479,7 @@ const Xe = ["id", "value", "placeholder", "readonly", "maxlength", "list"], Qe =
         V.value = !0;
         return;
       }
-      const y = n.toLowerCase(), M = q.value.find((R) => R.toLowerCase() === y);
+      const y = n.toLowerCase(), M = I.value.find((R) => R.toLowerCase() === y);
       M ? (V.value = !0, M !== n && (s.value = M, o("update:modelValue", M))) : (V.value = !1, s.value = "", o("update:modelValue", null));
     }
     return (r, s) => (u(), G(J, {
@@ -495,7 +495,7 @@ const Xe = ["id", "value", "placeholder", "readonly", "maxlength", "list"], Qe =
       "error-message": e.errorMessage ?? "This field is required"
     }, {
       default: Y(() => [
-        x("input", {
+        k("input", {
           id: c(t),
           type: "text",
           class: C(["form-control", { "is-invalid": w.value }]),
@@ -503,27 +503,27 @@ const Xe = ["id", "value", "placeholder", "readonly", "maxlength", "list"], Qe =
           placeholder: e.placeholder,
           readonly: e.readonly,
           maxlength: e.maxlength,
-          list: k.value,
-          onInput: B,
-          onBlur: I
-        }, null, 42, Xe),
-        k.value ? (u(), f("datalist", {
+          list: g.value,
+          onInput: S,
+          onBlur: B
+        }, null, 42, Qe),
+        g.value ? (u(), f("datalist", {
           key: 0,
-          id: k.value
+          id: g.value
         }, [
-          (u(!0), f(j, null, Z(q.value, (n) => (u(), f("option", {
+          (u(!0), f(j, null, Z(I.value, (n) => (u(), f("option", {
             key: n,
             value: n
-          }, null, 8, _e))), 128))
-        ], 8, Qe)) : P("", !0)
+          }, null, 8, el))), 128))
+        ], 8, _e)) : P("", !0)
       ]),
       _: 1
     }, 8, ["id", "label", "label-classes", "have-value", "required", "readonly", "suppress-prefix-icon", "is-invalid", "error-message"]));
   }
-}), ll = ["id", "type", "value", "placeholder", "readonly"], tl = ["title", "aria-label", "aria-pressed"], al = {
+}), tl = ["id", "type", "value", "placeholder", "readonly"], al = ["title", "aria-label", "aria-pressed"], nl = {
   key: 0,
   class: "list-unstyled mt-1 mb-0 small ps-1"
-}, nl = /* @__PURE__ */ E({
+}, ol = /* @__PURE__ */ E({
   __name: "FormControlPassword",
   props: {
     modelValue: { default: null },
@@ -567,8 +567,8 @@ const Xe = ["id", "value", "placeholder", "readonly", "maxlength", "list"], Qe =
         label: "Passwords match",
         passed: s.length > 0 && s === (l.mustMatch ?? "")
       }), n;
-    }), k = m(() => w.value.every((s) => s.passed)), q = m(() => w.value.length > 0), B = m(() => !l.required && !q.value ? !0 : l.required && !v.value ? !1 : k.value), I = m(() => T.value && !B.value);
-    i({ requiredPass: B, touch: h });
+    }), g = m(() => w.value.every((s) => s.passed)), I = m(() => w.value.length > 0), S = m(() => !l.required && !I.value ? !0 : l.required && !v.value ? !1 : g.value), B = m(() => T.value && !S.value);
+    i({ requiredPass: S, touch: h });
     function r(s) {
       V.value = !0;
       const n = s.target.value;
@@ -580,15 +580,15 @@ const Xe = ["id", "value", "placeholder", "readonly", "maxlength", "list"], Qe =
         label: e.label,
         "label-classes": c(d),
         "icon-class": "fa-lock",
-        "have-value": k.value && c(v),
-        required: e.required || q.value,
+        "have-value": g.value && c(v),
+        required: e.required || I.value,
         readonly: e.readonly,
         "suppress-prefix-icon": e.suppressPrefixIcon,
-        "is-invalid": I.value,
+        "is-invalid": B.value,
         "error-message": e.errorMessage ?? "This field is required"
       }, {
         suffix: Y(() => [
-          x("button", {
+          k("button", {
             type: "button",
             class: "btn btn-outline-secondary",
             title: p.value ? "Hide password" : "Show password",
@@ -597,16 +597,16 @@ const Xe = ["id", "value", "placeholder", "readonly", "maxlength", "list"], Qe =
             tabindex: "-1",
             onClick: n[1] || (n[1] = (y) => p.value = !p.value)
           }, [
-            x("i", {
+            k("i", {
               class: C(["fas", p.value ? "fa-eye-slash" : "fa-eye"])
             }, null, 2)
-          ], 8, tl)
+          ], 8, al)
         ]),
         default: Y(() => [
-          x("input", {
+          k("input", {
             id: c(t),
             type: p.value ? "text" : "password",
-            class: C(["form-control", { "is-invalid": I.value }]),
+            class: C(["form-control", { "is-invalid": B.value }]),
             value: e.modelValue ?? "",
             placeholder: e.placeholder,
             readonly: e.readonly,
@@ -614,24 +614,24 @@ const Xe = ["id", "value", "placeholder", "readonly", "maxlength", "list"], Qe =
             onInput: r,
             onBlur: n[0] || (n[0] = //@ts-ignore
             (...y) => c(h) && c(h)(...y))
-          }, null, 42, ll)
+          }, null, 42, tl)
         ]),
         _: 1
       }, 8, ["id", "label", "label-classes", "have-value", "required", "readonly", "suppress-prefix-icon", "is-invalid", "error-message"]),
-      q.value && V.value ? (u(), f("ul", al, [
+      I.value && V.value ? (u(), f("ul", nl, [
         (u(!0), f(j, null, Z(w.value, (y) => (u(), f("li", {
           key: y.key,
           class: C(y.passed ? "text-success" : "text-danger")
         }, [
-          x("i", {
+          k("i", {
             class: C(["fas fa-xs me-1", y.passed ? "fa-check" : "fa-times"])
           }, null, 2),
-          oe(" " + F(y.label), 1)
+          ne(" " + F(y.label), 1)
         ], 2))), 128))
       ])) : P("", !0)
     ]));
   }
-}), ol = ["id", "value", "placeholder", "readonly", "min", "max", "step"], sl = /* @__PURE__ */ E({
+}), sl = ["id", "value", "placeholder", "readonly", "min", "max", "step"], rl = /* @__PURE__ */ E({
   __name: "FormControlNumber",
   props: {
     modelValue: { default: null },
@@ -651,21 +651,21 @@ const Xe = ["id", "value", "placeholder", "readonly", "maxlength", "list"], Qe =
     const l = e, o = a, { id: t, haveValue: v, requiredPass: d, labelClasses: T, touched: h, touch: p } = A(l), V = m(() => h.value && !d.value);
     i({ requiredPass: d, touch: p });
     const b = U(null), w = m(() => W(l.modelValue) ? "" : String(l.modelValue));
-    function k(q) {
-      const B = q.target.value;
-      if (B === "" || B === "-") {
+    function g(I) {
+      const S = I.target.value;
+      if (S === "" || S === "-") {
         o("update:modelValue", null);
         return;
       }
-      const I = parseFloat(B);
-      if (isNaN(I)) {
+      const B = parseFloat(S);
+      if (isNaN(B)) {
         b.value && (b.value.value = w.value);
         return;
       }
-      const r = W(l.min) ? Number.NEGATIVE_INFINITY : l.min, s = W(l.max) ? Number.POSITIVE_INFINITY : l.max, n = fe(r, s, I);
-      n !== I && b.value && (b.value.value = String(n)), o("update:modelValue", n);
+      const r = W(l.min) ? Number.NEGATIVE_INFINITY : l.min, s = W(l.max) ? Number.POSITIVE_INFINITY : l.max, n = ve(r, s, B);
+      n !== B && b.value && (b.value.value = String(n)), o("update:modelValue", n);
     }
-    return (q, B) => (u(), G(J, {
+    return (I, S) => (u(), G(J, {
       id: c(t),
       label: e.label,
       "label-classes": c(T),
@@ -678,7 +678,7 @@ const Xe = ["id", "value", "placeholder", "readonly", "maxlength", "list"], Qe =
       "error-message": e.errorMessage ?? "This field is required"
     }, {
       default: Y(() => [
-        x("input", {
+        k("input", {
           id: c(t),
           ref_key: "inputRef",
           ref: b,
@@ -690,15 +690,15 @@ const Xe = ["id", "value", "placeholder", "readonly", "maxlength", "list"], Qe =
           min: e.min,
           max: e.max,
           step: e.step,
-          onInput: k,
-          onBlur: B[0] || (B[0] = //@ts-ignore
-          (...I) => c(p) && c(p)(...I))
-        }, null, 42, ol)
+          onInput: g,
+          onBlur: S[0] || (S[0] = //@ts-ignore
+          (...B) => c(p) && c(p)(...B))
+        }, null, 42, sl)
       ]),
       _: 1
     }, 8, ["id", "label", "label-classes", "have-value", "required", "readonly", "suppress-prefix-icon", "is-invalid", "error-message"]));
   }
-}), rl = ["id", "value", "placeholder", "readonly", "min", "max"], ul = /* @__PURE__ */ E({
+}), ul = ["id", "value", "placeholder", "readonly", "min", "max"], il = /* @__PURE__ */ E({
   __name: "FormControlPercent",
   props: {
     modelValue: { default: null },
@@ -721,16 +721,16 @@ const Xe = ["id", "value", "placeholder", "readonly", "maxlength", "list"], Qe =
       const s = r.toString(), n = s.indexOf(".");
       return n > -1 ? s.length - n - 1 : 0;
     }
-    function k(r) {
+    function g(r) {
       const s = w(r), n = r * 100;
       return w(n) > s + 2 ? parseFloat(n.toFixed(s)).toString() : n.toString();
     }
-    function q(r) {
+    function I(r) {
       const s = w(r), n = r / 100;
       return parseFloat(n.toFixed(s + 2));
     }
-    const B = m(() => W(l.modelValue) ? "" : k(l.modelValue));
-    function I(r) {
+    const S = m(() => W(l.modelValue) ? "" : g(l.modelValue));
+    function B(r) {
       const s = r.target.value;
       if (s === "" || s === "-") {
         o("update:modelValue", null);
@@ -738,11 +738,11 @@ const Xe = ["id", "value", "placeholder", "readonly", "maxlength", "list"], Qe =
       }
       const n = parseFloat(s);
       if (isNaN(n)) {
-        b.value && (b.value.value = B.value);
+        b.value && (b.value.value = S.value);
         return;
       }
-      const y = W(l.min) ? Number.NEGATIVE_INFINITY : l.min, M = W(l.max) ? Number.POSITIVE_INFINITY : l.max, O = fe(y, M, n);
-      O !== n && b.value && (b.value.value = String(O)), o("update:modelValue", q(O));
+      const y = W(l.min) ? Number.NEGATIVE_INFINITY : l.min, M = W(l.max) ? Number.POSITIVE_INFINITY : l.max, O = ve(y, M, n);
+      O !== n && b.value && (b.value.value = String(O)), o("update:modelValue", I(O));
     }
     return (r, s) => (u(), G(J, {
       id: c(t),
@@ -757,42 +757,42 @@ const Xe = ["id", "value", "placeholder", "readonly", "maxlength", "list"], Qe =
       "error-message": e.errorMessage ?? "This field is required"
     }, {
       default: Y(() => [
-        x("input", {
+        k("input", {
           id: c(t),
           ref_key: "inputRef",
           ref: b,
           type: "number",
           class: C(["form-control", { "is-invalid": V.value }]),
-          value: B.value,
+          value: S.value,
           placeholder: e.placeholder,
           readonly: e.readonly,
           min: e.min,
           max: e.max,
-          onInput: I,
+          onInput: B,
           onBlur: s[0] || (s[0] = //@ts-ignore
           (...n) => c(p) && c(p)(...n))
-        }, null, 42, rl)
+        }, null, 42, ul)
       ]),
       _: 1
     }, 8, ["id", "label", "label-classes", "have-value", "required", "readonly", "suppress-prefix-icon", "is-invalid", "error-message"]));
   }
 });
-function ve() {
+function pe() {
   return Intl.DateTimeFormat().resolvedOptions().timeZone;
 }
-function il(e, i) {
+function dl(e, i) {
   const a = new Date(e.toLocaleString("en-US", { timeZone: "UTC" })), l = new Date(e.toLocaleString("en-US", { timeZone: i }));
   return (a.getTime() - l.getTime()) / 6e4;
 }
-function ue(e) {
+function re(e) {
   return e ? e.substring(0, 10) : "";
 }
-function dl(e) {
+function cl(e) {
   return e ? `${e}T00:00:00Z` : null;
 }
-function ie(e, i) {
+function ue(e, i) {
   if (!e) return "";
-  const a = i ?? ve(), l = new Date(e), o = new Intl.DateTimeFormat("en-CA", {
+  const a = i ?? pe(), l = new Date(e), o = new Intl.DateTimeFormat("en-CA", {
     timeZone: a,
     year: "numeric",
     month: "2-digit",
@@ -805,12 +805,12 @@ function ie(e, i) {
     t[v] = d;
   }), `${t.year}-${t.month}-${t.day}T${t.hour}:${t.minute}`;
 }
-function cl(e, i) {
+function fl(e, i) {
   if (!e) return null;
-  const a = i ?? ve(), l = /* @__PURE__ */ new Date(`${e}:00Z`), o = il(l, a);
+  const a = i ?? pe(), l = /* @__PURE__ */ new Date(`${e}:00Z`), o = dl(l, a);
   return new Date(l.getTime() + o * 6e4).toISOString().replace(/\.\d{3}Z$/, "Z");
 }
-const fl = ["id", "value", "readonly", "min", "max"], vl = /* @__PURE__ */ E({
+const vl = ["id", "value", "readonly", "min", "max"], pl = /* @__PURE__ */ E({
   __name: "FormControlDate",
   props: {
     modelValue: { default: null },
@@ -828,13 +828,13 @@ const fl = ["id", "value", "readonly", "min", "max"], vl = /* @__PURE__ */ E({
   setup(e, { expose: i, emit: a }) {
     const l = e, o = a, { id: t, haveValue: v, requiredPass: d, labelClasses: T, touched: h, touch: p } = A(l), V = m(() => h.value && !d.value);
     i({ requiredPass: d, touch: p });
-    const b = m(() => ue(l.modelValue)), w = m(() => l.min ? ue(l.min) : void 0), k = m(() => l.max ? ue(l.max) : void 0);
-    function q(B) {
+    const b = m(() => re(l.modelValue)), w = m(() => l.min ? re(l.min) : void 0), g = m(() => l.max ? re(l.max) : void 0);
+    function I(S) {
       p();
-      const I = B.target.value;
-      o("update:modelValue", dl(I));
+      const B = S.target.value;
+      o("update:modelValue", cl(B));
     }
-    return (B, I) => (u(), G(J, {
+    return (S, B) => (u(), G(J, {
       id: c(t),
       label: e.label,
       "label-classes": c(T),
@@ -847,21 +847,21 @@ const fl = ["id", "value", "readonly", "min", "max"], vl = /* @__PURE__ */ E({
       "error-message": e.errorMessage ?? "This field is required"
     }, {
       default: Y(() => [
-        x("input", {
+        k("input", {
           id: c(t),
           type: "date",
           class: C(["form-control", { "is-invalid": V.value }]),
           value: b.value,
           readonly: e.readonly,
           min: w.value,
-          max: k.value,
-          onChange: q
-        }, null, 42, fl)
+          max: g.value,
+          onChange: I
+        }, null, 42, vl)
       ]),
       _: 1
     }, 8, ["id", "label", "label-classes", "have-value", "required", "readonly", "suppress-prefix-icon", "is-invalid", "error-message"]));
   }
-}), pl = ["id", "value", "readonly", "min", "max"], ml = ["title"], yl = /* @__PURE__ */ E({
+}), ml = ["id", "value", "readonly", "min", "max"], yl = ["title"], hl = /* @__PURE__ */ E({
   __name: "FormControlDateTimeLocal",
   props: {
     modelValue: { default: null },
@@ -880,19 +880,19 @@ const fl = ["id", "value", "readonly", "min", "max"], vl = /* @__PURE__ */ E({
   setup(e, { expose: i, emit: a }) {
     const l = e, o = a, { id: t, haveValue: v, requiredPass: d, labelClasses: T, touched: h, touch: p } = A(l), V = m(() => h.value && !d.value);
     i({ requiredPass: d, touch: p });
-    const b = m(() => l.timezone ?? ve()), w = m(
-      () => ie(l.modelValue, b.value)
-    ), k = m(
-      () => l.min ? ie(l.min, b.value) : void 0
-    ), q = m(
-      () => l.max ? ie(l.max, b.value) : void 0
+    const b = m(() => l.timezone ?? pe()), w = m(
+      () => ue(l.modelValue, b.value)
+    ), g = m(
+      () => l.min ? ue(l.min, b.value) : void 0
+    ), I = m(
+      () => l.max ? ue(l.max, b.value) : void 0
     );
-    function B(I) {
+    function S(B) {
       p();
-      const r = I.target.value;
-      o("update:modelValue", cl(r, b.value));
+      const r = B.target.value;
+      o("update:modelValue", fl(r, b.value));
     }
-    return (I, r) => (u(), G(J, {
+    return (B, r) => (u(), G(J, {
       id: c(t),
       label: e.label,
       "label-classes": c(T),
@@ -905,28 +905,28 @@ const fl = ["id", "value", "readonly", "min", "max"], vl = /* @__PURE__ */ E({
       "error-message": e.errorMessage ?? "This field is required"
     }, {
       default: Y(() => [
-        x("input", {
+        k("input", {
           id: c(t),
           type: "datetime-local",
           class: C(["form-control", { "is-invalid": V.value }]),
           value: w.value,
           readonly: e.readonly,
-          min: k.value,
-          max: q.value,
-          onChange: B
-        }, null, 42, pl),
+          min: g.value,
+          max: I.value,
+          onChange: S
+        }, null, 42, ml),
         e.timezone ? (u(), f("span", {
           key: 0,
           class: "input-group-text text-muted small",
           title: `Times shown in ${b.value}`
         }, [...r[0] || (r[0] = [
-          x("i", { class: "fas fa-globe fa-xs" }, null, -1)
-        ])], 8, ml)) : P("", !0)
+          k("i", { class: "fas fa-globe fa-xs" }, null, -1)
+        ])], 8, yl)) : P("", !0)
       ]),
       _: 1
     }, 8, ["id", "label", "label-classes", "have-value", "required", "readonly", "suppress-prefix-icon", "is-invalid", "error-message"]));
   }
-}), hl = ["id", "value", "disabled"], bl = ["disabled"], gl = ["value"], xl = /* @__PURE__ */ E({
+}), bl = ["id", "value", "disabled"], gl = ["disabled"], xl = ["value"], kl = /* @__PURE__ */ E({
   __name: "FormControlSelect",
   props: {
     modelValue: {},
@@ -950,27 +950,27 @@ const fl = ["id", "value", "readonly", "min", "max"], vl = /* @__PURE__ */ E({
     function w(r) {
       return typeof l.optionValue == "function" ? l.optionValue(r) : typeof l.optionValue == "string" ? typeof r == "string" || typeof r == "number" ? r : r[l.optionValue] ?? null : typeof r == "string" || typeof r == "number" ? r : l.spType && b.includes(l.spType) ? r.Id ?? null : r;
     }
-    const k = m(() => {
+    const g = m(() => {
       var r;
       return (r = l.options) != null && r.length ? l.options.map((s) => {
         const n = ee(s, l.optionLabel), y = w(s), M = y == null ? "" : typeof y == "object" ? JSON.stringify(y) : String(y);
         return { label: n, value: y, key: M };
       }) : [];
-    }), q = m(() => {
+    }), I = m(() => {
       const r = l.modelValue;
       return r == null ? "" : typeof r == "object" ? JSON.stringify(r) : String(r);
     });
-    function B(r) {
+    function S(r) {
       p();
       const n = r.target.value;
       if (n === "") {
         o("update:modelValue", null);
         return;
       }
-      const y = k.value.find((M) => M.key === n);
+      const y = g.value.find((M) => M.key === n);
       o("update:modelValue", y ? y.value : null);
     }
-    function I(r) {
+    function B(r) {
       r.key !== "Delete" && r.key !== "Backspace" || l.readonly || (r.preventDefault(), o("update:modelValue", null));
     }
     return (r, s) => (u(), G(J, {
@@ -986,43 +986,43 @@ const fl = ["id", "value", "readonly", "min", "max"], vl = /* @__PURE__ */ E({
       "error-message": e.errorMessage ?? "Please select a value"
     }, {
       default: Y(() => [
-        x("select", {
+        k("select", {
           id: c(t),
           class: C(["form-select", { "is-invalid": V.value }]),
-          value: q.value,
+          value: I.value,
           disabled: e.readonly,
-          onChange: B,
-          onKeydown: I,
+          onChange: S,
+          onKeydown: B,
           onBlur: s[0] || (s[0] = //@ts-ignore
           (...n) => c(p) && c(p)(...n))
         }, [
-          x("option", {
+          k("option", {
             value: "",
             disabled: e.required
-          }, F(e.placeholder ?? "Choose…"), 9, bl),
-          (u(!0), f(j, null, Z(k.value, (n) => (u(), f("option", {
+          }, F(e.placeholder ?? "Choose…"), 9, gl),
+          (u(!0), f(j, null, Z(g.value, (n) => (u(), f("option", {
             key: n.key,
             value: n.key
-          }, F(n.label), 9, gl))), 128))
-        ], 42, hl)
+          }, F(n.label), 9, xl))), 128))
+        ], 42, bl)
       ]),
       _: 1
     }, 8, ["id", "label", "label-classes", "have-value", "required", "readonly", "suppress-prefix-icon", "is-invalid", "error-message"]));
   }
-}), kl = ["for"], Vl = {
+}), Vl = ["for"], $l = {
   key: 0,
   class: "input-group-text"
-}, $l = ["aria-label", "onClick"], wl = ["id", "placeholder"], Cl = ["aria-label"], Tl = ["aria-selected", "onMousedown", "onMouseover"], Bl = {
+}, wl = ["aria-label", "onClick"], Cl = ["id", "placeholder"], Tl = ["aria-label"], Bl = ["aria-selected", "onMousedown", "onMouseover"], Il = {
   key: 2,
   class: "dropdown-menu show position-absolute w-100 p-0 mb-0",
   style: { top: "100%", left: "0", "z-index": "1000" }
-}, Il = {
+}, Pl = {
   key: 1,
   class: "invalid-feedback"
-}, Pl = {
+}, Sl = {
   key: 2,
   class: "input-group-text"
-}, Sl = /* @__PURE__ */ E({
+}, ql = /* @__PURE__ */ E({
   __name: "FormControlLookupMulti",
   props: {
     modelValue: {},
@@ -1045,29 +1045,29 @@ const fl = ["id", "value", "readonly", "min", "max"], vl = /* @__PURE__ */ E({
     ), p = m(() => h.value.length > 0), V = m(() => !l.required || p.value), b = m(() => d.value && !V.value);
     i({ requiredPass: V, touch: T });
     const w = ["Lookup", "LookupMulti", "User", "UserMulti"];
-    function k(g) {
-      return typeof l.optionValue == "function" ? l.optionValue(g) : typeof l.optionValue == "string" ? typeof g == "string" || typeof g == "number" ? g : g[l.optionValue] ?? null : typeof g == "string" || typeof g == "number" ? g : l.spType && w.includes(l.spType) ? g.Id ?? null : g;
+    function g(x) {
+      return typeof l.optionValue == "function" ? l.optionValue(x) : typeof l.optionValue == "string" ? typeof x == "string" || typeof x == "number" ? x : x[l.optionValue] ?? null : typeof x == "string" || typeof x == "number" ? x : l.spType && w.includes(l.spType) ? x.Id ?? null : x;
     }
-    function q(g) {
-      return g == null ? "" : typeof g == "object" ? JSON.stringify(g) : String(g);
+    function I(x) {
+      return x == null ? "" : typeof x == "object" ? JSON.stringify(x) : String(x);
     }
-    const B = m(
-      () => (l.options ?? []).map((g) => ({
-        label: ee(g, l.optionLabel),
-        value: k(g),
-        key: q(k(g))
+    const S = m(
+      () => (l.options ?? []).map((x) => ({
+        label: ee(x, l.optionLabel),
+        value: g(x),
+        key: I(g(x))
       }))
-    ), I = m(() => new Set(h.value.map(q))), r = m(
-      () => h.value.map((g) => {
-        const S = q(g), L = B.value.find((K) => K.key === S);
-        return { label: (L == null ? void 0 : L.label) ?? (S || String(g)), value: g, key: S };
+    ), B = m(() => new Set(h.value.map(I))), r = m(
+      () => h.value.map((x) => {
+        const q = I(x), L = S.value.find((K) => K.key === q);
+        return { label: (L == null ? void 0 : L.label) ?? (q || String(x)), value: x, key: q };
       })
     ), s = U(""), n = U(!1), y = U(0), M = U(null), O = m(() => {
-      const g = s.value.trim().toLowerCase();
-      return B.value.filter((S) => I.value.has(S.key) ? !1 : g ? S.label.toLowerCase().includes(g) : !0);
+      const x = s.value.trim().toLowerCase();
+      return S.value.filter((q) => B.value.has(q.key) ? !1 : x ? q.label.toLowerCase().includes(x) : !0);
     });
-    X(O, (g) => {
-      y.value >= g.length && (y.value = 0);
+    X(O, (x) => {
+      y.value >= x.length && (y.value = 0);
     });
     function R() {
       l.readonly || (n.value = !0, y.value = 0);
@@ -1075,51 +1075,51 @@ const fl = ["id", "value", "readonly", "min", "max"], vl = /* @__PURE__ */ E({
     function _() {
       T(), n.value = !1, s.value = "", y.value = 0, o("search", "");
     }
-    function le(g) {
-      const S = [...h.value, g.value];
-      o("update:modelValue", S), s.value = "", y.value = 0, ce(() => {
+    function le(x) {
+      const q = [...h.value, x.value];
+      o("update:modelValue", q), s.value = "", y.value = 0, ce(() => {
         var L;
         (L = M.value) == null || L.focus(), n.value = !0;
       });
     }
-    function te(g) {
-      const S = h.value.filter((L) => q(L) !== g);
-      o("update:modelValue", S.length ? S : null);
+    function te(x) {
+      const q = h.value.filter((L) => I(L) !== x);
+      o("update:modelValue", q.length ? q : null);
     }
-    function se() {
+    function oe() {
       n.value = !0, y.value = 0, o("search", s.value);
     }
-    function re() {
+    function se() {
       R();
     }
     function $() {
       setTimeout(_, 150);
     }
-    function D(g) {
-      const S = O.value;
-      switch (g.key) {
+    function D(x) {
+      const q = O.value;
+      switch (x.key) {
         case "ArrowDown":
-          if (g.preventDefault(), !n.value) {
+          if (x.preventDefault(), !n.value) {
             R();
             return;
           }
-          y.value = S.length ? (y.value + 1) % S.length : 0;
+          y.value = q.length ? (y.value + 1) % q.length : 0;
           break;
         case "ArrowUp":
-          if (g.preventDefault(), !n.value) {
+          if (x.preventDefault(), !n.value) {
             R();
             return;
           }
-          y.value = S.length ? (y.value - 1 + S.length) % S.length : 0;
+          y.value = q.length ? (y.value - 1 + q.length) % q.length : 0;
           break;
         case "Enter":
-          if (g.preventDefault(), n.value && S.length) {
-            const L = y.value >= 0 && y.value < S.length ? y.value : 0;
-            le(S[L]);
+          if (x.preventDefault(), n.value && q.length) {
+            const L = y.value >= 0 && y.value < q.length ? y.value : 0;
+            le(q[L]);
           }
           break;
         case "Escape":
-          g.preventDefault(), _();
+          x.preventDefault(), _();
           break;
         case "Backspace":
           if (!s.value && h.value.length) {
@@ -1129,22 +1129,22 @@ const fl = ["id", "value", "readonly", "min", "max"], vl = /* @__PURE__ */ E({
           break;
       }
     }
-    return (g, S) => (u(), f("div", null, [
+    return (x, q) => (u(), f("div", null, [
       e.label ? (u(), f("label", {
         key: 0,
         for: c(t),
         class: C(c(v))
-      }, F(e.label), 11, kl)) : P("", !0),
-      x("div", {
+      }, F(e.label), 11, Vl)) : P("", !0),
+      k("div", {
         class: C(["input-group", { "has-validation": b.value }])
       }, [
-        e.suppressPrefixIcon ? P("", !0) : (u(), f("span", Vl, [...S[2] || (S[2] = [
-          x("i", { class: "fas fa-search-plus" }, null, -1)
+        e.suppressPrefixIcon ? P("", !0) : (u(), f("span", $l, [...q[2] || (q[2] = [
+          k("i", { class: "fas fa-search-plus" }, null, -1)
         ])])),
-        x("div", {
+        k("div", {
           class: C(["form-control d-flex flex-wrap gap-1 align-items-center h-auto py-1 position-relative", { "bg-body-secondary": e.readonly, "is-invalid": b.value }]),
           style: { cursor: "text", "min-height": "2.375rem" },
-          onClick: S[1] || (S[1] = (L) => {
+          onClick: q[1] || (q[1] = (L) => {
             var K;
             return (K = M.value) == null ? void 0 : K.focus();
           })
@@ -1154,17 +1154,17 @@ const fl = ["id", "value", "readonly", "min", "max"], vl = /* @__PURE__ */ E({
             class: "badge rounded-pill bg-primary d-inline-flex align-items-center gap-1",
             style: { "font-size": "0.8em" }
           }, [
-            oe(F(L.label) + " ", 1),
+            ne(F(L.label) + " ", 1),
             e.readonly ? P("", !0) : (u(), f("button", {
               key: 0,
               type: "button",
               class: "btn-close btn-close-white",
               style: { "font-size": "0.6em" },
               "aria-label": `Remove ${L.label}`,
-              onClick: ae((K) => te(L.key), ["stop"])
-            }, null, 8, $l))
+              onClick: ie((K) => te(L.key), ["stop"])
+            }, null, 8, wl))
           ]))), 128)),
-          e.readonly ? P("", !0) : me((u(), f("input", {
+          e.readonly ? P("", !0) : fe((u(), f("input", {
             key: 0,
             id: c(t),
             ref_key: "inputRef",
@@ -1172,14 +1172,14 @@ const fl = ["id", "value", "readonly", "min", "max"], vl = /* @__PURE__ */ E({
             type: "text",
             class: "border-0 p-0 flex-grow-1 bg-transparent",
             style: { outline: "none", "min-width": "8ch", "line-height": "inherit" },
-            "onUpdate:modelValue": S[0] || (S[0] = (L) => s.value = L),
+            "onUpdate:modelValue": q[0] || (q[0] = (L) => s.value = L),
             placeholder: r.value.length ? "" : e.placeholder ?? "Type to search…",
             autocomplete: "off",
-            onInput: se,
-            onFocus: re,
+            onInput: oe,
+            onFocus: se,
             onBlur: $,
             onKeydown: D
-          }, null, 40, wl)), [
+          }, null, 40, Cl)), [
             [ye, s.value]
           ]),
           n.value && O.value.length ? (u(), f("ul", {
@@ -1195,23 +1195,23 @@ const fl = ["id", "value", "readonly", "min", "max"], vl = /* @__PURE__ */ E({
               "aria-selected": K === y.value,
               class: C(["dropdown-item", { active: K === y.value }]),
               style: he(K === y.value ? "text-decoration: underline dotted;" : ""),
-              onMousedown: ae((be) => le(L), ["prevent"]),
+              onMousedown: ie((be) => le(L), ["prevent"]),
               onMouseover: (be) => y.value = K
-            }, F(L.label), 47, Tl))), 128))
-          ], 8, Cl)) : n.value && s.value && !O.value.length ? (u(), f("ul", Bl, [...S[3] || (S[3] = [
-            x("li", { class: "dropdown-item disabled text-muted fst-italic" }, "No matches", -1)
+            }, F(L.label), 47, Bl))), 128))
+          ], 8, Tl)) : n.value && s.value && !O.value.length ? (u(), f("ul", Il, [...q[3] || (q[3] = [
+            k("li", { class: "dropdown-item disabled text-muted fst-italic" }, "No matches", -1)
           ])])) : P("", !0)
         ], 2),
-        b.value ? (u(), f("div", Il, F(e.errorMessage ?? "Please select at least one value"), 1)) : P("", !0),
-        e.required ? (u(), f("span", Pl, [
-          x("i", {
+        b.value ? (u(), f("div", Pl, F(e.errorMessage ?? "Please select at least one value"), 1)) : P("", !0),
+        e.required ? (u(), f("span", Sl, [
+          k("i", {
             class: C(["fas fa-asterisk fa-xs", p.value ? "text-success" : "text-danger"])
           }, null, 2)
         ])) : P("", !0)
       ], 2)
     ]));
   }
-}), ql = ["id", "value", "disabled", "title"], Ml = /* @__PURE__ */ E({
+}), Ml = ["id", "value", "disabled", "title"], Ll = /* @__PURE__ */ E({
   __name: "FormControlColor",
   props: {
     modelValue: {},
@@ -1226,13 +1226,13 @@ const fl = ["id", "value", "readonly", "min", "max"], vl = /* @__PURE__ */ E({
   setup(e, { expose: i, emit: a }) {
     const l = e, o = a, { id: t, haveValue: v, requiredPass: d, labelClasses: T, touched: h, touch: p } = A(l), V = m(() => h.value && !d.value);
     i({ requiredPass: d, touch: p });
-    function b(k) {
-      p(), o("update:modelValue", k.target.value);
+    function b(g) {
+      p(), o("update:modelValue", g.target.value);
     }
-    function w(k) {
-      k.key !== "Delete" && k.key !== "Backspace" || l.readonly || (k.preventDefault(), o("update:modelValue", null));
+    function w(g) {
+      g.key !== "Delete" && g.key !== "Backspace" || l.readonly || (g.preventDefault(), o("update:modelValue", null));
     }
-    return (k, q) => (u(), G(J, {
+    return (g, I) => (u(), G(J, {
       id: c(t),
       label: e.label,
       "label-classes": c(T),
@@ -1245,7 +1245,7 @@ const fl = ["id", "value", "readonly", "min", "max"], vl = /* @__PURE__ */ E({
       "error-message": e.errorMessage ?? "This field is required"
     }, {
       default: Y(() => [
-        x("input", {
+        k("input", {
           id: c(t),
           type: "color",
           class: C(["form-control form-control-color flex-grow-1", { "is-invalid": V.value }]),
@@ -1254,15 +1254,15 @@ const fl = ["id", "value", "readonly", "min", "max"], vl = /* @__PURE__ */ E({
           title: e.modelValue ?? "Choose a colour",
           onChange: b,
           onKeydown: w
-        }, null, 42, ql)
+        }, null, 42, Ml)
       ]),
       _: 1
     }, 8, ["id", "label", "label-classes", "have-value", "required", "readonly", "suppress-prefix-icon", "is-invalid", "error-message"]));
   }
-}), Ll = ["aria-labelledby"], Fl = ["id"], Dl = ["id", "type", "checked", "disabled", "name", "onClick"], Nl = ["for"], Ol = {
+}), Fl = ["aria-labelledby"], Dl = ["id"], Nl = ["id", "type", "checked", "disabled", "name", "onClick"], Ol = ["for"], El = {
   key: 1,
   class: "invalid-feedback d-block"
-}, pe = /* @__PURE__ */ E({
+}, me = /* @__PURE__ */ E({
   __name: "FormControlOptions",
   props: {
     modelValue: {},
@@ -1287,31 +1287,31 @@ const fl = ["id", "value", "readonly", "min", "max"], vl = /* @__PURE__ */ E({
     function w(n) {
       return typeof l.optionValue == "function" ? l.optionValue(n) : typeof l.optionValue == "string" ? typeof n == "string" || typeof n == "number" ? n : n[l.optionValue] ?? null : typeof n == "string" || typeof n == "number" ? n : l.spType && b.includes(l.spType) ? n.Id ?? null : n;
     }
-    function k(n) {
+    function g(n) {
       return n == null ? "" : typeof n == "object" ? JSON.stringify(n) : String(n);
     }
-    const q = m(
+    const I = m(
       () => (l.options ?? []).map((n) => ({
         label: ee(n, l.optionLabel),
         value: w(n),
-        key: k(w(n))
+        key: g(w(n))
       }))
-    ), B = m(
+    ), S = m(
       () => l.multi && Array.isArray(l.modelValue) ? l.modelValue : []
     );
-    function I(n) {
-      return l.multi ? B.value.some((y) => k(y) === n) : k(l.modelValue) === n;
+    function B(n) {
+      return l.multi ? S.value.some((y) => g(y) === n) : g(l.modelValue) === n;
     }
     function r(n) {
       if (!l.readonly)
         if (p(), l.multi)
-          if (B.value.some((M) => k(M) === n.key)) {
-            const M = B.value.filter((O) => k(O) !== n.key);
+          if (S.value.some((M) => g(M) === n.key)) {
+            const M = S.value.filter((O) => g(O) !== n.key);
             o("update:modelValue", M.length ? M : null);
           } else
-            o("update:modelValue", [...B.value, n.value]);
+            o("update:modelValue", [...S.value, n.value]);
         else
-          k(l.modelValue) === n.key ? o("update:modelValue", null) : o("update:modelValue", n.value);
+          g(l.modelValue) === n.key ? o("update:modelValue", null) : o("update:modelValue", n.value);
     }
     const s = m(
       () => l.multi ? "Please select at least one option" : "Please select an option"
@@ -1326,36 +1326,36 @@ const fl = ["id", "value", "readonly", "min", "max"], vl = /* @__PURE__ */ E({
         class: C(c(T)),
         style: { "margin-bottom": "0.25rem" }
       }, [
-        oe(F(e.label) + " ", 1),
+        ne(F(e.label) + " ", 1),
         e.required ? (u(), f("i", {
           key: 0,
           class: C(["fas fa-asterisk fa-xs ms-1", c(v) ? "text-success" : "text-danger"])
         }, null, 2)) : P("", !0)
-      ], 10, Fl)) : P("", !0),
-      x("div", null, [
-        (u(!0), f(j, null, Z(q.value, (M, O) => (u(), f("div", {
+      ], 10, Dl)) : P("", !0),
+      k("div", null, [
+        (u(!0), f(j, null, Z(I.value, (M, O) => (u(), f("div", {
           key: M.key,
           class: C(["form-check", { "form-check-inline": !e.stacked }])
         }, [
-          x("input", {
+          k("input", {
             id: `${c(t)}-opt-${O}`,
             type: e.multi ? "checkbox" : "radio",
             class: C(["form-check-input", { "is-invalid": V.value }]),
-            checked: I(M.key),
+            checked: B(M.key),
             disabled: e.readonly,
             name: e.multi ? void 0 : c(t),
             onClick: (R) => r(M)
-          }, null, 10, Dl),
-          x("label", {
+          }, null, 10, Nl),
+          k("label", {
             for: `${c(t)}-opt-${O}`,
             class: "form-check-label"
-          }, F(M.label), 9, Nl)
+          }, F(M.label), 9, Ol)
         ], 2))), 128))
       ]),
-      V.value ? (u(), f("div", Ol, F(e.errorMessage ?? s.value), 1)) : P("", !0)
-    ], 8, Ll));
+      V.value ? (u(), f("div", El, F(e.errorMessage ?? s.value), 1)) : P("", !0)
+    ], 8, Fl));
   }
-}), El = ["id", "value", "placeholder", "readonly", "maxlength", "rows"], Ul = /* @__PURE__ */ E({
+}), Ul = ["id", "value", "placeholder", "readonly", "maxlength", "rows"], Al = /* @__PURE__ */ E({
   __name: "FormControlTextarea",
   props: {
     modelValue: { default: null },
@@ -1374,10 +1374,10 @@ const fl = ["id", "value", "readonly", "min", "max"], vl = /* @__PURE__ */ E({
     const l = e, o = a, { id: t, haveValue: v, requiredPass: d, labelClasses: T, touched: h, touch: p } = A(l), V = m(() => h.value && !d.value);
     i({ requiredPass: d, touch: p });
     function b(w) {
-      const k = w.target.value;
-      o("update:modelValue", k === "" ? null : k);
+      const g = w.target.value;
+      o("update:modelValue", g === "" ? null : g);
     }
-    return (w, k) => (u(), G(J, {
+    return (w, g) => (u(), G(J, {
       id: c(t),
       label: e.label,
       "label-classes": c(T),
@@ -1390,7 +1390,7 @@ const fl = ["id", "value", "readonly", "min", "max"], vl = /* @__PURE__ */ E({
       "error-message": e.errorMessage ?? "This field is required"
     }, {
       default: Y(() => [
-        x("textarea", {
+        k("textarea", {
           id: c(t),
           class: C(["form-control", { "is-invalid": V.value }]),
           value: e.modelValue ?? "",
@@ -1399,17 +1399,17 @@ const fl = ["id", "value", "readonly", "min", "max"], vl = /* @__PURE__ */ E({
           maxlength: e.maxlength,
           rows: e.rows,
           onInput: b,
-          onBlur: k[0] || (k[0] = //@ts-ignore
-          (...q) => c(p) && c(p)(...q))
-        }, null, 42, El)
+          onBlur: g[0] || (g[0] = //@ts-ignore
+          (...I) => c(p) && c(p)(...I))
+        }, null, 42, Ul)
       ]),
       _: 1
     }, 8, ["id", "label", "label-classes", "have-value", "required", "readonly", "suppress-prefix-icon", "is-invalid", "error-message"]));
   }
-}), Al = { class: "form-check form-switch" }, Rl = ["id", "checked", "disabled"], zl = ["for"], Kl = {
+}), Rl = { class: "form-check form-switch" }, zl = ["id", "disabled"], Kl = ["for"], Yl = {
   key: 0,
   class: "invalid-feedback d-block"
-}, Yl = /* @__PURE__ */ E({
+}, jl = /* @__PURE__ */ E({
   __name: "FormControlSwitch",
   props: {
     modelValue: { type: [Boolean, null] },
@@ -1424,42 +1424,45 @@ const fl = ["id", "value", "readonly", "min", "max"], vl = /* @__PURE__ */ E({
   setup(e, { expose: i, emit: a }) {
     const l = e, o = a, { id: t, haveValue: v, requiredPass: d, labelClasses: T, touched: h, touch: p } = A(l), V = m(() => h.value && !d.value);
     i({ requiredPass: d, touch: p });
-    const b = m(() => l.modelValue === !0);
-    function w() {
-      l.readonly || (p(), o("update:modelValue", l.modelValue !== !0));
-    }
-    return (k, q) => (u(), f("div", null, [
-      x("div", Al, [
-        x("input", {
+    const b = m({
+      get: () => l.modelValue === !0,
+      set: (w) => {
+        l.readonly || (p(), o("update:modelValue", w));
+      }
+    });
+    return (w, g) => (u(), f("div", null, [
+      k("div", Rl, [
+        fe(k("input", {
           id: c(t),
           type: "checkbox",
           role: "switch",
           class: C(["form-check-input", { "is-invalid": V.value }]),
-          checked: b.value,
-          disabled: e.readonly,
-          onClick: ae(w, ["prevent"])
-        }, null, 10, Rl),
-        x("label", {
+          "onUpdate:modelValue": g[0] || (g[0] = (I) => b.value = I),
+          disabled: e.readonly
+        }, null, 10, zl), [
+          [xe, b.value]
+        ]),
+        k("label", {
           for: c(t),
-          class: C(["form-check-label", ...c(T).filter((B) => B !== "form-label")])
+          class: C(["form-check-label", ...c(T).filter((I) => I !== "form-label")])
         }, [
-          oe(F(e.label) + " ", 1),
+          ne(F(e.label) + " ", 1),
           e.required ? (u(), f("i", {
             key: 0,
             class: C(["fas fa-asterisk fa-xs ms-1", c(v) ? "text-success" : "text-danger"])
           }, null, 2)) : P("", !0)
-        ], 10, zl)
+        ], 10, Kl)
       ]),
-      V.value ? (u(), f("div", Kl, F(e.errorMessage ?? "This field is required"), 1)) : P("", !0)
+      V.value ? (u(), f("div", Yl, F(e.errorMessage ?? "This field is required"), 1)) : P("", !0)
     ]));
   }
-}), jl = ["for"], Zl = { class: "input-group-text fw-semibold" }, Gl = ["id", "value", "placeholder", "readonly", "min", "max", "step"], Jl = {
+}), Zl = ["for"], Gl = { class: "input-group-text fw-semibold" }, Jl = ["id", "value", "placeholder", "readonly", "min", "max", "step"], Hl = {
   key: 0,
   class: "invalid-feedback"
-}, Hl = {
+}, Wl = {
   key: 1,
   class: "input-group-text"
-}, Wl = /* @__PURE__ */ E({
+}, Xl = /* @__PURE__ */ E({
   __name: "FormControlCurrency",
   props: {
     modelValue: { default: null },
@@ -1493,8 +1496,8 @@ const fl = ["id", "value", "readonly", "min", "max"], vl = /* @__PURE__ */ E({
       } catch {
         return l.currency ?? "£";
       }
-    }), k = m(() => l.min ?? -1 / 0), q = m(() => l.max ?? 1 / 0);
-    function B(r) {
+    }), g = m(() => l.min ?? -1 / 0), I = m(() => l.max ?? 1 / 0);
+    function S(r) {
       const s = r.target.value;
       if (s === "") {
         o("update:modelValue", null);
@@ -1503,9 +1506,9 @@ const fl = ["id", "value", "readonly", "min", "max"], vl = /* @__PURE__ */ E({
       const n = parseFloat(s);
       isNaN(n) || o("update:modelValue", n);
     }
-    function I(r) {
+    function B(r) {
       if (p(), r.target.value === "" || l.modelValue === null) return;
-      const n = fe(k.value, q.value, l.modelValue);
+      const n = ve(g.value, I.value, l.modelValue);
       n !== l.modelValue && (o("update:modelValue", n), b.value && (b.value.value = String(n)));
     }
     return (r, s) => (u(), f("div", null, [
@@ -1513,12 +1516,12 @@ const fl = ["id", "value", "readonly", "min", "max"], vl = /* @__PURE__ */ E({
         key: 0,
         for: c(t),
         class: C(c(T))
-      }, F(e.label), 11, jl)) : P("", !0),
-      x("div", {
+      }, F(e.label), 11, Zl)) : P("", !0),
+      k("div", {
         class: C(["input-group", { "has-validation": V.value }])
       }, [
-        x("span", Zl, F(w.value), 1),
-        x("input", {
+        k("span", Gl, F(w.value), 1),
+        k("input", {
           id: c(t),
           ref_key: "inputRef",
           ref: b,
@@ -1530,32 +1533,32 @@ const fl = ["id", "value", "readonly", "min", "max"], vl = /* @__PURE__ */ E({
           min: e.min,
           max: e.max,
           step: e.step,
-          onInput: B,
-          onBlur: I
-        }, null, 42, Gl),
-        V.value ? (u(), f("div", Jl, F(e.errorMessage ?? "This field is required"), 1)) : P("", !0),
-        e.required ? (u(), f("span", Hl, [
-          x("i", {
+          onInput: S,
+          onBlur: B
+        }, null, 42, Jl),
+        V.value ? (u(), f("div", Hl, F(e.errorMessage ?? "This field is required"), 1)) : P("", !0),
+        e.required ? (u(), f("span", Wl, [
+          k("i", {
             class: C(["fas fa-asterisk fa-xs", c(v) ? "text-success" : "text-danger"])
           }, null, 2)
         ])) : P("", !0)
       ], 2)
     ]));
   }
-}), Xl = ["for"], Ql = {
+}), Ql = ["for"], _l = {
   key: 0,
   class: "input-group-text"
-}, _l = { class: "position-relative flex-grow-1 d-flex" }, et = ["id", "placeholder", "readonly"], lt = ["aria-label"], tt = ["aria-selected", "onMousedown", "onMouseover"], at = {
+}, et = { class: "position-relative flex-grow-1 d-flex" }, lt = ["id", "placeholder", "readonly"], tt = ["aria-label"], at = ["aria-selected", "onMousedown", "onMouseover"], nt = {
   key: 1,
   class: "dropdown-menu show position-absolute w-100 p-0 mb-0",
   style: { top: "100%", left: "0", "z-index": "1000" }
-}, nt = {
+}, ot = {
   key: 1,
   class: "invalid-feedback"
-}, ot = {
+}, st = {
   key: 3,
   class: "input-group-text"
-}, st = /* @__PURE__ */ E({
+}, rt = /* @__PURE__ */ E({
   __name: "FormControlLookup",
   props: {
     modelValue: {},
@@ -1579,26 +1582,26 @@ const fl = ["id", "value", "readonly", "min", "max"], vl = /* @__PURE__ */ E({
     function w($) {
       return typeof l.optionValue == "function" ? l.optionValue($) : typeof l.optionValue == "string" ? typeof $ == "string" || typeof $ == "number" ? $ : $[l.optionValue] ?? null : typeof $ == "string" || typeof $ == "number" ? $ : l.spType && b.includes(l.spType) ? $.Id ?? null : $;
     }
-    function k($) {
+    function g($) {
       return $ == null ? "" : typeof $ == "object" ? JSON.stringify($) : String($);
     }
-    const q = m(
+    const I = m(
       () => (l.options ?? []).map(($) => ({
         label: ee($, l.optionLabel),
         value: w($),
-        key: k(w($))
+        key: g(w($))
       }))
-    ), B = m(() => {
+    ), S = m(() => {
       if (l.modelValue === null || l.modelValue === void 0) return null;
-      const $ = k(l.modelValue), D = q.value.find((g) => g.key === $);
+      const $ = g(l.modelValue), D = I.value.find((x) => x.key === $);
       return (D == null ? void 0 : D.label) ?? String(l.modelValue);
-    }), I = U(""), r = U(!1), s = U(0), n = U(null);
-    X(B, ($) => {
-      $ !== null && (I.value = $);
+    }), B = U(""), r = U(!1), s = U(0), n = U(null);
+    X(S, ($) => {
+      $ !== null && (B.value = $);
     }, { immediate: !0 });
     const y = m(() => {
-      const $ = I.value.trim().toLowerCase(), D = k(l.modelValue);
-      return q.value.filter((g) => g.key === D ? !1 : $ ? g.label.toLowerCase().includes($) : !0);
+      const $ = B.value.trim().toLowerCase(), D = g(l.modelValue);
+      return I.value.filter((x) => x.key === D ? !1 : $ ? x.label.toLowerCase().includes($) : !0);
     });
     X(y, ($) => {
       s.value >= $.length && (s.value = 0);
@@ -1607,27 +1610,27 @@ const fl = ["id", "value", "readonly", "min", "max"], vl = /* @__PURE__ */ E({
       l.readonly || (r.value = !0, s.value = 0);
     }
     function O() {
-      p(), r.value = !1, s.value = 0, o("search", ""), B.value !== null && (I.value = B.value);
+      p(), r.value = !1, s.value = 0, o("search", ""), S.value !== null && (B.value = S.value);
     }
     function R($) {
-      o("update:modelValue", $.value), I.value = $.label, r.value = !1, o("search", "");
+      o("update:modelValue", $.value), B.value = $.label, r.value = !1, o("search", "");
     }
     function _() {
-      o("update:modelValue", null), I.value = "", o("search", ""), ce(() => {
+      o("update:modelValue", null), B.value = "", o("search", ""), ce(() => {
         var $;
         return ($ = n.value) == null ? void 0 : $.focus();
       });
     }
     function le() {
-      l.modelValue !== null && l.modelValue !== void 0 && o("update:modelValue", null), r.value = !0, s.value = 0, o("search", I.value);
+      l.modelValue !== null && l.modelValue !== void 0 && o("update:modelValue", null), r.value = !0, s.value = 0, o("search", B.value);
     }
     function te() {
       M();
     }
-    function se() {
+    function oe() {
       setTimeout(O, 150);
     }
-    function re($) {
+    function se($) {
       const D = y.value;
       switch ($.key) {
         case "ArrowDown":
@@ -1646,8 +1649,8 @@ const fl = ["id", "value", "readonly", "min", "max"], vl = /* @__PURE__ */ E({
           break;
         case "Enter":
           if ($.preventDefault(), r.value && D.length) {
-            const g = s.value >= 0 && s.value < D.length ? s.value : 0;
-            R(D[g]);
+            const x = s.value >= 0 && s.value < D.length ? s.value : 0;
+            R(D[x]);
           }
           break;
         case "Escape":
@@ -1655,7 +1658,7 @@ const fl = ["id", "value", "readonly", "min", "max"], vl = /* @__PURE__ */ E({
           break;
         case "Delete":
         case "Backspace":
-          l.modelValue !== null && l.modelValue !== void 0 && !I.value && ($.preventDefault(), _());
+          l.modelValue !== null && l.modelValue !== void 0 && !B.value && ($.preventDefault(), _());
           break;
       }
     }
@@ -1664,30 +1667,30 @@ const fl = ["id", "value", "readonly", "min", "max"], vl = /* @__PURE__ */ E({
         key: 0,
         for: c(t),
         class: C(c(T))
-      }, F(e.label), 11, Xl)) : P("", !0),
-      x("div", {
+      }, F(e.label), 11, Ql)) : P("", !0),
+      k("div", {
         class: C(["input-group", { "has-validation": V.value }])
       }, [
-        e.suppressPrefixIcon ? P("", !0) : (u(), f("span", Ql, [...D[1] || (D[1] = [
-          x("i", { class: "fas fa-search" }, null, -1)
+        e.suppressPrefixIcon ? P("", !0) : (u(), f("span", _l, [...D[1] || (D[1] = [
+          k("i", { class: "fas fa-search" }, null, -1)
         ])])),
-        x("div", _l, [
-          me(x("input", {
+        k("div", et, [
+          fe(k("input", {
             id: c(t),
             ref_key: "inputRef",
             ref: n,
             type: "text",
             class: C(["form-control border-end-0", { "is-invalid": V.value }]),
-            "onUpdate:modelValue": D[0] || (D[0] = (g) => I.value = g),
+            "onUpdate:modelValue": D[0] || (D[0] = (x) => B.value = x),
             placeholder: e.placeholder ?? "Type to search…",
             readonly: e.readonly,
             autocomplete: "off",
             onInput: le,
             onFocus: te,
-            onBlur: se,
-            onKeydown: re
-          }, null, 42, et), [
-            [ye, I.value]
+            onBlur: oe,
+            onKeydown: se
+          }, null, 42, lt), [
+            [ye, B.value]
           ]),
           r.value && y.value.length ? (u(), f("ul", {
             key: 0,
@@ -1696,20 +1699,20 @@ const fl = ["id", "value", "readonly", "min", "max"], vl = /* @__PURE__ */ E({
             role: "listbox",
             "aria-label": e.label ?? "Suggestions"
           }, [
-            (u(!0), f(j, null, Z(y.value, (g, S) => (u(), f("li", {
-              key: g.key,
+            (u(!0), f(j, null, Z(y.value, (x, q) => (u(), f("li", {
+              key: x.key,
               role: "option",
-              "aria-selected": S === s.value,
-              class: C(["dropdown-item", { active: S === s.value }]),
-              style: he(S === s.value ? "text-decoration: underline dotted;" : ""),
-              onMousedown: ae((L) => R(g), ["prevent"]),
-              onMouseover: (L) => s.value = S
-            }, F(g.label), 47, tt))), 128))
-          ], 8, lt)) : r.value && I.value && !y.value.length ? (u(), f("ul", at, [...D[2] || (D[2] = [
-            x("li", { class: "dropdown-item disabled text-muted fst-italic" }, "No matches", -1)
+              "aria-selected": q === s.value,
+              class: C(["dropdown-item", { active: q === s.value }]),
+              style: he(q === s.value ? "text-decoration: underline dotted;" : ""),
+              onMousedown: ie((L) => R(x), ["prevent"]),
+              onMouseover: (L) => s.value = q
+            }, F(x.label), 47, at))), 128))
+          ], 8, tt)) : r.value && B.value && !y.value.length ? (u(), f("ul", nt, [...D[2] || (D[2] = [
+            k("li", { class: "dropdown-item disabled text-muted fst-italic" }, "No matches", -1)
           ])])) : P("", !0)
         ]),
-        V.value ? (u(), f("div", nt, F(e.errorMessage ?? "Please select a value"), 1)) : P("", !0),
+        V.value ? (u(), f("div", ot, F(e.errorMessage ?? "Please select a value"), 1)) : P("", !0),
         c(v) && !e.readonly ? (u(), f("button", {
           key: 2,
           type: "button",
@@ -1719,20 +1722,20 @@ const fl = ["id", "value", "readonly", "min", "max"], vl = /* @__PURE__ */ E({
           tabindex: "-1",
           onClick: _
         }, [...D[3] || (D[3] = [
-          x("i", { class: "fas fa-times" }, null, -1)
+          k("i", { class: "fas fa-times" }, null, -1)
         ])])) : P("", !0),
-        e.required ? (u(), f("span", ot, [
-          x("i", {
+        e.required ? (u(), f("span", st, [
+          k("i", {
             class: C(["fas fa-asterisk fa-xs", c(v) ? "text-success" : "text-danger"])
           }, null, 2)
         ])) : P("", !0)
       ], 2)
     ]));
   }
-}), rt = {
+}), ut = {
   key: 0,
   class: "form-text text-muted"
-}, ut = /* @__PURE__ */ E({
+}, it = /* @__PURE__ */ E({
   __name: "SpvFormControl",
   props: {
     spType: {},
@@ -1766,42 +1769,42 @@ const fl = ["id", "value", "readonly", "min", "max"], vl = /* @__PURE__ */ E({
   },
   emits: ["update:modelValue", "search"],
   setup(e, { expose: i, emit: a }) {
-    const l = e, o = a, t = m(() => l.type ? l.type : l.spType ? ze[l.spType] : "text"), v = m(() => {
+    const l = e, o = a, t = m(() => l.type ? l.type : l.spType ? Ke[l.spType] : "text"), v = m(() => {
       if (l.maxlength !== void 0) return l.maxlength;
-      if (l.spType) return Ke[l.spType];
+      if (l.spType) return Ye[l.spType];
     }), d = m(() => {
       switch (t.value) {
         case "password":
-          return nl;
+          return ol;
         case "number":
-          return sl;
+          return rl;
         case "percent":
-          return ul;
+          return il;
         case "date":
-          return vl;
+          return pl;
         case "datetime-local":
-          return yl;
+          return hl;
         case "select":
-          return xl;
+          return kl;
         case "lookupMulti":
-          return Sl;
+          return ql;
         case "color":
-          return Ml;
+          return Ll;
         case "checkboxes":
-          return pe;
+          return me;
         case "radio":
-          return pe;
+          return me;
         case "textarea":
-          return Ul;
+          return Al;
         case "switch":
-          return Yl;
+          return jl;
         case "currency":
-          return Wl;
+          return Xl;
         case "lookup":
-          return st;
+          return rt;
         case "text":
         default:
-          return el;
+          return ll;
       }
     }), T = U(null), h = m(() => {
       var b;
@@ -1843,35 +1846,35 @@ const fl = ["id", "value", "readonly", "min", "max"], vl = /* @__PURE__ */ E({
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     }));
     return (b, w) => (u(), f("div", null, [
-      (u(), G(xe(d.value), ke({
+      (u(), G(ke(d.value), Ve({
         ref_key: "innerRef",
         ref: T
       }, V.value, {
-        "onUpdate:modelValue": w[0] || (w[0] = (k) => o("update:modelValue", k)),
-        onSearch: w[1] || (w[1] = (k) => o("search", k))
+        "onUpdate:modelValue": w[0] || (w[0] = (g) => o("update:modelValue", g)),
+        onSearch: w[1] || (w[1] = (g) => o("search", g))
       }), null, 16)),
-      e.helpText ? (u(), f("div", rt, F(e.helpText), 1)) : P("", !0)
+      e.helpText ? (u(), f("div", ut, F(e.helpText), 1)) : P("", !0)
     ]));
   }
-}), it = {
-  SpvAlert: Ve,
-  SpvModal: Ie,
-  SpvToast: Le,
-  SpvOffcanvas: Oe,
-  SpvNavTabs: Re,
-  SpvFormControl: ut
-}, ct = {
+}), dt = {
+  SpvAlert: $e,
+  SpvModal: Pe,
+  SpvToast: Fe,
+  SpvOffcanvas: Ee,
+  SpvNavTabs: ze,
+  SpvFormControl: it
+}, ft = {
   install(e) {
-    for (const [i, a] of Object.entries(it))
+    for (const [i, a] of Object.entries(dt))
       e.component(i, a);
   }
 };
 export {
-  Ve as SpvAlert,
-  ut as SpvFormControl,
-  Ie as SpvModal,
-  Re as SpvNavTabs,
-  Oe as SpvOffcanvas,
-  Le as SpvToast,
-  ct as default
+  $e as SpvAlert,
+  it as SpvFormControl,
+  Pe as SpvModal,
+  ze as SpvNavTabs,
+  Ee as SpvOffcanvas,
+  Fe as SpvToast,
+  ft as default
 };
