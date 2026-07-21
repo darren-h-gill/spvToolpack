@@ -10,6 +10,7 @@ const modalOpen     = ref(false)
 const toastShow     = ref(false)
 const offcanvasOpen = ref(false)
 const activeTab     = ref('tab1')
+const lastCopied    = ref('')
 
 const tabs: TabItem[] = [
   { key: 'tab1', label: 'Alerts & Toast' },
@@ -18,6 +19,7 @@ const tabs: TabItem[] = [
   { key: 'tab5', label: 'Select & Options' },
   { key: 'tab6', label: 'LookupMulti' },
   { key: 'tab7', label: 'Validation' },
+  { key: 'tab8', label: 'Copyable' },
 ]
 
 // ─── Tab 4 — SpvFormControl values ───────────────────────────────────────────
@@ -984,6 +986,40 @@ function onSubmit() {
           <hr>
           <h6 class="text-muted">Stored values:</h6>
           <pre class="bg-light p-2 rounded"><code>{{ { vName, vDept, vBudget, vNotes, vSkills, vAgree, formValid } }}</code></pre>
+        </div>
+      </template>
+
+      <!-- ── Tab 8: Copyable ────────────────────────────────────────────── -->
+      <template #tab8>
+        <div class="pt-3">
+          <p class="text-muted mb-3">
+            Hover over the text to reveal a copy icon. Click it to copy to the clipboard.
+          </p>
+
+          <h5>Plain text (copies inner text)</h5>
+          <p>
+            <SpvCopyable @copied="lastCopied = $event">
+              SHAREPOINT-SITE-ID-4f9a1c2e-88b3-4a91-9c7e-1234567890ab
+            </SpvCopyable>
+          </p>
+
+          <h5 class="mt-4">Explicit text prop (copies a different value than what's shown)</h5>
+          <p>
+            <SpvCopyable text="darren.h.gill@googlemail.com" @copied="lastCopied = $event">
+              <i class="fas fa-envelope me-1" /> Click to copy email
+            </SpvCopyable>
+          </p>
+
+          <h5 class="mt-4">Inside a code block</h5>
+          <p>
+            <SpvCopyable>
+              <code>pnpm add @spv/toolpack</code>
+            </SpvCopyable>
+          </p>
+
+          <div v-if="lastCopied" class="text-success small mt-3">
+            <i class="fas fa-check me-1" /> Copied: <code>{{ lastCopied }}</code>
+          </div>
         </div>
       </template>
 

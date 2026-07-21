@@ -5,6 +5,7 @@ import SpvToast from './components/SpvToast/SpvToast.vue'
 import SpvOffcanvas from './components/SpvOffcanvas/SpvOffcanvas.vue'
 import SpvNavTabs from './components/SpvNavTabs/SpvNavTabs.vue'
 import SpvFormControl from './components/SpvFormControl/SpvFormControl.vue'
+import SpvCopyable from './components/SpvCopyable/SpvCopyable.vue'
 
 const components = {
   SpvAlert,
@@ -12,7 +13,8 @@ const components = {
   SpvToast,
   SpvOffcanvas,
   SpvNavTabs,
-  SpvFormControl
+  SpvFormControl,
+  SpvCopyable
 }
 
 export default {

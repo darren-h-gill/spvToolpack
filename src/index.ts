@@ -7,6 +7,10 @@ export { default as SpvToast } from './components/SpvToast/SpvToast.vue'
 export { default as SpvOffcanvas } from './components/SpvOffcanvas/SpvOffcanvas.vue'
 export { default as SpvNavTabs } from './components/SpvNavTabs/SpvNavTabs.vue'
 export { default as SpvFormControl } from './components/SpvFormControl/SpvFormControl.vue'
+export { default as SpvCopyable } from './components/SpvCopyable/SpvCopyable.vue'
+
+// Composables
+export { useClipboard } from './components/SpvCopyable/useClipboard'
 
 // Types
 export type { AlertVariant } from './components/SpvAlert/SpvAlert.vue'
