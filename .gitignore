@@ -1,5 +1,6 @@
 node_modules
 .DS_Store
+.claude
 
 # Ignore dist in general but track the built library files for CDN use via jsDelivr
 # (glob form — trailing slash prevents exceptions from working)
