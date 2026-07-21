@@ -24,7 +24,13 @@ defineProps<{
 <template>
   <div>
     <!-- Label -->
-    <label v-if="label" :for="id" :class="labelClasses">{{ label }}</label>
+    <label v-if="label" :for="id" :class="labelClasses">
+      {{ label }}
+      <i
+        v-if="required"
+        :class="['fas fa-asterisk fa-xs ms-1', haveValue ? 'text-success' : 'text-danger']"
+      />
+    </label>
 
     <!-- Bootstrap input-group -->
     <div class="input-group" :class="{ 'has-validation': isInvalid }">
@@ -46,16 +52,6 @@ defineProps<{
 
       <!-- Optional suffix slot (e.g. a button appended to the group) -->
       <slot name="suffix" />
-
-      <!-- Required indicator — right side of the group -->
-      <span v-if="required" class="input-group-text">
-        <i
-          :class="[
-            'fas fa-asterisk fa-xs',
-            haveValue ? 'text-success' : 'text-danger'
-          ]"
-        />
-      </span>
 
     </div>
   </div>

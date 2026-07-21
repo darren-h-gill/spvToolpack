@@ -33,7 +33,7 @@ const emit = defineEmits<{
   'update:modelValue': [value: string | null]
 }>()
 
-const { id, haveValue, requiredPass, labelClasses, touched, touch } = useFormControl(props)
+const { id, haveValue, requiredPass, resolvedRequired, displayLabel, labelClasses, touched, touch } = useFormControl(props)
 
 // --- Strict mode validity tracking ---------------------------------------
 // isValidSelection tracks whether the last blur produced a valid selection.
@@ -102,11 +102,11 @@ function onBlur(e: FocusEvent) {
 <template>
   <FormControlWrapper
     :id="id"
-    :label="label"
+    :label="displayLabel"
     :label-classes="labelClasses"
     icon-class="fa-font"
     :have-value="haveValue"
-    :required="required"
+    :required="resolvedRequired"
     :readonly="readonly"
     :suppress-prefix-icon="suppressPrefixIcon"
     :is-invalid="isInvalid"

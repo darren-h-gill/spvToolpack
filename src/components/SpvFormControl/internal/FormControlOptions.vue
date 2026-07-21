@@ -37,7 +37,7 @@ const emit = defineEmits<{
   'update:modelValue': [value: unknown]
 }>()
 
-const { id, haveValue, requiredPass, labelClasses, touched, touch } = useFormControl(props)
+const { id, haveValue, requiredPass, resolvedRequired, displayLabel, labelClasses, touched, touch } = useFormControl(props)
 
 const isInvalid = computed(() => touched.value && !requiredPass.value)
 
@@ -116,17 +116,17 @@ const defaultError = computed(() =>
 </script>
 
 <template>
-  <div role="group" :aria-labelledby="label ? `${id}-label` : undefined">
+  <div role="group" :aria-labelledby="displayLabel ? `${id}-label` : undefined">
 
     <div
-      v-if="label"
+      v-if="displayLabel"
       :id="`${id}-label`"
       :class="labelClasses"
       style="margin-bottom: 0.25rem;"
     >
-      {{ label }}
+      {{ displayLabel }}
       <i
-        v-if="required"
+        v-if="resolvedRequired"
         :class="['fas fa-asterisk fa-xs ms-1', haveValue ? 'text-success' : 'text-danger']"
       />
     </div>

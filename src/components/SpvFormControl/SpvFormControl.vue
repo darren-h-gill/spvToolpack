@@ -36,7 +36,7 @@ import FormControlSwitch from './internal/FormControlSwitch.vue'
 import FormControlCurrency from './internal/FormControlCurrency.vue'
 import FormControlLookup from './internal/FormControlLookup.vue'
 
-const props = defineProps<{
+const props = withDefaults(defineProps<{
   /** SharePoint field TypeAsString — drives default type and SP-specific behaviour */
   spType?: SpType
 
@@ -56,6 +56,11 @@ const props = defineProps<{
   labelClass?: string
 
   placeholder?: string
+  /**
+   * Marks the field as required, showing an asterisk after the label.
+   * When omitted, inferred from the label: a trailing "*" (e.g. "Name *")
+   * implies required and is stripped from the displayed label text.
+   */
   required?: boolean
   readonly?: boolean
   suppressPrefixIcon?: boolean
@@ -137,7 +142,11 @@ const props = defineProps<{
    * e.g. :must-match="confirmPassword"
    */
   mustMatch?: string | null
-}>()
+}>(), {
+  // Vue casts an absent boolean prop to `false`; an explicit `undefined` default
+  // keeps it truly unset so useFormControl can infer it from the label.
+  required: undefined,
+})
 
 const emit = defineEmits<{
   'update:modelValue': [value: unknown]

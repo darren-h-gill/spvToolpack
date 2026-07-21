@@ -3,6 +3,7 @@ import { isNil } from 'ramda'
 
 export interface UseFormControlOptions {
   modelValue: unknown
+  label?: string
   required?: boolean
   labelClass?: string
 }
@@ -28,8 +29,25 @@ export function useFormControl(props: UseFormControlOptions) {
     return true
   })
 
+  // A trailing "*" on the label is shorthand for "required" — stripped from the
+  // displayed text and used to infer `required` when the prop is left undefined.
+  const labelEndsWithAsterisk = computed<boolean>(() => {
+    const label = props.label?.trimEnd()
+    return !!label && label.endsWith('*')
+  })
+
+  // Explicit `required` prop always wins; otherwise infer from the label.
+  const resolvedRequired = computed<boolean>(() => props.required ?? labelEndsWithAsterisk.value)
+
+  // Label text with the inferred-required "*" stripped — controls render their
+  // own required indicator instead of the raw asterisk character.
+  const displayLabel = computed<string | undefined>(() => {
+    if (!labelEndsWithAsterisk.value) return props.label
+    return props.label!.trimEnd().slice(0, -1).trimEnd()
+  })
+
   // Exposed for parent form validation — true when field is optional OR has a value
-  const requiredPass = computed<boolean>(() => !props.required || haveValue.value)
+  const requiredPass = computed<boolean>(() => !resolvedRequired.value || haveValue.value)
 
   // Label CSS classes — always includes form-label, plus any consumer overrides
   const labelClasses = computed<string[]>(() => {
@@ -45,5 +63,5 @@ export function useFormControl(props: UseFormControlOptions) {
   const touched = ref(false)
   const touch = () => { touched.value = true }
 
-  return { id, haveValue, requiredPass, labelClasses, touched, touch }
+  return { id, haveValue, requiredPass, resolvedRequired, displayLabel, labelClasses, touched, touch }
 }

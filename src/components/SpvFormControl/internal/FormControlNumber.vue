@@ -24,7 +24,7 @@ const emit = defineEmits<{
   'update:modelValue': [value: number | null]
 }>()
 
-const { id, haveValue, requiredPass, labelClasses, touched, touch } = useFormControl(props)
+const { id, haveValue, requiredPass, resolvedRequired, displayLabel, labelClasses, touched, touch } = useFormControl(props)
 
 const isInvalid = computed(() => touched.value && !requiredPass.value)
 
@@ -66,11 +66,11 @@ function onInput(e: Event) {
 <template>
   <FormControlWrapper
     :id="id"
-    :label="label"
+    :label="displayLabel"
     :label-classes="labelClasses"
     icon-class="fa-hashtag"
     :have-value="haveValue"
-    :required="required"
+    :required="resolvedRequired"
     :readonly="readonly"
     :suppress-prefix-icon="suppressPrefixIcon"
     :is-invalid="isInvalid"

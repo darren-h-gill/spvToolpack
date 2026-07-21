@@ -41,7 +41,7 @@ const emit = defineEmits<{
   'search': [query: string]
 }>()
 
-const { id, haveValue, requiredPass, labelClasses, touched, touch } = useFormControl(props)
+const { id, haveValue, requiredPass, resolvedRequired, displayLabel, labelClasses, touched, touch } = useFormControl(props)
 
 const isInvalid = computed(() => touched.value && !requiredPass.value)
 
@@ -207,7 +207,13 @@ function onKeydown(e: KeyboardEvent) {
 
 <template>
   <div>
-    <label v-if="label" :for="id" :class="labelClasses">{{ label }}</label>
+    <label v-if="displayLabel" :for="id" :class="labelClasses">
+      {{ displayLabel }}
+      <i
+        v-if="resolvedRequired"
+        :class="['fas fa-asterisk fa-xs ms-1', haveValue ? 'text-success' : 'text-danger']"
+      />
+    </label>
 
     <div class="input-group" :class="{ 'has-validation': isInvalid }">
 
@@ -237,7 +243,7 @@ function onKeydown(e: KeyboardEvent) {
           class="dropdown-menu show position-absolute w-100 p-0 mb-0"
           style="top: 100%; left: 0; z-index: 1000;"
           role="listbox"
-          :aria-label="label ?? 'Suggestions'"
+          :aria-label="displayLabel ?? 'Suggestions'"
         >
           <li
             v-for="(opt, i) in filteredOptions"
@@ -278,10 +284,6 @@ function onKeydown(e: KeyboardEvent) {
       >
         <i class="fas fa-times" />
       </button>
-
-      <span v-if="required" class="input-group-text">
-        <i :class="['fas fa-asterisk fa-xs', haveValue ? 'text-success' : 'text-danger']" />
-      </span>
 
     </div>
   </div>

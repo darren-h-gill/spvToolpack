@@ -26,7 +26,7 @@ const emit = defineEmits<{
   'update:modelValue': [value: boolean | null]
 }>()
 
-const { id, haveValue, requiredPass, labelClasses, touched, touch } = useFormControl(props)
+const { id, haveValue, requiredPass, resolvedRequired, displayLabel, labelClasses, touched, touch } = useFormControl(props)
 
 const isInvalid = computed(() => touched.value && !requiredPass.value)
 
@@ -58,9 +58,9 @@ const switchValue = computed({
         :disabled="readonly"
       >
       <label :for="id" :class="['form-check-label', ...labelClasses.filter(c => c !== 'form-label')]">
-        {{ label }}
+        {{ displayLabel }}
         <i
-          v-if="required"
+          v-if="resolvedRequired"
           :class="['fas fa-asterisk fa-xs ms-1', haveValue ? 'text-success' : 'text-danger']"
         />
       </label>

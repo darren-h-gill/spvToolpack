@@ -24,7 +24,7 @@ const emit = defineEmits<{
   'update:modelValue': [value: string | null]
 }>()
 
-const { id, haveValue, labelClasses, touched, touch } = useFormControl(props)
+const { id, haveValue, resolvedRequired, displayLabel, labelClasses, touched, touch } = useFormControl(props)
 
 const visible = ref(false)
 // hasInteracted gates checklist visibility — show rules as user types, not just on blur
@@ -86,8 +86,8 @@ const allRulesPassed = computed(() => validationRules.value.every(r => r.passed)
 const hasRules = computed(() => validationRules.value.length > 0)
 
 const requiredPass = computed<boolean>(() => {
-  if (!props.required && !hasRules.value) return true
-  if (props.required && !haveValue.value)  return false
+  if (!resolvedRequired.value && !hasRules.value) return true
+  if (resolvedRequired.value && !haveValue.value)  return false
   return allRulesPassed.value
 })
 
@@ -106,11 +106,11 @@ function onInput(e: Event) {
   <div>
     <FormControlWrapper
       :id="id"
-      :label="label"
+      :label="displayLabel"
       :label-classes="labelClasses"
       icon-class="fa-lock"
       :have-value="allRulesPassed && haveValue"
-      :required="required || hasRules"
+      :required="resolvedRequired || hasRules"
       :readonly="readonly"
       :suppress-prefix-icon="suppressPrefixIcon"
       :is-invalid="isInvalid"

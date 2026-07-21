@@ -24,7 +24,7 @@ const emit = defineEmits<{
   'update:modelValue': [value: unknown]
 }>()
 
-const { id, haveValue, requiredPass, labelClasses, touched, touch } = useFormControl(props)
+const { id, haveValue, requiredPass, resolvedRequired, displayLabel, labelClasses, touched, touch } = useFormControl(props)
 
 const isInvalid = computed(() => touched.value && !requiredPass.value)
 
@@ -97,11 +97,11 @@ function onKeydown(e: KeyboardEvent) {
 <template>
   <FormControlWrapper
     :id="id"
-    :label="label"
+    :label="displayLabel"
     :label-classes="labelClasses"
     icon-class="fa-list-ul"
     :have-value="haveValue"
-    :required="required"
+    :required="resolvedRequired"
     :readonly="readonly"
     :suppress-prefix-icon="suppressPrefixIcon"
     :is-invalid="isInvalid"
@@ -117,7 +117,7 @@ function onKeydown(e: KeyboardEvent) {
       @keydown="onKeydown"
       @blur="touch"
     >
-      <option value="" :disabled="required">
+      <option value="" :disabled="resolvedRequired">
         {{ placeholder ?? 'Choose…' }}
       </option>
       <option

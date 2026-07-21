@@ -33,7 +33,7 @@ const emit = defineEmits<{
   'update:modelValue': [value: number | null]
 }>()
 
-const { id, haveValue, requiredPass, labelClasses, touched, touch } = useFormControl(props)
+const { id, haveValue, requiredPass, resolvedRequired, displayLabel, labelClasses, touched, touch } = useFormControl(props)
 
 const isInvalid = computed(() => touched.value && !requiredPass.value)
 
@@ -86,7 +86,13 @@ function onBlur(e: FocusEvent) {
 
 <template>
   <div>
-    <label v-if="label" :for="id" :class="labelClasses">{{ label }}</label>
+    <label v-if="displayLabel" :for="id" :class="labelClasses">
+      {{ displayLabel }}
+      <i
+        v-if="resolvedRequired"
+        :class="['fas fa-asterisk fa-xs ms-1', haveValue ? 'text-success' : 'text-danger']"
+      />
+    </label>
 
     <div class="input-group" :class="{ 'has-validation': isInvalid }">
       <span class="input-group-text fw-semibold">{{ currencySymbol }}</span>
@@ -110,10 +116,6 @@ function onBlur(e: FocusEvent) {
       <div v-if="isInvalid" class="invalid-feedback">
         {{ errorMessage ?? 'This field is required' }}
       </div>
-
-      <span v-if="required" class="input-group-text">
-        <i :class="['fas fa-asterisk fa-xs', haveValue ? 'text-success' : 'text-danger']" />
-      </span>
     </div>
   </div>
 </template>
