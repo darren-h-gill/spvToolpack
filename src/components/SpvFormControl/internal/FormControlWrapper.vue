@@ -26,10 +26,9 @@ defineProps<{
     <!-- Label -->
     <label v-if="label" :for="id" :class="labelClasses">
       {{ label }}
-      <i
-        v-if="required"
-        :class="['fas fa-asterisk fa-xs ms-1', haveValue ? 'text-success' : 'text-danger']"
-      />
+      <span v-if="required && !haveValue" class="text-danger"><i class="fas fa-asterisk fa-xs ms-1"></i></span>
+      <span v-if="required && haveValue" class="text-success"><i class="fas fa-asterisk fa-xs ms-1"></i></span>
+      
     </label>
 
     <!-- Bootstrap input-group -->
