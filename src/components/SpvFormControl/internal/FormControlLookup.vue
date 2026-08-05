@@ -20,6 +20,7 @@ import { computed, ref, watch, nextTick } from 'vue'
 import { useFormControl } from '../useFormControl'
 import type { TListItem, OptionLabelResolver, SpType } from '../types'
 import { resolveLabel } from '../utils/optionUtils'
+import RequiredIndicator from './RequiredIndicator.vue'
 
 const props = defineProps<{
   modelValue: unknown
@@ -209,10 +210,7 @@ function onKeydown(e: KeyboardEvent) {
   <div>
     <label v-if="displayLabel" :for="id" :class="labelClasses">
       {{ displayLabel }}
-      <i
-        v-if="resolvedRequired"
-        :class="['fas fa-asterisk fa-xs ms-1', haveValue ? 'text-success' : 'text-danger']"
-      />
+      <RequiredIndicator v-if="resolvedRequired" :have-value="haveValue" />
     </label>
 
     <div class="input-group" :class="{ 'has-validation': isInvalid }">

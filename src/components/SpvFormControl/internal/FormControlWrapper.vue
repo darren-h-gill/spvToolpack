@@ -5,6 +5,8 @@
  *
  * Not exported from the library — only used inside SpvFormControl.
  */
+import RequiredIndicator from './RequiredIndicator.vue'
+
 defineProps<{
   id: string
   label?: string
@@ -26,9 +28,7 @@ defineProps<{
     <!-- Label -->
     <label v-if="label" :for="id" :class="labelClasses">
       {{ label }}
-      <span v-if="required && !haveValue" class="text-danger"><i class="fas fa-asterisk fa-xs ms-1"></i></span>
-      <span v-if="required && haveValue" class="text-success"><i class="fas fa-asterisk fa-xs ms-1"></i></span>
-      
+      <RequiredIndicator v-if="required" :have-value="haveValue" />
     </label>
 
     <!-- Bootstrap input-group -->

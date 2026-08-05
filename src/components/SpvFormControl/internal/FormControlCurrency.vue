@@ -9,6 +9,7 @@
 import { computed, ref } from 'vue'
 import { clamp } from 'ramda'
 import { useFormControl } from '../useFormControl'
+import RequiredIndicator from './RequiredIndicator.vue'
 
 const props = withDefaults(defineProps<{
   modelValue: number | null
@@ -88,10 +89,7 @@ function onBlur(e: FocusEvent) {
   <div>
     <label v-if="displayLabel" :for="id" :class="labelClasses">
       {{ displayLabel }}
-      <i
-        v-if="resolvedRequired"
-        :class="['fas fa-asterisk fa-xs ms-1', haveValue ? 'text-success' : 'text-danger']"
-      />
+      <RequiredIndicator v-if="resolvedRequired" :have-value="haveValue" />
     </label>
 
     <div class="input-group" :class="{ 'has-validation': isInvalid }">

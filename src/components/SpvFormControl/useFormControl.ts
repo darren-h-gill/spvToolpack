@@ -26,6 +26,13 @@ export function useFormControl(props: UseFormControlOptions) {
     if (isNil(v)) return false
     if (typeof v === 'string' && v.trim() === '') return false
     if (Array.isArray(v) && v.length === 0) return false
+    if (typeof v === 'object') {
+      // SP multi-value fields arrive as { results: [...] } — empty means unset
+      const results = (v as Record<string, unknown>)['results']
+      if (Array.isArray(results)) return results.length > 0
+      // A bare {} is a placeholder, not a selection
+      return Object.keys(v as object).length > 0
+    }
     return true
   })
 

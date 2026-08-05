@@ -16,6 +16,7 @@ import { computed } from 'vue'
 import { useFormControl } from '../useFormControl'
 import type { TListItem, OptionLabelResolver, SpType } from '../types'
 import { resolveLabel } from '../utils/optionUtils'
+import RequiredIndicator from './RequiredIndicator.vue'
 
 const props = defineProps<{
   modelValue: unknown
@@ -125,10 +126,7 @@ const defaultError = computed(() =>
       style="margin-bottom: 0.25rem;"
     >
       {{ displayLabel }}
-      <i
-        v-if="resolvedRequired"
-        :class="['fas fa-asterisk fa-xs ms-1', haveValue ? 'text-success' : 'text-danger']"
-      />
+      <RequiredIndicator v-if="resolvedRequired" :have-value="haveValue" />
     </div>
 
     <div>

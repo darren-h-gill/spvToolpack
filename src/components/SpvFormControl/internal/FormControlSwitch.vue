@@ -11,6 +11,7 @@
  */
 import { computed } from 'vue'
 import { useFormControl } from '../useFormControl'
+import RequiredIndicator from './RequiredIndicator.vue'
 
 const props = defineProps<{
   modelValue: boolean | null
@@ -59,10 +60,7 @@ const switchValue = computed({
       >
       <label :for="id" :class="['form-check-label', ...labelClasses.filter(c => c !== 'form-label')]">
         {{ displayLabel }}
-        <i
-          v-if="resolvedRequired"
-          :class="['fas fa-asterisk fa-xs ms-1', haveValue ? 'text-success' : 'text-danger']"
-        />
+        <RequiredIndicator v-if="resolvedRequired" :have-value="haveValue" />
       </label>
     </div>
 
