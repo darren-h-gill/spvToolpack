@@ -1,5 +1,5 @@
-import { defineComponent as A, openBlock as d, createElementBlock as p, normalizeClass as T, renderSlot as _, createCommentVNode as S, ref as E, onMounted as oe, onBeforeUnmount as pe, watch as ee, createElementVNode as b, toDisplayString as N, nextTick as fe, Fragment as Z, renderList as G, createTextVNode as X, computed as v, createBlock as J, unref as n, withCtx as j, createVNode as ke, withModifiers as ce, withDirectives as ve, vModelText as be, normalizeStyle as ge, vModelCheckbox as Ve, resolveDynamicComponent as $e, mergeProps as we } from "vue";
-const Ce = /* @__PURE__ */ A({
+import { defineComponent as A, openBlock as d, createElementBlock as v, normalizeClass as B, renderSlot as K, createCommentVNode as I, ref as E, onMounted as re, onBeforeUnmount as ve, watch as ee, createElementVNode as g, toDisplayString as R, nextTick as fe, Fragment as Z, renderList as J, createTextVNode as X, createBlock as _, computed as f, unref as n, withCtx as G, createVNode as Ve, withModifiers as pe, withDirectives as me, vModelText as ge, normalizeStyle as xe, vModelCheckbox as $e, resolveDynamicComponent as we, mergeProps as Ce } from "vue";
+const Te = /* @__PURE__ */ A({
   __name: "SpvAlert",
   props: {
     variant: { default: "primary" },
@@ -7,33 +7,33 @@ const Ce = /* @__PURE__ */ A({
     modelValue: { type: Boolean, default: !0 }
   },
   emits: ["update:modelValue", "dismissed"],
-  setup(l, { emit: i }) {
+  setup(e, { emit: i }) {
     const t = i;
-    function e() {
+    function l() {
       t("update:modelValue", !1), t("dismissed");
     }
-    return (s, a) => l.modelValue ? (d(), p("div", {
+    return (o, a) => e.modelValue ? (d(), v("div", {
       key: 0,
-      class: T(["alert", `alert-${l.variant}`, { "alert-dismissible fade show": l.dismissible }]),
+      class: B(["alert", `alert-${e.variant}`, { "alert-dismissible fade show": e.dismissible }]),
       role: "alert"
     }, [
-      _(s.$slots, "default"),
-      l.dismissible ? (d(), p("button", {
+      K(o.$slots, "default"),
+      e.dismissible ? (d(), v("button", {
         key: 0,
         type: "button",
         class: "btn-close",
         "aria-label": "Close",
-        onClick: e
-      })) : S("", !0)
-    ], 2)) : S("", !0);
+        onClick: l
+      })) : I("", !0)
+    ], 2)) : I("", !0);
   }
-}), Te = { class: "modal-content" }, Be = {
+}), Be = { class: "modal-content" }, Ie = {
   key: 0,
   class: "modal-header"
-}, Ie = { class: "modal-title" }, Pe = { class: "modal-body" }, Se = {
+}, Pe = { class: "modal-title" }, Se = { class: "modal-body" }, qe = {
   key: 1,
   class: "modal-footer"
-}, qe = /* @__PURE__ */ A({
+}, Me = /* @__PURE__ */ A({
   __name: "SpvModal",
   props: {
     modelValue: { type: Boolean },
@@ -44,64 +44,64 @@ const Ce = /* @__PURE__ */ A({
     centered: { type: Boolean, default: !1 }
   },
   emits: ["update:modelValue", "shown", "hidden"],
-  setup(l, { emit: i }) {
-    const t = l, e = i, s = E(null);
+  setup(e, { emit: i }) {
+    const t = e, l = i, o = E(null);
     let a = null;
-    oe(() => {
-      s.value && (a = new window.bootstrap.Modal(s.value, {
+    re(() => {
+      o.value && (a = new window.bootstrap.Modal(o.value, {
         backdrop: t.staticBackdrop ? "static" : !0,
         keyboard: !t.staticBackdrop
-      }), s.value.addEventListener("shown.bs.modal", () => e("shown")), s.value.addEventListener("hidden.bs.modal", () => {
-        e("update:modelValue", !1), e("hidden");
+      }), o.value.addEventListener("shown.bs.modal", () => l("shown")), o.value.addEventListener("hidden.bs.modal", () => {
+        l("update:modelValue", !1), l("hidden");
       }), t.modelValue && a.show());
-    }), pe(() => {
+    }), ve(() => {
       a == null || a.dispose();
     }), ee(() => t.modelValue, (c) => {
       a && (c ? a.show() : a.hide());
     });
-    const f = () => [
+    const p = () => [
       "modal-dialog",
       t.size ? t.size === "fullscreen" ? "modal-fullscreen" : `modal-${t.size}` : "",
       { "modal-dialog-scrollable": t.scrollable },
       { "modal-dialog-centered": t.centered }
     ];
-    return (c, w) => (d(), p("div", {
+    return (c, C) => (d(), v("div", {
       ref_key: "elRef",
-      ref: s,
+      ref: o,
       class: "modal fade",
       tabindex: "-1"
     }, [
-      b("div", {
-        class: T(f())
+      g("div", {
+        class: B(p())
       }, [
-        b("div", Te, [
-          l.title || c.$slots.header ? (d(), p("div", Be, [
-            _(c.$slots, "header", {}, () => [
-              b("h5", Ie, N(l.title), 1)
+        g("div", Be, [
+          e.title || c.$slots.header ? (d(), v("div", Ie, [
+            K(c.$slots, "header", {}, () => [
+              g("h5", Pe, R(e.title), 1)
             ]),
-            b("button", {
+            g("button", {
               type: "button",
               class: "btn-close",
-              onClick: w[0] || (w[0] = (h) => e("update:modelValue", !1))
+              onClick: C[0] || (C[0] = (b) => l("update:modelValue", !1))
             })
-          ])) : S("", !0),
-          b("div", Pe, [
-            _(c.$slots, "default")
+          ])) : I("", !0),
+          g("div", Se, [
+            K(c.$slots, "default")
           ]),
-          c.$slots.footer ? (d(), p("div", Se, [
-            _(c.$slots, "footer")
-          ])) : S("", !0)
+          c.$slots.footer ? (d(), v("div", qe, [
+            K(c.$slots, "footer")
+          ])) : I("", !0)
         ])
       ], 2)
     ], 512));
   }
-}), Me = {
+}), Le = {
   key: 0,
   class: "toast-header"
-}, Le = {
+}, Fe = {
   key: 0,
   class: "me-auto"
-}, Fe = { key: 1 }, De = { class: "toast-body" }, Ne = /* @__PURE__ */ A({
+}, De = { key: 1 }, Re = { class: "toast-body" }, Ne = /* @__PURE__ */ A({
   __name: "SpvToast",
   props: {
     modelValue: { type: Boolean },
@@ -112,45 +112,45 @@ const Ce = /* @__PURE__ */ A({
     delay: { default: 5e3 }
   },
   emits: ["update:modelValue", "shown", "hidden"],
-  setup(l, { emit: i }) {
-    const t = l, e = i, s = E(null);
+  setup(e, { emit: i }) {
+    const t = e, l = i, o = E(null);
     let a = null;
-    return oe(() => {
-      s.value && (a = new window.bootstrap.Toast(s.value, {
+    return re(() => {
+      o.value && (a = new window.bootstrap.Toast(o.value, {
         autohide: t.autohide,
         delay: t.delay
-      }), s.value.addEventListener("shown.bs.toast", () => e("shown")), s.value.addEventListener("hidden.bs.toast", () => {
-        e("update:modelValue", !1), e("hidden");
+      }), o.value.addEventListener("shown.bs.toast", () => l("shown")), o.value.addEventListener("hidden.bs.toast", () => {
+        l("update:modelValue", !1), l("hidden");
       }), t.modelValue && a.show());
-    }), pe(() => {
+    }), ve(() => {
       a == null || a.dispose();
-    }), ee(() => t.modelValue, (f) => {
-      a && (f ? a.show() : a.hide());
-    }), (f, c) => (d(), p("div", {
+    }), ee(() => t.modelValue, (p) => {
+      a && (p ? a.show() : a.hide());
+    }), (p, c) => (d(), v("div", {
       ref_key: "elRef",
-      ref: s,
-      class: T(["toast", l.variant ? `text-bg-${l.variant}` : ""]),
+      ref: o,
+      class: B(["toast", e.variant ? `text-bg-${e.variant}` : ""]),
       role: "alert",
       "aria-live": "assertive",
       "aria-atomic": "true"
     }, [
-      l.title || l.subtitle ? (d(), p("div", Me, [
-        _(f.$slots, "header", {}, () => [
-          l.title ? (d(), p("strong", Le, N(l.title), 1)) : S("", !0),
-          l.subtitle ? (d(), p("small", Fe, N(l.subtitle), 1)) : S("", !0)
+      e.title || e.subtitle ? (d(), v("div", Le, [
+        K(p.$slots, "header", {}, () => [
+          e.title ? (d(), v("strong", Fe, R(e.title), 1)) : I("", !0),
+          e.subtitle ? (d(), v("small", De, R(e.subtitle), 1)) : I("", !0)
         ]),
-        b("button", {
+        g("button", {
           type: "button",
           class: "btn-close",
-          onClick: c[0] || (c[0] = (w) => e("update:modelValue", !1))
+          onClick: c[0] || (c[0] = (C) => l("update:modelValue", !1))
         })
-      ])) : S("", !0),
-      b("div", De, [
-        _(f.$slots, "default")
+      ])) : I("", !0),
+      g("div", Re, [
+        K(p.$slots, "default")
       ])
     ], 2));
   }
-}), Re = { class: "offcanvas-header" }, Oe = { class: "offcanvas-title" }, Ee = { class: "offcanvas-body" }, Ue = /* @__PURE__ */ A({
+}), Oe = { class: "offcanvas-header" }, Ee = { class: "offcanvas-title" }, Ae = { class: "offcanvas-body" }, Ue = /* @__PURE__ */ A({
   __name: "SpvOffcanvas",
   props: {
     modelValue: { type: Boolean },
@@ -160,43 +160,43 @@ const Ce = /* @__PURE__ */ A({
     scroll: { type: Boolean, default: !1 }
   },
   emits: ["update:modelValue", "shown", "hidden"],
-  setup(l, { emit: i }) {
-    const t = l, e = i, s = E(null);
+  setup(e, { emit: i }) {
+    const t = e, l = i, o = E(null);
     let a = null;
-    return oe(() => {
-      s.value && (a = new window.bootstrap.Offcanvas(s.value, {
+    return re(() => {
+      o.value && (a = new window.bootstrap.Offcanvas(o.value, {
         backdrop: t.staticBackdrop ? "static" : !0,
         keyboard: !t.staticBackdrop,
         scroll: t.scroll
-      }), s.value.addEventListener("shown.bs.offcanvas", () => e("shown")), s.value.addEventListener("hidden.bs.offcanvas", () => {
-        e("update:modelValue", !1), e("hidden");
+      }), o.value.addEventListener("shown.bs.offcanvas", () => l("shown")), o.value.addEventListener("hidden.bs.offcanvas", () => {
+        l("update:modelValue", !1), l("hidden");
       }), t.modelValue && a.show());
-    }), pe(() => {
+    }), ve(() => {
       a == null || a.dispose();
-    }), ee(() => t.modelValue, (f) => {
-      a && (f ? a.show() : a.hide());
-    }), (f, c) => (d(), p("div", {
+    }), ee(() => t.modelValue, (p) => {
+      a && (p ? a.show() : a.hide());
+    }), (p, c) => (d(), v("div", {
       ref_key: "elRef",
-      ref: s,
-      class: T(["offcanvas", `offcanvas-${l.placement}`]),
+      ref: o,
+      class: B(["offcanvas", `offcanvas-${e.placement}`]),
       tabindex: "-1"
     }, [
-      b("div", Re, [
-        _(f.$slots, "header", {}, () => [
-          b("h5", Oe, N(l.title), 1)
+      g("div", Oe, [
+        K(p.$slots, "header", {}, () => [
+          g("h5", Ee, R(e.title), 1)
         ]),
-        b("button", {
+        g("button", {
           type: "button",
           class: "btn-close",
-          onClick: c[0] || (c[0] = (w) => e("update:modelValue", !1))
+          onClick: c[0] || (c[0] = (C) => l("update:modelValue", !1))
         })
       ]),
-      b("div", Ee, [
-        _(f.$slots, "default")
+      g("div", Ae, [
+        K(p.$slots, "default")
       ])
     ], 2));
   }
-}), Ae = ["data-bs-toggle", "data-bs-target", "aria-controls", "aria-selected", "onShown"], ze = { class: "tab-content" }, _e = ["id"], Ke = /* @__PURE__ */ A({
+}), _e = ["data-bs-toggle", "data-bs-target", "aria-controls", "aria-selected", "onShown"], ze = { class: "tab-content" }, Ke = ["id"], je = /* @__PURE__ */ A({
   __name: "SpvNavTabs",
   props: {
     modelValue: {},
@@ -204,54 +204,54 @@ const Ce = /* @__PURE__ */ A({
     pills: { type: Boolean, default: !1 }
   },
   emits: ["update:modelValue", "change"],
-  setup(l, { emit: i }) {
-    const t = l, e = i, s = E({});
+  setup(e, { emit: i }) {
+    const t = e, l = i, o = E({});
     function a(c) {
-      const w = s.value[c];
-      if (!w) return;
-      window.bootstrap.Tab.getOrCreateInstance(w).show();
+      const C = o.value[c];
+      if (!C) return;
+      window.bootstrap.Tab.getOrCreateInstance(C).show();
     }
-    oe(() => {
+    re(() => {
       fe(() => a(t.modelValue));
     }), ee(() => t.modelValue, (c) => a(c));
-    function f(c) {
-      e("update:modelValue", c), e("change", c);
+    function p(c) {
+      l("update:modelValue", c), l("change", c);
     }
-    return (c, w) => (d(), p("div", null, [
-      b("ul", {
-        class: T(["nav", l.pills ? "nav-pills" : "nav-tabs"]),
+    return (c, C) => (d(), v("div", null, [
+      g("ul", {
+        class: B(["nav", e.pills ? "nav-pills" : "nav-tabs"]),
         role: "tablist"
       }, [
-        (d(!0), p(Z, null, G(l.tabs, (h) => (d(), p("li", {
-          key: h.key,
+        (d(!0), v(Z, null, J(e.tabs, (b) => (d(), v("li", {
+          key: b.key,
           class: "nav-item",
           role: "presentation"
         }, [
-          b("button", {
+          g("button", {
             ref_for: !0,
-            ref: (k) => {
-              k && (s.value[h.key] = k);
+            ref: (y) => {
+              y && (o.value[b.key] = y);
             },
-            class: T(["nav-link", { active: l.modelValue === h.key, disabled: h.disabled }]),
+            class: B(["nav-link", { active: e.modelValue === b.key, disabled: b.disabled }]),
             type: "button",
             role: "tab",
-            "data-bs-toggle": l.pills ? "pill" : "tab",
-            "data-bs-target": `#tab-pane-${h.key}`,
-            "aria-controls": `tab-pane-${h.key}`,
-            "aria-selected": l.modelValue === h.key,
-            onShown: (k) => f(h.key)
-          }, N(h.label), 43, Ae)
+            "data-bs-toggle": e.pills ? "pill" : "tab",
+            "data-bs-target": `#tab-pane-${b.key}`,
+            "aria-controls": `tab-pane-${b.key}`,
+            "aria-selected": e.modelValue === b.key,
+            onShown: (y) => p(b.key)
+          }, R(b.label), 43, _e)
         ]))), 128))
       ], 2),
-      b("div", ze, [
-        (d(!0), p(Z, null, G(l.tabs, (h) => (d(), p("div", {
-          id: `tab-pane-${h.key}`,
-          key: h.key,
-          class: T(["tab-pane", "fade", { "show active": l.modelValue === h.key }]),
+      g("div", ze, [
+        (d(!0), v(Z, null, J(e.tabs, (b) => (d(), v("div", {
+          id: `tab-pane-${b.key}`,
+          key: b.key,
+          class: B(["tab-pane", "fade", { "show active": e.modelValue === b.key }]),
           role: "tabpanel"
         }, [
-          _(c.$slots, h.key)
-        ], 10, _e))), 128))
+          K(c.$slots, b.key)
+        ], 10, Ke))), 128))
       ])
     ]));
   }
@@ -275,19 +275,34 @@ const Ce = /* @__PURE__ */ A({
   // always readonly
   TaxonomyFieldType: "select",
   TaxonomyFieldTypeMulti: "lookupMulti"
-}, je = {
+}, Ze = {
   Text: 255
   // SP enforces 255 char limit on single-line text fields
-}, Ze = ["for"], Ge = {
+}, Ge = {
   key: 0,
   class: "text-danger"
 }, Je = {
   key: 1,
   class: "text-success"
-}, He = {
+}, te = /* @__PURE__ */ A({
+  __name: "RequiredIndicator",
+  props: {
+    haveValue: { type: Boolean }
+  },
+  setup(e) {
+    return (i, t) => (d(), v(Z, null, [
+      e.haveValue ? I("", !0) : (d(), v("span", Ge, [...t[0] || (t[0] = [
+        g("i", { class: "fas fa-asterisk fa-xs ms-1" }, null, -1)
+      ])])),
+      e.haveValue ? (d(), v("span", Je, [...t[1] || (t[1] = [
+        g("i", { class: "fas fa-asterisk fa-xs ms-1" }, null, -1)
+      ])])) : I("", !0)
+    ], 64));
+  }
+}), He = ["for"], We = {
   key: 0,
   class: "input-group-text"
-}, We = {
+}, Xe = {
   key: 1,
   class: "invalid-feedback"
 }, H = /* @__PURE__ */ A({
@@ -304,123 +319,126 @@ const Ce = /* @__PURE__ */ A({
     isInvalid: { type: Boolean },
     errorMessage: {}
   },
-  setup(l) {
-    return (i, t) => (d(), p("div", null, [
-      l.label ? (d(), p("label", {
+  setup(e) {
+    return (i, t) => (d(), v("div", null, [
+      e.label ? (d(), v("label", {
         key: 0,
-        for: l.id,
-        class: T(l.labelClasses)
+        for: e.id,
+        class: B(e.labelClasses)
       }, [
-        X(N(l.label) + " ", 1),
-        l.required && !l.haveValue ? (d(), p("span", Ge, [...t[0] || (t[0] = [
-          b("i", { class: "fas fa-asterisk fa-xs ms-1" }, null, -1)
-        ])])) : S("", !0),
-        l.required && l.haveValue ? (d(), p("span", Je, [...t[1] || (t[1] = [
-          b("i", { class: "fas fa-asterisk fa-xs ms-1" }, null, -1)
-        ])])) : S("", !0)
-      ], 10, Ze)) : S("", !0),
-      b("div", {
-        class: T(["input-group", { "has-validation": l.isInvalid }])
+        X(R(e.label) + " ", 1),
+        e.required ? (d(), _(te, {
+          key: 0,
+          "have-value": e.haveValue
+        }, null, 8, ["have-value"])) : I("", !0)
+      ], 10, He)) : I("", !0),
+      g("div", {
+        class: B(["input-group", { "has-validation": e.isInvalid }])
       }, [
-        !l.suppressPrefixIcon && l.iconClass ? (d(), p("span", He, [
-          b("i", {
-            class: T(["fas", l.iconClass])
+        !e.suppressPrefixIcon && e.iconClass ? (d(), v("span", We, [
+          g("i", {
+            class: B(["fas", e.iconClass])
           }, null, 2)
-        ])) : S("", !0),
-        _(i.$slots, "default"),
-        l.isInvalid && l.errorMessage ? (d(), p("div", We, N(l.errorMessage), 1)) : S("", !0),
-        _(i.$slots, "suffix")
+        ])) : I("", !0),
+        K(i.$slots, "default"),
+        e.isInvalid && e.errorMessage ? (d(), v("div", Xe, R(e.errorMessage), 1)) : I("", !0),
+        K(i.$slots, "suffix")
       ], 2)
     ]));
   }
 });
-function O(l) {
-  return l != null && typeof l == "object" && l["@@functional/placeholder"] === !0;
+function O(e) {
+  return e != null && typeof e == "object" && e["@@functional/placeholder"] === !0;
 }
-function W(l) {
+function W(e) {
   return function i(t) {
-    return arguments.length === 0 || O(t) ? i : l.apply(this, arguments);
+    return arguments.length === 0 || O(t) ? i : e.apply(this, arguments);
   };
 }
-function le(l) {
-  return function i(t, e) {
+function le(e) {
+  return function i(t, l) {
     switch (arguments.length) {
       case 0:
         return i;
       case 1:
-        return O(t) ? i : W(function(s) {
-          return l(t, s);
+        return O(t) ? i : W(function(o) {
+          return e(t, o);
         });
       default:
-        return O(t) && O(e) ? i : O(t) ? W(function(s) {
-          return l(s, e);
-        }) : O(e) ? W(function(s) {
-          return l(t, s);
-        }) : l(t, e);
+        return O(t) && O(l) ? i : O(t) ? W(function(o) {
+          return e(o, l);
+        }) : O(l) ? W(function(o) {
+          return e(t, o);
+        }) : e(t, l);
     }
   };
 }
-function Xe(l) {
-  return function i(t, e, s) {
+function Qe(e) {
+  return function i(t, l, o) {
     switch (arguments.length) {
       case 0:
         return i;
       case 1:
-        return O(t) ? i : le(function(a, f) {
-          return l(t, a, f);
+        return O(t) ? i : le(function(a, p) {
+          return e(t, a, p);
         });
       case 2:
-        return O(t) && O(e) ? i : O(t) ? le(function(a, f) {
-          return l(a, e, f);
-        }) : O(e) ? le(function(a, f) {
-          return l(t, a, f);
+        return O(t) && O(l) ? i : O(t) ? le(function(a, p) {
+          return e(a, l, p);
+        }) : O(l) ? le(function(a, p) {
+          return e(t, a, p);
         }) : W(function(a) {
-          return l(t, e, a);
+          return e(t, l, a);
         });
       default:
-        return O(t) && O(e) && O(s) ? i : O(t) && O(e) ? le(function(a, f) {
-          return l(a, f, s);
-        }) : O(t) && O(s) ? le(function(a, f) {
-          return l(a, e, f);
-        }) : O(e) && O(s) ? le(function(a, f) {
-          return l(t, a, f);
+        return O(t) && O(l) && O(o) ? i : O(t) && O(l) ? le(function(a, p) {
+          return e(a, p, o);
+        }) : O(t) && O(o) ? le(function(a, p) {
+          return e(a, l, p);
+        }) : O(l) && O(o) ? le(function(a, p) {
+          return e(t, a, p);
         }) : O(t) ? W(function(a) {
-          return l(a, e, s);
-        }) : O(e) ? W(function(a) {
-          return l(t, a, s);
-        }) : O(s) ? W(function(a) {
-          return l(t, e, a);
-        }) : l(t, e, s);
+          return e(a, l, o);
+        }) : O(l) ? W(function(a) {
+          return e(t, a, o);
+        }) : O(o) ? W(function(a) {
+          return e(t, l, a);
+        }) : e(t, l, o);
     }
   };
 }
 var Q = /* @__PURE__ */ W(function(i) {
   return i == null;
-}), me = /* @__PURE__ */ Xe(function(i, t, e) {
+}), ye = /* @__PURE__ */ Qe(function(i, t, l) {
   if (i > t)
     throw new Error("min must not be greater than max in clamp(min, max, value)");
-  return e < i ? i : e > t ? t : e;
+  return l < i ? i : l > t ? t : l;
 });
-function Qe() {
+function el() {
   return typeof crypto < "u" && crypto.randomUUID ? `spv-fc-${crypto.randomUUID()}` : `spv-fc-${Math.random().toString(36).slice(2)}`;
 }
-function z(l) {
-  const i = Qe(), t = v(() => {
-    const k = l.modelValue;
-    return !(Q(k) || typeof k == "string" && k.trim() === "" || Array.isArray(k) && k.length === 0);
-  }), e = v(() => {
-    var B;
-    const k = (B = l.label) == null ? void 0 : B.trimEnd();
-    return !!k && k.endsWith("*");
-  }), s = v(() => l.required ?? e.value), a = v(() => e.value ? l.label.trimEnd().slice(0, -1).trimEnd() : l.label), f = v(() => !s.value || t.value), c = v(() => {
-    const k = ["form-label"];
-    return l.labelClass && k.push(...l.labelClass.split(/\s+/).filter(Boolean)), k;
-  }), w = E(!1);
-  return { id: i, haveValue: t, requiredPass: f, resolvedRequired: s, displayLabel: a, labelClasses: c, touched: w, touch: () => {
-    w.value = !0;
+function z(e) {
+  const i = el(), t = f(() => {
+    const y = e.modelValue;
+    if (Q(y) || typeof y == "string" && y.trim() === "" || Array.isArray(y) && y.length === 0) return !1;
+    if (typeof y == "object") {
+      const w = y.results;
+      return Array.isArray(w) ? w.length > 0 : Object.keys(y).length > 0;
+    }
+    return !0;
+  }), l = f(() => {
+    var w;
+    const y = (w = e.label) == null ? void 0 : w.trimEnd();
+    return !!y && y.endsWith("*");
+  }), o = f(() => e.required ?? l.value), a = f(() => l.value ? e.label.trimEnd().slice(0, -1).trimEnd() : e.label), p = f(() => !o.value || t.value), c = f(() => {
+    const y = ["form-label"];
+    return e.labelClass && y.push(...e.labelClass.split(/\s+/).filter(Boolean)), y;
+  }), C = E(!1);
+  return { id: i, haveValue: t, requiredPass: p, resolvedRequired: o, displayLabel: a, labelClasses: c, touched: C, touch: () => {
+    C.value = !0;
   } };
 }
-const el = [
+const ll = [
   "label",
   "title",
   "Title",
@@ -432,19 +450,19 @@ const el = [
   "Text",
   "display"
 ];
-function ae(l, i) {
-  if (typeof l == "string") return l;
-  if (typeof l == "number") return String(l);
-  if (typeof i == "function") return i(l);
+function ne(e, i) {
+  if (typeof e == "string") return e;
+  if (typeof e == "number") return String(e);
+  if (typeof i == "function") return i(e);
   if (typeof i == "string") {
-    const t = l[i];
+    const t = e[i];
     return t != null ? String(t) : "";
   }
-  for (const t of el)
-    if (t in l && l[t] != null) return String(l[t]);
-  return JSON.stringify(l);
+  for (const t of ll)
+    if (t in e && e[t] != null) return String(e[t]);
+  return JSON.stringify(e);
 }
-const ll = ["id", "value", "placeholder", "readonly", "maxlength", "list"], tl = ["id"], al = ["value"], nl = /* @__PURE__ */ A({
+const tl = ["id", "value", "placeholder", "readonly", "maxlength", "list"], al = ["id"], nl = ["value"], ol = /* @__PURE__ */ A({
   __name: "FormControlText",
   props: {
     modelValue: { default: null },
@@ -461,76 +479,76 @@ const ll = ["id", "value", "placeholder", "readonly", "maxlength", "list"], tl =
     errorMessage: {}
   },
   emits: ["update:modelValue"],
-  setup(l, { expose: i, emit: t }) {
-    const e = l, s = t, { id: a, haveValue: f, requiredPass: c, resolvedRequired: w, displayLabel: h, labelClasses: k, touched: B, touch: m } = z(e), g = E(!0), V = v(() => {
+  setup(e, { expose: i, emit: t }) {
+    const l = e, o = t, { id: a, haveValue: p, requiredPass: c, resolvedRequired: C, displayLabel: b, labelClasses: y, touched: w, touch: m } = z(l), x = E(!0), V = f(() => {
       const u = c.value;
-      return !e.optionStrict || !B.value ? u : u && (f.value ? g.value : !0);
-    }), I = v(() => B.value && !V.value);
+      return !l.optionStrict || !w.value ? u : u && (p.value ? x.value : !0);
+    }), P = f(() => w.value && !V.value);
     i({ requiredPass: V, touch: m });
-    const $ = v(() => {
+    const $ = f(() => {
       var u;
-      return (u = e.options) != null && u.length ? `${a}-list` : void 0;
-    }), q = v(() => {
+      return (u = l.options) != null && u.length ? `${a}-list` : void 0;
+    }), q = f(() => {
       var u;
-      return (u = e.options) != null && u.length ? e.options.map((r) => ae(r, e.optionLabel)) : [];
+      return (u = l.options) != null && u.length ? l.options.map((r) => ne(r, l.optionLabel)) : [];
     });
     function M(u) {
       const r = u.target.value;
-      s("update:modelValue", r === "" ? null : r);
+      o("update:modelValue", r === "" ? null : r);
     }
-    function P(u) {
+    function S(u) {
       var U;
-      if (m(), !e.optionStrict || !((U = e.options) != null && U.length)) return;
-      const r = u.target, o = r.value;
-      if (!o) {
-        g.value = !0;
+      if (m(), !l.optionStrict || !((U = l.options) != null && U.length)) return;
+      const r = u.target, s = r.value;
+      if (!s) {
+        x.value = !0;
         return;
       }
-      const y = o.toLowerCase(), F = q.value.find((K) => K.toLowerCase() === y);
-      F ? (g.value = !0, F !== o && (r.value = F, s("update:modelValue", F))) : (g.value = !1, r.value = "", s("update:modelValue", null));
+      const h = s.toLowerCase(), F = q.value.find((j) => j.toLowerCase() === h);
+      F ? (x.value = !0, F !== s && (r.value = F, o("update:modelValue", F))) : (x.value = !1, r.value = "", o("update:modelValue", null));
     }
-    return (u, r) => (d(), J(H, {
+    return (u, r) => (d(), _(H, {
       id: n(a),
-      label: n(h),
-      "label-classes": n(k),
+      label: n(b),
+      "label-classes": n(y),
       "icon-class": "fa-font",
-      "have-value": n(f),
-      required: n(w),
-      readonly: l.readonly,
-      "suppress-prefix-icon": l.suppressPrefixIcon,
-      "is-invalid": I.value,
-      "error-message": l.errorMessage ?? "This field is required"
+      "have-value": n(p),
+      required: n(C),
+      readonly: e.readonly,
+      "suppress-prefix-icon": e.suppressPrefixIcon,
+      "is-invalid": P.value,
+      "error-message": e.errorMessage ?? "This field is required"
     }, {
-      default: j(() => [
-        b("input", {
+      default: G(() => [
+        g("input", {
           id: n(a),
           type: "text",
-          class: T(["form-control", { "is-invalid": I.value }]),
-          value: l.modelValue ?? "",
-          placeholder: l.placeholder,
-          readonly: l.readonly,
-          maxlength: l.maxlength,
+          class: B(["form-control", { "is-invalid": P.value }]),
+          value: e.modelValue ?? "",
+          placeholder: e.placeholder,
+          readonly: e.readonly,
+          maxlength: e.maxlength,
           list: $.value,
           onInput: M,
-          onBlur: P
-        }, null, 42, ll),
-        $.value ? (d(), p("datalist", {
+          onBlur: S
+        }, null, 42, tl),
+        $.value ? (d(), v("datalist", {
           key: 0,
           id: $.value
         }, [
-          (d(!0), p(Z, null, G(q.value, (o) => (d(), p("option", {
-            key: o,
-            value: o
-          }, null, 8, al))), 128))
-        ], 8, tl)) : S("", !0)
+          (d(!0), v(Z, null, J(q.value, (s) => (d(), v("option", {
+            key: s,
+            value: s
+          }, null, 8, nl))), 128))
+        ], 8, al)) : I("", !0)
       ]),
       _: 1
     }, 8, ["id", "label", "label-classes", "have-value", "required", "readonly", "suppress-prefix-icon", "is-invalid", "error-message"]));
   }
-}), sl = ["id", "type", "value", "placeholder", "readonly"], ol = ["title", "aria-label", "aria-pressed"], rl = {
+}), sl = ["id", "type", "value", "placeholder", "readonly"], rl = ["title", "aria-label", "aria-pressed"], ul = {
   key: 0,
   class: "list-unstyled mt-1 mb-0 small ps-1"
-}, ul = /* @__PURE__ */ A({
+}, il = /* @__PURE__ */ A({
   __name: "FormControlPassword",
   props: {
     modelValue: { default: null },
@@ -547,98 +565,98 @@ const ll = ["id", "value", "placeholder", "readonly", "maxlength", "list"], tl =
     errorMessage: {}
   },
   emits: ["update:modelValue"],
-  setup(l, { expose: i, emit: t }) {
-    const e = l, s = t, { id: a, haveValue: f, resolvedRequired: c, displayLabel: w, labelClasses: h, touched: k, touch: B } = z(e), m = E(!1), g = E(!1);
+  setup(e, { expose: i, emit: t }) {
+    const l = e, o = t, { id: a, haveValue: p, resolvedRequired: c, displayLabel: C, labelClasses: b, touched: y, touch: w } = z(l), m = E(!1), x = E(!1);
     function V(r) {
       return /^\d+$/.test(r) ? "At least one number (0–9)" : /^[a-z]+$/i.test(r) ? "At least one letter" : r.length <= 12 ? `At least one of: ${r}` : "At least one special character";
     }
-    const I = v(() => {
-      var y;
-      const r = e.modelValue ?? "", o = [];
-      return e.minLength && o.push({
+    const P = f(() => {
+      var h;
+      const r = l.modelValue ?? "", s = [];
+      return l.minLength && s.push({
         key: "minLength",
-        label: `At least ${e.minLength} character${e.minLength === 1 ? "" : "s"}`,
-        passed: r.length >= e.minLength
-      }), e.mixedCase && o.push({
+        label: `At least ${l.minLength} character${l.minLength === 1 ? "" : "s"}`,
+        passed: r.length >= l.minLength
+      }), l.mixedCase && s.push({
         key: "mixedCase",
         label: "Upper and lowercase letters",
         passed: /[a-z]/.test(r) && /[A-Z]/.test(r)
-      }), (y = e.requiredCharacters) == null || y.forEach((F, U) => {
-        o.push({
+      }), (h = l.requiredCharacters) == null || h.forEach((F, U) => {
+        s.push({
           key: `chars-${U}`,
           label: V(F),
-          passed: [...F].some((K) => r.includes(K))
+          passed: [...F].some((j) => r.includes(j))
         });
-      }), e.mustMatch !== void 0 && o.push({
+      }), l.mustMatch !== void 0 && s.push({
         key: "mustMatch",
         label: "Passwords match",
-        passed: r.length > 0 && r === (e.mustMatch ?? "")
-      }), o;
-    }), $ = v(() => I.value.every((r) => r.passed)), q = v(() => I.value.length > 0), M = v(() => !c.value && !q.value ? !0 : c.value && !f.value ? !1 : $.value), P = v(() => k.value && !M.value);
-    i({ requiredPass: M, touch: B });
+        passed: r.length > 0 && r === (l.mustMatch ?? "")
+      }), s;
+    }), $ = f(() => P.value.every((r) => r.passed)), q = f(() => P.value.length > 0), M = f(() => !c.value && !q.value ? !0 : c.value && !p.value ? !1 : $.value), S = f(() => y.value && !M.value);
+    i({ requiredPass: M, touch: w });
     function u(r) {
-      g.value = !0;
-      const o = r.target.value;
-      s("update:modelValue", o === "" ? null : o);
+      x.value = !0;
+      const s = r.target.value;
+      o("update:modelValue", s === "" ? null : s);
     }
-    return (r, o) => (d(), p("div", null, [
-      ke(H, {
+    return (r, s) => (d(), v("div", null, [
+      Ve(H, {
         id: n(a),
-        label: n(w),
-        "label-classes": n(h),
+        label: n(C),
+        "label-classes": n(b),
         "icon-class": "fa-lock",
-        "have-value": $.value && n(f),
+        "have-value": $.value && n(p),
         required: n(c) || q.value,
-        readonly: l.readonly,
-        "suppress-prefix-icon": l.suppressPrefixIcon,
-        "is-invalid": P.value,
-        "error-message": l.errorMessage ?? "This field is required"
+        readonly: e.readonly,
+        "suppress-prefix-icon": e.suppressPrefixIcon,
+        "is-invalid": S.value,
+        "error-message": e.errorMessage ?? "This field is required"
       }, {
-        suffix: j(() => [
-          b("button", {
+        suffix: G(() => [
+          g("button", {
             type: "button",
             class: "btn btn-outline-secondary",
             title: m.value ? "Hide password" : "Show password",
             "aria-label": m.value ? "Hide password" : "Show password",
             "aria-pressed": m.value,
             tabindex: "-1",
-            onClick: o[1] || (o[1] = (y) => m.value = !m.value)
+            onClick: s[1] || (s[1] = (h) => m.value = !m.value)
           }, [
-            b("i", {
-              class: T(["fas", m.value ? "fa-eye-slash" : "fa-eye"])
+            g("i", {
+              class: B(["fas", m.value ? "fa-eye-slash" : "fa-eye"])
             }, null, 2)
-          ], 8, ol)
+          ], 8, rl)
         ]),
-        default: j(() => [
-          b("input", {
+        default: G(() => [
+          g("input", {
             id: n(a),
             type: m.value ? "text" : "password",
-            class: T(["form-control", { "is-invalid": P.value }]),
-            value: l.modelValue ?? "",
-            placeholder: l.placeholder,
-            readonly: l.readonly,
+            class: B(["form-control", { "is-invalid": S.value }]),
+            value: e.modelValue ?? "",
+            placeholder: e.placeholder,
+            readonly: e.readonly,
             autocomplete: "current-password",
             onInput: u,
-            onBlur: o[0] || (o[0] = //@ts-ignore
-            (...y) => n(B) && n(B)(...y))
+            onBlur: s[0] || (s[0] = //@ts-ignore
+            (...h) => n(w) && n(w)(...h))
           }, null, 42, sl)
         ]),
         _: 1
       }, 8, ["id", "label", "label-classes", "have-value", "required", "readonly", "suppress-prefix-icon", "is-invalid", "error-message"]),
-      q.value && g.value ? (d(), p("ul", rl, [
-        (d(!0), p(Z, null, G(I.value, (y) => (d(), p("li", {
-          key: y.key,
-          class: T(y.passed ? "text-success" : "text-danger")
+      q.value && x.value ? (d(), v("ul", ul, [
+        (d(!0), v(Z, null, J(P.value, (h) => (d(), v("li", {
+          key: h.key,
+          class: B(h.passed ? "text-success" : "text-danger")
         }, [
-          b("i", {
-            class: T(["fas fa-xs me-1", y.passed ? "fa-check" : "fa-times"])
+          g("i", {
+            class: B(["fas fa-xs me-1", h.passed ? "fa-check" : "fa-times"])
           }, null, 2),
-          X(" " + N(y.label), 1)
+          X(" " + R(h.label), 1)
         ], 2))), 128))
-      ])) : S("", !0)
+      ])) : I("", !0)
     ]));
   }
-}), il = ["id", "value", "placeholder", "readonly", "min", "max", "step"], dl = /* @__PURE__ */ A({
+}), dl = ["id", "value", "placeholder", "readonly", "min", "max", "step"], cl = /* @__PURE__ */ A({
   __name: "FormControlNumber",
   props: {
     modelValue: { default: null },
@@ -654,58 +672,58 @@ const ll = ["id", "value", "placeholder", "readonly", "maxlength", "list"], tl =
     errorMessage: {}
   },
   emits: ["update:modelValue"],
-  setup(l, { expose: i, emit: t }) {
-    const e = l, s = t, { id: a, haveValue: f, requiredPass: c, resolvedRequired: w, displayLabel: h, labelClasses: k, touched: B, touch: m } = z(e), g = v(() => B.value && !c.value);
+  setup(e, { expose: i, emit: t }) {
+    const l = e, o = t, { id: a, haveValue: p, requiredPass: c, resolvedRequired: C, displayLabel: b, labelClasses: y, touched: w, touch: m } = z(l), x = f(() => w.value && !c.value);
     i({ requiredPass: c, touch: m });
-    const V = E(null), I = v(() => Q(e.modelValue) ? "" : String(e.modelValue));
+    const V = E(null), P = f(() => Q(l.modelValue) ? "" : String(l.modelValue));
     function $(q) {
       const M = q.target.value;
       if (M === "" || M === "-") {
-        s("update:modelValue", null);
+        o("update:modelValue", null);
         return;
       }
-      const P = parseFloat(M);
-      if (isNaN(P)) {
-        V.value && (V.value.value = I.value);
+      const S = parseFloat(M);
+      if (isNaN(S)) {
+        V.value && (V.value.value = P.value);
         return;
       }
-      const u = Q(e.min) ? Number.NEGATIVE_INFINITY : e.min, r = Q(e.max) ? Number.POSITIVE_INFINITY : e.max, o = me(u, r, P);
-      o !== P && V.value && (V.value.value = String(o)), s("update:modelValue", o);
+      const u = Q(l.min) ? Number.NEGATIVE_INFINITY : l.min, r = Q(l.max) ? Number.POSITIVE_INFINITY : l.max, s = ye(u, r, S);
+      s !== S && V.value && (V.value.value = String(s)), o("update:modelValue", s);
     }
-    return (q, M) => (d(), J(H, {
+    return (q, M) => (d(), _(H, {
       id: n(a),
-      label: n(h),
-      "label-classes": n(k),
+      label: n(b),
+      "label-classes": n(y),
       "icon-class": "fa-hashtag",
-      "have-value": n(f),
-      required: n(w),
-      readonly: l.readonly,
-      "suppress-prefix-icon": l.suppressPrefixIcon,
-      "is-invalid": g.value,
-      "error-message": l.errorMessage ?? "This field is required"
+      "have-value": n(p),
+      required: n(C),
+      readonly: e.readonly,
+      "suppress-prefix-icon": e.suppressPrefixIcon,
+      "is-invalid": x.value,
+      "error-message": e.errorMessage ?? "This field is required"
     }, {
-      default: j(() => [
-        b("input", {
+      default: G(() => [
+        g("input", {
           id: n(a),
           ref_key: "inputRef",
           ref: V,
           type: "number",
-          class: T(["form-control", { "is-invalid": g.value }]),
-          value: I.value,
-          placeholder: l.placeholder,
-          readonly: l.readonly,
-          min: l.min,
-          max: l.max,
-          step: l.step,
+          class: B(["form-control", { "is-invalid": x.value }]),
+          value: P.value,
+          placeholder: e.placeholder,
+          readonly: e.readonly,
+          min: e.min,
+          max: e.max,
+          step: e.step,
           onInput: $,
           onBlur: M[0] || (M[0] = //@ts-ignore
-          (...P) => n(m) && n(m)(...P))
-        }, null, 42, il)
+          (...S) => n(m) && n(m)(...S))
+        }, null, 42, dl)
       ]),
       _: 1
     }, 8, ["id", "label", "label-classes", "have-value", "required", "readonly", "suppress-prefix-icon", "is-invalid", "error-message"]));
   }
-}), cl = ["id", "value", "placeholder", "readonly", "min", "max"], pl = /* @__PURE__ */ A({
+}), pl = ["id", "value", "placeholder", "readonly", "min", "max"], vl = /* @__PURE__ */ A({
   __name: "FormControlPercent",
   props: {
     modelValue: { default: null },
@@ -720,86 +738,86 @@ const ll = ["id", "value", "placeholder", "readonly", "maxlength", "list"], tl =
     errorMessage: {}
   },
   emits: ["update:modelValue"],
-  setup(l, { expose: i, emit: t }) {
-    const e = l, s = t, { id: a, haveValue: f, requiredPass: c, resolvedRequired: w, displayLabel: h, labelClasses: k, touched: B, touch: m } = z(e), g = v(() => B.value && !c.value);
+  setup(e, { expose: i, emit: t }) {
+    const l = e, o = t, { id: a, haveValue: p, requiredPass: c, resolvedRequired: C, displayLabel: b, labelClasses: y, touched: w, touch: m } = z(l), x = f(() => w.value && !c.value);
     i({ requiredPass: c, touch: m });
     const V = E(null);
-    function I(u) {
-      const r = u.toString(), o = r.indexOf(".");
-      return o > -1 ? r.length - o - 1 : 0;
+    function P(u) {
+      const r = u.toString(), s = r.indexOf(".");
+      return s > -1 ? r.length - s - 1 : 0;
     }
     function $(u) {
-      const r = I(u), o = u * 100;
-      return I(o) > r + 2 ? parseFloat(o.toFixed(r)).toString() : o.toString();
+      const r = P(u), s = u * 100;
+      return P(s) > r + 2 ? parseFloat(s.toFixed(r)).toString() : s.toString();
     }
     function q(u) {
-      const r = I(u), o = u / 100;
-      return parseFloat(o.toFixed(r + 2));
+      const r = P(u), s = u / 100;
+      return parseFloat(s.toFixed(r + 2));
     }
-    const M = v(() => Q(e.modelValue) ? "" : $(e.modelValue));
-    function P(u) {
+    const M = f(() => Q(l.modelValue) ? "" : $(l.modelValue));
+    function S(u) {
       const r = u.target.value;
       if (r === "" || r === "-") {
-        s("update:modelValue", null);
+        o("update:modelValue", null);
         return;
       }
-      const o = parseFloat(r);
-      if (isNaN(o)) {
+      const s = parseFloat(r);
+      if (isNaN(s)) {
         V.value && (V.value.value = M.value);
         return;
       }
-      const y = Q(e.min) ? Number.NEGATIVE_INFINITY : e.min, F = Q(e.max) ? Number.POSITIVE_INFINITY : e.max, U = me(y, F, o);
-      U !== o && V.value && (V.value.value = String(U)), s("update:modelValue", q(U));
+      const h = Q(l.min) ? Number.NEGATIVE_INFINITY : l.min, F = Q(l.max) ? Number.POSITIVE_INFINITY : l.max, U = ye(h, F, s);
+      U !== s && V.value && (V.value.value = String(U)), o("update:modelValue", q(U));
     }
-    return (u, r) => (d(), J(H, {
+    return (u, r) => (d(), _(H, {
       id: n(a),
-      label: n(h),
-      "label-classes": n(k),
+      label: n(b),
+      "label-classes": n(y),
       "icon-class": "fa-percent",
-      "have-value": n(f),
-      required: n(w),
-      readonly: l.readonly,
-      "suppress-prefix-icon": l.suppressPrefixIcon,
-      "is-invalid": g.value,
-      "error-message": l.errorMessage ?? "This field is required"
+      "have-value": n(p),
+      required: n(C),
+      readonly: e.readonly,
+      "suppress-prefix-icon": e.suppressPrefixIcon,
+      "is-invalid": x.value,
+      "error-message": e.errorMessage ?? "This field is required"
     }, {
-      default: j(() => [
-        b("input", {
+      default: G(() => [
+        g("input", {
           id: n(a),
           ref_key: "inputRef",
           ref: V,
           type: "number",
-          class: T(["form-control", { "is-invalid": g.value }]),
+          class: B(["form-control", { "is-invalid": x.value }]),
           value: M.value,
-          placeholder: l.placeholder,
-          readonly: l.readonly,
-          min: l.min,
-          max: l.max,
-          onInput: P,
+          placeholder: e.placeholder,
+          readonly: e.readonly,
+          min: e.min,
+          max: e.max,
+          onInput: S,
           onBlur: r[0] || (r[0] = //@ts-ignore
-          (...o) => n(m) && n(m)(...o))
-        }, null, 42, cl)
+          (...s) => n(m) && n(m)(...s))
+        }, null, 42, pl)
       ]),
       _: 1
     }, 8, ["id", "label", "label-classes", "have-value", "required", "readonly", "suppress-prefix-icon", "is-invalid", "error-message"]));
   }
 });
-function ye() {
+function he() {
   return Intl.DateTimeFormat().resolvedOptions().timeZone;
 }
-function fl(l, i) {
-  const t = new Date(l.toLocaleString("en-US", { timeZone: "UTC" })), e = new Date(l.toLocaleString("en-US", { timeZone: i }));
-  return (t.getTime() - e.getTime()) / 6e4;
+function fl(e, i) {
+  const t = new Date(e.toLocaleString("en-US", { timeZone: "UTC" })), l = new Date(e.toLocaleString("en-US", { timeZone: i }));
+  return (t.getTime() - l.getTime()) / 6e4;
 }
-function ie(l) {
-  return l ? l.substring(0, 10) : "";
+function de(e) {
+  return e ? e.substring(0, 10) : "";
 }
-function vl(l) {
-  return l ? `${l}T00:00:00Z` : null;
+function ml(e) {
+  return e ? `${e}T00:00:00Z` : null;
 }
-function de(l, i) {
-  if (!l) return "";
-  const t = i ?? ye(), e = new Date(l), s = new Intl.DateTimeFormat("en-CA", {
+function ce(e, i) {
+  if (!e) return "";
+  const t = i ?? he(), l = new Date(e), o = new Intl.DateTimeFormat("en-CA", {
     timeZone: t,
     year: "numeric",
     month: "2-digit",
@@ -807,17 +825,17 @@ function de(l, i) {
     hour: "2-digit",
     minute: "2-digit",
     hour12: !1
-  }).formatToParts(e), a = {};
-  return s.forEach(({ type: f, value: c }) => {
-    a[f] = c;
+  }).formatToParts(l), a = {};
+  return o.forEach(({ type: p, value: c }) => {
+    a[p] = c;
   }), `${a.year}-${a.month}-${a.day}T${a.hour}:${a.minute}`;
 }
-function ml(l, i) {
-  if (!l) return null;
-  const t = i ?? ye(), e = /* @__PURE__ */ new Date(`${l}:00Z`), s = fl(e, t);
-  return new Date(e.getTime() + s * 6e4).toISOString().replace(/\.\d{3}Z$/, "Z");
+function yl(e, i) {
+  if (!e) return null;
+  const t = i ?? he(), l = /* @__PURE__ */ new Date(`${e}:00Z`), o = fl(l, t);
+  return new Date(l.getTime() + o * 6e4).toISOString().replace(/\.\d{3}Z$/, "Z");
 }
-const yl = ["id", "value", "readonly", "min", "max"], hl = /* @__PURE__ */ A({
+const hl = ["id", "value", "readonly", "min", "max"], bl = /* @__PURE__ */ A({
   __name: "FormControlDate",
   props: {
     modelValue: { default: null },
@@ -832,43 +850,43 @@ const yl = ["id", "value", "readonly", "min", "max"], hl = /* @__PURE__ */ A({
     errorMessage: {}
   },
   emits: ["update:modelValue"],
-  setup(l, { expose: i, emit: t }) {
-    const e = l, s = t, { id: a, haveValue: f, requiredPass: c, resolvedRequired: w, displayLabel: h, labelClasses: k, touched: B, touch: m } = z(e), g = v(() => B.value && !c.value);
+  setup(e, { expose: i, emit: t }) {
+    const l = e, o = t, { id: a, haveValue: p, requiredPass: c, resolvedRequired: C, displayLabel: b, labelClasses: y, touched: w, touch: m } = z(l), x = f(() => w.value && !c.value);
     i({ requiredPass: c, touch: m });
-    const V = v(() => ie(e.modelValue)), I = v(() => e.min ? ie(e.min) : void 0), $ = v(() => e.max ? ie(e.max) : void 0);
+    const V = f(() => de(l.modelValue)), P = f(() => l.min ? de(l.min) : void 0), $ = f(() => l.max ? de(l.max) : void 0);
     function q(M) {
       m();
-      const P = M.target.value;
-      s("update:modelValue", vl(P));
+      const S = M.target.value;
+      o("update:modelValue", ml(S));
     }
-    return (M, P) => (d(), J(H, {
+    return (M, S) => (d(), _(H, {
       id: n(a),
-      label: n(h),
-      "label-classes": n(k),
+      label: n(b),
+      "label-classes": n(y),
       "icon-class": "fa-calendar",
-      "have-value": n(f),
-      required: n(w),
-      readonly: l.readonly,
-      "suppress-prefix-icon": l.suppressPrefixIcon,
-      "is-invalid": g.value,
-      "error-message": l.errorMessage ?? "This field is required"
+      "have-value": n(p),
+      required: n(C),
+      readonly: e.readonly,
+      "suppress-prefix-icon": e.suppressPrefixIcon,
+      "is-invalid": x.value,
+      "error-message": e.errorMessage ?? "This field is required"
     }, {
-      default: j(() => [
-        b("input", {
+      default: G(() => [
+        g("input", {
           id: n(a),
           type: "date",
-          class: T(["form-control", { "is-invalid": g.value }]),
+          class: B(["form-control", { "is-invalid": x.value }]),
           value: V.value,
-          readonly: l.readonly,
-          min: I.value,
+          readonly: e.readonly,
+          min: P.value,
           max: $.value,
           onChange: q
-        }, null, 42, yl)
+        }, null, 42, hl)
       ]),
       _: 1
     }, 8, ["id", "label", "label-classes", "have-value", "required", "readonly", "suppress-prefix-icon", "is-invalid", "error-message"]));
   }
-}), bl = ["id", "value", "readonly", "min", "max"], gl = ["title"], xl = /* @__PURE__ */ A({
+}), gl = ["id", "value", "readonly", "min", "max"], xl = ["title"], kl = /* @__PURE__ */ A({
   __name: "FormControlDateTimeLocal",
   props: {
     modelValue: { default: null },
@@ -884,56 +902,56 @@ const yl = ["id", "value", "readonly", "min", "max"], hl = /* @__PURE__ */ A({
     errorMessage: {}
   },
   emits: ["update:modelValue"],
-  setup(l, { expose: i, emit: t }) {
-    const e = l, s = t, { id: a, haveValue: f, requiredPass: c, resolvedRequired: w, displayLabel: h, labelClasses: k, touched: B, touch: m } = z(e), g = v(() => B.value && !c.value);
+  setup(e, { expose: i, emit: t }) {
+    const l = e, o = t, { id: a, haveValue: p, requiredPass: c, resolvedRequired: C, displayLabel: b, labelClasses: y, touched: w, touch: m } = z(l), x = f(() => w.value && !c.value);
     i({ requiredPass: c, touch: m });
-    const V = v(() => e.timezone ?? ye()), I = v(
-      () => de(e.modelValue, V.value)
-    ), $ = v(
-      () => e.min ? de(e.min, V.value) : void 0
-    ), q = v(
-      () => e.max ? de(e.max, V.value) : void 0
+    const V = f(() => l.timezone ?? he()), P = f(
+      () => ce(l.modelValue, V.value)
+    ), $ = f(
+      () => l.min ? ce(l.min, V.value) : void 0
+    ), q = f(
+      () => l.max ? ce(l.max, V.value) : void 0
     );
-    function M(P) {
+    function M(S) {
       m();
-      const u = P.target.value;
-      s("update:modelValue", ml(u, V.value));
+      const u = S.target.value;
+      o("update:modelValue", yl(u, V.value));
     }
-    return (P, u) => (d(), J(H, {
+    return (S, u) => (d(), _(H, {
       id: n(a),
-      label: n(h),
-      "label-classes": n(k),
+      label: n(b),
+      "label-classes": n(y),
       "icon-class": "fa-clock",
-      "have-value": n(f),
-      required: n(w),
-      readonly: l.readonly,
-      "suppress-prefix-icon": l.suppressPrefixIcon,
-      "is-invalid": g.value,
-      "error-message": l.errorMessage ?? "This field is required"
+      "have-value": n(p),
+      required: n(C),
+      readonly: e.readonly,
+      "suppress-prefix-icon": e.suppressPrefixIcon,
+      "is-invalid": x.value,
+      "error-message": e.errorMessage ?? "This field is required"
     }, {
-      default: j(() => [
-        b("input", {
+      default: G(() => [
+        g("input", {
           id: n(a),
           type: "datetime-local",
-          class: T(["form-control", { "is-invalid": g.value }]),
-          value: I.value,
-          readonly: l.readonly,
+          class: B(["form-control", { "is-invalid": x.value }]),
+          value: P.value,
+          readonly: e.readonly,
           min: $.value,
           max: q.value,
           onChange: M
-        }, null, 42, bl),
-        l.timezone ? (d(), p("span", {
+        }, null, 42, gl),
+        e.timezone ? (d(), v("span", {
           key: 0,
           class: "input-group-text text-muted small",
           title: `Times shown in ${V.value}`
         }, [...u[0] || (u[0] = [
-          b("i", { class: "fas fa-globe fa-xs" }, null, -1)
-        ])], 8, gl)) : S("", !0)
+          g("i", { class: "fas fa-globe fa-xs" }, null, -1)
+        ])], 8, xl)) : I("", !0)
       ]),
       _: 1
     }, 8, ["id", "label", "label-classes", "have-value", "required", "readonly", "suppress-prefix-icon", "is-invalid", "error-message"]));
   }
-}), kl = ["id", "value", "disabled"], Vl = ["disabled"], $l = ["value"], wl = /* @__PURE__ */ A({
+}), Vl = ["id", "value", "disabled"], $l = ["disabled"], wl = ["value"], Cl = /* @__PURE__ */ A({
   __name: "FormControlSelect",
   props: {
     modelValue: {},
@@ -950,83 +968,83 @@ const yl = ["id", "value", "readonly", "min", "max"], hl = /* @__PURE__ */ A({
     errorMessage: {}
   },
   emits: ["update:modelValue"],
-  setup(l, { expose: i, emit: t }) {
-    const e = l, s = t, { id: a, haveValue: f, requiredPass: c, resolvedRequired: w, displayLabel: h, labelClasses: k, touched: B, touch: m } = z(e), g = v(() => B.value && !c.value);
+  setup(e, { expose: i, emit: t }) {
+    const l = e, o = t, { id: a, haveValue: p, requiredPass: c, resolvedRequired: C, displayLabel: b, labelClasses: y, touched: w, touch: m } = z(l), x = f(() => w.value && !c.value);
     i({ requiredPass: c, touch: m });
     const V = ["Lookup", "User"];
-    function I(u) {
-      return typeof e.optionValue == "function" ? e.optionValue(u) : typeof e.optionValue == "string" ? typeof u == "string" || typeof u == "number" ? u : u[e.optionValue] ?? null : typeof u == "string" || typeof u == "number" ? u : e.spType && V.includes(e.spType) ? u.Id ?? null : u;
+    function P(u) {
+      return typeof l.optionValue == "function" ? l.optionValue(u) : typeof l.optionValue == "string" ? typeof u == "string" || typeof u == "number" ? u : u[l.optionValue] ?? null : typeof u == "string" || typeof u == "number" ? u : l.spType && V.includes(l.spType) ? u.Id ?? null : u;
     }
-    const $ = v(() => {
+    const $ = f(() => {
       var u;
-      return (u = e.options) != null && u.length ? e.options.map((r) => {
-        const o = ae(r, e.optionLabel), y = I(r), F = y == null ? "" : typeof y == "object" ? JSON.stringify(y) : String(y);
-        return { label: o, value: y, key: F };
+      return (u = l.options) != null && u.length ? l.options.map((r) => {
+        const s = ne(r, l.optionLabel), h = P(r), F = h == null ? "" : typeof h == "object" ? JSON.stringify(h) : String(h);
+        return { label: s, value: h, key: F };
       }) : [];
-    }), q = v(() => {
-      const u = e.modelValue;
+    }), q = f(() => {
+      const u = l.modelValue;
       return u == null ? "" : typeof u == "object" ? JSON.stringify(u) : String(u);
     });
     function M(u) {
       m();
-      const o = u.target.value;
-      if (o === "") {
-        s("update:modelValue", null);
+      const s = u.target.value;
+      if (s === "") {
+        o("update:modelValue", null);
         return;
       }
-      const y = $.value.find((F) => F.key === o);
-      s("update:modelValue", y ? y.value : null);
+      const h = $.value.find((F) => F.key === s);
+      o("update:modelValue", h ? h.value : null);
     }
-    function P(u) {
-      u.key !== "Delete" && u.key !== "Backspace" || e.readonly || (u.preventDefault(), s("update:modelValue", null));
+    function S(u) {
+      u.key !== "Delete" && u.key !== "Backspace" || l.readonly || (u.preventDefault(), o("update:modelValue", null));
     }
-    return (u, r) => (d(), J(H, {
+    return (u, r) => (d(), _(H, {
       id: n(a),
-      label: n(h),
-      "label-classes": n(k),
+      label: n(b),
+      "label-classes": n(y),
       "icon-class": "fa-list-ul",
-      "have-value": n(f),
-      required: n(w),
-      readonly: l.readonly,
-      "suppress-prefix-icon": l.suppressPrefixIcon,
-      "is-invalid": g.value,
-      "error-message": l.errorMessage ?? "Please select a value"
+      "have-value": n(p),
+      required: n(C),
+      readonly: e.readonly,
+      "suppress-prefix-icon": e.suppressPrefixIcon,
+      "is-invalid": x.value,
+      "error-message": e.errorMessage ?? "Please select a value"
     }, {
-      default: j(() => [
-        b("select", {
+      default: G(() => [
+        g("select", {
           id: n(a),
-          class: T(["form-select", { "is-invalid": g.value }]),
+          class: B(["form-select", { "is-invalid": x.value }]),
           value: q.value,
-          disabled: l.readonly,
+          disabled: e.readonly,
           onChange: M,
-          onKeydown: P,
+          onKeydown: S,
           onBlur: r[0] || (r[0] = //@ts-ignore
-          (...o) => n(m) && n(m)(...o))
+          (...s) => n(m) && n(m)(...s))
         }, [
-          b("option", {
+          g("option", {
             value: "",
-            disabled: n(w)
-          }, N(l.placeholder ?? "Choose…"), 9, Vl),
-          (d(!0), p(Z, null, G($.value, (o) => (d(), p("option", {
-            key: o.key,
-            value: o.key
-          }, N(o.label), 9, $l))), 128))
-        ], 42, kl)
+            disabled: n(C)
+          }, R(e.placeholder ?? "Choose…"), 9, $l),
+          (d(!0), v(Z, null, J($.value, (s) => (d(), v("option", {
+            key: s.key,
+            value: s.key
+          }, R(s.label), 9, wl))), 128))
+        ], 42, Vl)
       ]),
       _: 1
     }, 8, ["id", "label", "label-classes", "have-value", "required", "readonly", "suppress-prefix-icon", "is-invalid", "error-message"]));
   }
-}), Cl = ["for"], Tl = {
+}), Tl = ["for"], Bl = {
   key: 0,
   class: "input-group-text"
-}, Bl = ["aria-label", "onClick"], Il = ["id", "placeholder"], Pl = ["aria-label"], Sl = ["aria-selected", "onMousedown", "onMouseover"], ql = {
+}, Il = ["aria-label", "onClick"], Pl = ["id", "placeholder"], Sl = ["aria-label"], ql = ["aria-selected", "onMousedown", "onMouseover"], Ml = {
   key: 2,
   class: "dropdown-menu show position-absolute w-100 p-0 mb-0",
   style: { top: "100%", left: "0", "z-index": "1000" }
-}, Ml = {
+}, Ll = {
   key: 1,
   class: "invalid-feedback"
-}, Ll = /* @__PURE__ */ A({
+}, Fl = /* @__PURE__ */ A({
   __name: "FormControlLookupMulti",
   props: {
     modelValue: {},
@@ -1043,138 +1061,138 @@ const yl = ["id", "value", "readonly", "min", "max"], hl = /* @__PURE__ */ A({
     errorMessage: {}
   },
   emits: ["update:modelValue", "search"],
-  setup(l, { expose: i, emit: t }) {
-    const e = l, s = t, { id: a, resolvedRequired: f, displayLabel: c, labelClasses: w, touched: h, touch: k } = z(e), B = v(
-      () => Array.isArray(e.modelValue) ? e.modelValue : []
-    ), m = v(() => B.value.length > 0), g = v(() => !f.value || m.value), V = v(() => h.value && !g.value);
-    i({ requiredPass: g, touch: k });
-    const I = ["Lookup", "LookupMulti", "User", "UserMulti"];
-    function $(x) {
-      return typeof e.optionValue == "function" ? e.optionValue(x) : typeof e.optionValue == "string" ? typeof x == "string" || typeof x == "number" ? x : x[e.optionValue] ?? null : typeof x == "string" || typeof x == "number" ? x : e.spType && I.includes(e.spType) ? x.Id ?? null : x;
+  setup(e, { expose: i, emit: t }) {
+    const l = e, o = t, { id: a, resolvedRequired: p, displayLabel: c, labelClasses: C, touched: b, touch: y } = z(l), w = f(
+      () => Array.isArray(l.modelValue) ? l.modelValue : []
+    ), m = f(() => w.value.length > 0), x = f(() => !p.value || m.value), V = f(() => b.value && !x.value);
+    i({ requiredPass: x, touch: y });
+    const P = ["Lookup", "LookupMulti", "User", "UserMulti"];
+    function $(k) {
+      return typeof l.optionValue == "function" ? l.optionValue(k) : typeof l.optionValue == "string" ? typeof k == "string" || typeof k == "number" ? k : k[l.optionValue] ?? null : typeof k == "string" || typeof k == "number" ? k : l.spType && P.includes(l.spType) ? k.Id ?? null : k;
     }
-    function q(x) {
-      return x == null ? "" : typeof x == "object" ? JSON.stringify(x) : String(x);
+    function q(k) {
+      return k == null ? "" : typeof k == "object" ? JSON.stringify(k) : String(k);
     }
-    const M = v(
-      () => (e.options ?? []).map((x) => ({
-        label: ae(x, e.optionLabel),
-        value: $(x),
-        key: q($(x))
+    const M = f(
+      () => (l.options ?? []).map((k) => ({
+        label: ne(k, l.optionLabel),
+        value: $(k),
+        key: q($(k))
       }))
-    ), P = v(() => new Set(B.value.map(q))), u = v(
-      () => B.value.map((x) => {
-        const L = q(x), D = M.value.find((Y) => Y.key === L);
-        return { label: (D == null ? void 0 : D.label) ?? (L || String(x)), value: x, key: L };
+    ), S = f(() => new Set(w.value.map(q))), u = f(
+      () => w.value.map((k) => {
+        const L = q(k), D = M.value.find((Y) => Y.key === L);
+        return { label: (D == null ? void 0 : D.label) ?? (L || String(k)), value: k, key: L };
       })
-    ), r = E(""), o = E(!1), y = E(0), F = E(null), U = v(() => {
-      const x = r.value.trim().toLowerCase();
-      return M.value.filter((L) => P.value.has(L.key) ? !1 : x ? L.label.toLowerCase().includes(x) : !0);
+    ), r = E(""), s = E(!1), h = E(0), F = E(null), U = f(() => {
+      const k = r.value.trim().toLowerCase();
+      return M.value.filter((L) => S.value.has(L.key) ? !1 : k ? L.label.toLowerCase().includes(k) : !0);
     });
-    ee(U, (x) => {
-      y.value >= x.length && (y.value = 0);
+    ee(U, (k) => {
+      h.value >= k.length && (h.value = 0);
     });
-    function K() {
-      e.readonly || (o.value = !0, y.value = 0);
+    function j() {
+      l.readonly || (s.value = !0, h.value = 0);
     }
-    function te() {
-      k(), o.value = !1, r.value = "", y.value = 0, s("search", "");
+    function ae() {
+      y(), s.value = !1, r.value = "", h.value = 0, o("search", "");
     }
-    function ne(x) {
-      const L = [...B.value, x.value];
-      s("update:modelValue", L), r.value = "", y.value = 0, fe(() => {
+    function oe(k) {
+      const L = [...w.value, k.value];
+      o("update:modelValue", L), r.value = "", h.value = 0, fe(() => {
         var D;
-        (D = F.value) == null || D.focus(), o.value = !0;
+        (D = F.value) == null || D.focus(), s.value = !0;
       });
     }
-    function se(x) {
-      const L = B.value.filter((D) => q(D) !== x);
-      s("update:modelValue", L.length ? L : null);
-    }
-    function re() {
-      o.value = !0, y.value = 0, s("search", r.value);
+    function se(k) {
+      const L = w.value.filter((D) => q(D) !== k);
+      o("update:modelValue", L.length ? L : null);
     }
     function ue() {
-      K();
+      s.value = !0, h.value = 0, o("search", r.value);
     }
-    function C() {
-      setTimeout(te, 150);
+    function ie() {
+      j();
     }
-    function R(x) {
+    function T() {
+      setTimeout(ae, 150);
+    }
+    function N(k) {
       const L = U.value;
-      switch (x.key) {
+      switch (k.key) {
         case "ArrowDown":
-          if (x.preventDefault(), !o.value) {
-            K();
+          if (k.preventDefault(), !s.value) {
+            j();
             return;
           }
-          y.value = L.length ? (y.value + 1) % L.length : 0;
+          h.value = L.length ? (h.value + 1) % L.length : 0;
           break;
         case "ArrowUp":
-          if (x.preventDefault(), !o.value) {
-            K();
+          if (k.preventDefault(), !s.value) {
+            j();
             return;
           }
-          y.value = L.length ? (y.value - 1 + L.length) % L.length : 0;
+          h.value = L.length ? (h.value - 1 + L.length) % L.length : 0;
           break;
         case "Enter":
-          if (x.preventDefault(), o.value && L.length) {
-            const D = y.value >= 0 && y.value < L.length ? y.value : 0;
-            ne(L[D]);
+          if (k.preventDefault(), s.value && L.length) {
+            const D = h.value >= 0 && h.value < L.length ? h.value : 0;
+            oe(L[D]);
           }
           break;
         case "Escape":
-          x.preventDefault(), te();
+          k.preventDefault(), ae();
           break;
         case "Backspace":
-          if (!r.value && B.value.length) {
+          if (!r.value && w.value.length) {
             const D = u.value[u.value.length - 1];
             se(D.key);
           }
           break;
       }
     }
-    return (x, L) => (d(), p("div", null, [
-      n(c) ? (d(), p("label", {
+    return (k, L) => (d(), v("div", null, [
+      n(c) ? (d(), v("label", {
         key: 0,
         for: n(a),
-        class: T(n(w))
+        class: B(n(C))
       }, [
-        X(N(n(c)) + " ", 1),
-        n(f) ? (d(), p("i", {
+        X(R(n(c)) + " ", 1),
+        n(p) ? (d(), _(te, {
           key: 0,
-          class: T(["fas fa-asterisk fa-xs ms-1", m.value ? "text-success" : "text-danger"])
-        }, null, 2)) : S("", !0)
-      ], 10, Cl)) : S("", !0),
-      b("div", {
-        class: T(["input-group", { "has-validation": V.value }])
+          "have-value": m.value
+        }, null, 8, ["have-value"])) : I("", !0)
+      ], 10, Tl)) : I("", !0),
+      g("div", {
+        class: B(["input-group", { "has-validation": V.value }])
       }, [
-        l.suppressPrefixIcon ? S("", !0) : (d(), p("span", Tl, [...L[2] || (L[2] = [
-          b("i", { class: "fas fa-search-plus" }, null, -1)
+        e.suppressPrefixIcon ? I("", !0) : (d(), v("span", Bl, [...L[2] || (L[2] = [
+          g("i", { class: "fas fa-search-plus" }, null, -1)
         ])])),
-        b("div", {
-          class: T(["form-control d-flex flex-wrap gap-1 align-items-center h-auto py-1 position-relative", { "bg-body-secondary": l.readonly, "is-invalid": V.value }]),
+        g("div", {
+          class: B(["form-control d-flex flex-wrap gap-1 align-items-center h-auto py-1 position-relative", { "bg-body-secondary": e.readonly, "is-invalid": V.value }]),
           style: { cursor: "text", "min-height": "2.375rem" },
           onClick: L[1] || (L[1] = (D) => {
             var Y;
             return (Y = F.value) == null ? void 0 : Y.focus();
           })
         }, [
-          (d(!0), p(Z, null, G(u.value, (D) => (d(), p("span", {
+          (d(!0), v(Z, null, J(u.value, (D) => (d(), v("span", {
             key: D.key,
             class: "badge rounded-pill bg-primary d-inline-flex align-items-center gap-1",
             style: { "font-size": "0.8em" }
           }, [
-            X(N(D.label) + " ", 1),
-            l.readonly ? S("", !0) : (d(), p("button", {
+            X(R(D.label) + " ", 1),
+            e.readonly ? I("", !0) : (d(), v("button", {
               key: 0,
               type: "button",
               class: "btn-close btn-close-white",
               style: { "font-size": "0.6em" },
               "aria-label": `Remove ${D.label}`,
-              onClick: ce((Y) => se(D.key), ["stop"])
-            }, null, 8, Bl))
+              onClick: pe((Y) => se(D.key), ["stop"])
+            }, null, 8, Il))
           ]))), 128)),
-          l.readonly ? S("", !0) : ve((d(), p("input", {
+          e.readonly ? I("", !0) : me((d(), v("input", {
             key: 0,
             id: n(a),
             ref_key: "inputRef",
@@ -1183,40 +1201,40 @@ const yl = ["id", "value", "readonly", "min", "max"], hl = /* @__PURE__ */ A({
             class: "border-0 p-0 flex-grow-1 bg-transparent",
             style: { outline: "none", "min-width": "8ch", "line-height": "inherit" },
             "onUpdate:modelValue": L[0] || (L[0] = (D) => r.value = D),
-            placeholder: u.value.length ? "" : l.placeholder ?? "Type to search…",
+            placeholder: u.value.length ? "" : e.placeholder ?? "Type to search…",
             autocomplete: "off",
-            onInput: re,
-            onFocus: ue,
-            onBlur: C,
-            onKeydown: R
-          }, null, 40, Il)), [
-            [be, r.value]
+            onInput: ue,
+            onFocus: ie,
+            onBlur: T,
+            onKeydown: N
+          }, null, 40, Pl)), [
+            [ge, r.value]
           ]),
-          o.value && U.value.length ? (d(), p("ul", {
+          s.value && U.value.length ? (d(), v("ul", {
             key: 1,
             class: "dropdown-menu show position-absolute w-100 p-0 mb-0",
             style: { top: "100%", left: "0", "z-index": "1000" },
             role: "listbox",
             "aria-label": n(c) ?? "Suggestions"
           }, [
-            (d(!0), p(Z, null, G(U.value, (D, Y) => (d(), p("li", {
+            (d(!0), v(Z, null, J(U.value, (D, Y) => (d(), v("li", {
               key: D.key,
               role: "option",
-              "aria-selected": Y === y.value,
-              class: T(["dropdown-item", { active: Y === y.value }]),
-              style: ge(Y === y.value ? "text-decoration: underline dotted;" : ""),
-              onMousedown: ce((xe) => ne(D), ["prevent"]),
-              onMouseover: (xe) => y.value = Y
-            }, N(D.label), 47, Sl))), 128))
-          ], 8, Pl)) : o.value && r.value && !U.value.length ? (d(), p("ul", ql, [...L[3] || (L[3] = [
-            b("li", { class: "dropdown-item disabled text-muted fst-italic" }, "No matches", -1)
-          ])])) : S("", !0)
+              "aria-selected": Y === h.value,
+              class: B(["dropdown-item", { active: Y === h.value }]),
+              style: xe(Y === h.value ? "text-decoration: underline dotted;" : ""),
+              onMousedown: pe((ke) => oe(D), ["prevent"]),
+              onMouseover: (ke) => h.value = Y
+            }, R(D.label), 47, ql))), 128))
+          ], 8, Sl)) : s.value && r.value && !U.value.length ? (d(), v("ul", Ml, [...L[3] || (L[3] = [
+            g("li", { class: "dropdown-item disabled text-muted fst-italic" }, "No matches", -1)
+          ])])) : I("", !0)
         ], 2),
-        V.value ? (d(), p("div", Ml, N(l.errorMessage ?? "Please select at least one value"), 1)) : S("", !0)
+        V.value ? (d(), v("div", Ll, R(e.errorMessage ?? "Please select at least one value"), 1)) : I("", !0)
       ], 2)
     ]));
   }
-}), Fl = ["id", "value", "disabled", "title"], Dl = /* @__PURE__ */ A({
+}), Dl = ["id", "value", "disabled", "title"], Rl = /* @__PURE__ */ A({
   __name: "FormControlColor",
   props: {
     modelValue: {},
@@ -1228,46 +1246,46 @@ const yl = ["id", "value", "readonly", "min", "max"], hl = /* @__PURE__ */ A({
     errorMessage: {}
   },
   emits: ["update:modelValue"],
-  setup(l, { expose: i, emit: t }) {
-    const e = l, s = t, { id: a, haveValue: f, requiredPass: c, resolvedRequired: w, displayLabel: h, labelClasses: k, touched: B, touch: m } = z(e), g = v(() => B.value && !c.value);
+  setup(e, { expose: i, emit: t }) {
+    const l = e, o = t, { id: a, haveValue: p, requiredPass: c, resolvedRequired: C, displayLabel: b, labelClasses: y, touched: w, touch: m } = z(l), x = f(() => w.value && !c.value);
     i({ requiredPass: c, touch: m });
     function V($) {
-      m(), s("update:modelValue", $.target.value);
+      m(), o("update:modelValue", $.target.value);
     }
-    function I($) {
-      $.key !== "Delete" && $.key !== "Backspace" || e.readonly || ($.preventDefault(), s("update:modelValue", null));
+    function P($) {
+      $.key !== "Delete" && $.key !== "Backspace" || l.readonly || ($.preventDefault(), o("update:modelValue", null));
     }
-    return ($, q) => (d(), J(H, {
+    return ($, q) => (d(), _(H, {
       id: n(a),
-      label: n(h),
-      "label-classes": n(k),
+      label: n(b),
+      "label-classes": n(y),
       "icon-class": "fa-palette",
-      "have-value": n(f),
-      required: n(w),
-      readonly: l.readonly,
-      "suppress-prefix-icon": l.suppressPrefixIcon,
-      "is-invalid": g.value,
-      "error-message": l.errorMessage ?? "This field is required"
+      "have-value": n(p),
+      required: n(C),
+      readonly: e.readonly,
+      "suppress-prefix-icon": e.suppressPrefixIcon,
+      "is-invalid": x.value,
+      "error-message": e.errorMessage ?? "This field is required"
     }, {
-      default: j(() => [
-        b("input", {
+      default: G(() => [
+        g("input", {
           id: n(a),
           type: "color",
-          class: T(["form-control form-control-color flex-grow-1", { "is-invalid": g.value }]),
-          value: l.modelValue ?? "#000000",
-          disabled: l.readonly,
-          title: l.modelValue ?? "Choose a colour",
+          class: B(["form-control form-control-color flex-grow-1", { "is-invalid": x.value }]),
+          value: e.modelValue ?? "#000000",
+          disabled: e.readonly,
+          title: e.modelValue ?? "Choose a colour",
           onChange: V,
-          onKeydown: I
-        }, null, 42, Fl)
+          onKeydown: P
+        }, null, 42, Dl)
       ]),
       _: 1
     }, 8, ["id", "label", "label-classes", "have-value", "required", "readonly", "suppress-prefix-icon", "is-invalid", "error-message"]));
   }
-}), Nl = ["aria-labelledby"], Rl = ["id"], Ol = ["id", "type", "checked", "disabled", "name", "onClick"], El = ["for"], Ul = {
+}), Nl = ["aria-labelledby"], Ol = ["id"], El = ["id", "type", "checked", "disabled", "name", "onClick"], Al = ["for"], Ul = {
   key: 1,
   class: "invalid-feedback d-block"
-}, he = /* @__PURE__ */ A({
+}, be = /* @__PURE__ */ A({
   __name: "FormControlOptions",
   props: {
     modelValue: {},
@@ -1285,82 +1303,82 @@ const yl = ["id", "value", "readonly", "min", "max"], hl = /* @__PURE__ */ A({
     errorMessage: {}
   },
   emits: ["update:modelValue"],
-  setup(l, { expose: i, emit: t }) {
-    const e = l, s = t, { id: a, haveValue: f, requiredPass: c, resolvedRequired: w, displayLabel: h, labelClasses: k, touched: B, touch: m } = z(e), g = v(() => B.value && !c.value);
+  setup(e, { expose: i, emit: t }) {
+    const l = e, o = t, { id: a, haveValue: p, requiredPass: c, resolvedRequired: C, displayLabel: b, labelClasses: y, touched: w, touch: m } = z(l), x = f(() => w.value && !c.value);
     i({ requiredPass: c, touch: m });
     const V = ["Lookup", "LookupMulti", "User", "UserMulti"];
-    function I(o) {
-      return typeof e.optionValue == "function" ? e.optionValue(o) : typeof e.optionValue == "string" ? typeof o == "string" || typeof o == "number" ? o : o[e.optionValue] ?? null : typeof o == "string" || typeof o == "number" ? o : e.spType && V.includes(e.spType) ? o.Id ?? null : o;
+    function P(s) {
+      return typeof l.optionValue == "function" ? l.optionValue(s) : typeof l.optionValue == "string" ? typeof s == "string" || typeof s == "number" ? s : s[l.optionValue] ?? null : typeof s == "string" || typeof s == "number" ? s : l.spType && V.includes(l.spType) ? s.Id ?? null : s;
     }
-    function $(o) {
-      return o == null ? "" : typeof o == "object" ? JSON.stringify(o) : String(o);
+    function $(s) {
+      return s == null ? "" : typeof s == "object" ? JSON.stringify(s) : String(s);
     }
-    const q = v(
-      () => (e.options ?? []).map((o) => ({
-        label: ae(o, e.optionLabel),
-        value: I(o),
-        key: $(I(o))
+    const q = f(
+      () => (l.options ?? []).map((s) => ({
+        label: ne(s, l.optionLabel),
+        value: P(s),
+        key: $(P(s))
       }))
-    ), M = v(
-      () => e.multi && Array.isArray(e.modelValue) ? e.modelValue : []
+    ), M = f(
+      () => l.multi && Array.isArray(l.modelValue) ? l.modelValue : []
     );
-    function P(o) {
-      return e.multi ? M.value.some((y) => $(y) === o) : $(e.modelValue) === o;
+    function S(s) {
+      return l.multi ? M.value.some((h) => $(h) === s) : $(l.modelValue) === s;
     }
-    function u(o) {
-      if (!e.readonly)
-        if (m(), e.multi)
-          if (M.value.some((F) => $(F) === o.key)) {
-            const F = M.value.filter((U) => $(U) !== o.key);
-            s("update:modelValue", F.length ? F : null);
+    function u(s) {
+      if (!l.readonly)
+        if (m(), l.multi)
+          if (M.value.some((F) => $(F) === s.key)) {
+            const F = M.value.filter((U) => $(U) !== s.key);
+            o("update:modelValue", F.length ? F : null);
           } else
-            s("update:modelValue", [...M.value, o.value]);
+            o("update:modelValue", [...M.value, s.value]);
         else
-          $(e.modelValue) === o.key ? s("update:modelValue", null) : s("update:modelValue", o.value);
+          $(l.modelValue) === s.key ? o("update:modelValue", null) : o("update:modelValue", s.value);
     }
-    const r = v(
-      () => e.multi ? "Please select at least one option" : "Please select an option"
+    const r = f(
+      () => l.multi ? "Please select at least one option" : "Please select an option"
     );
-    return (o, y) => (d(), p("div", {
+    return (s, h) => (d(), v("div", {
       role: "group",
-      "aria-labelledby": n(h) ? `${n(a)}-label` : void 0
+      "aria-labelledby": n(b) ? `${n(a)}-label` : void 0
     }, [
-      n(h) ? (d(), p("div", {
+      n(b) ? (d(), v("div", {
         key: 0,
         id: `${n(a)}-label`,
-        class: T(n(k)),
+        class: B(n(y)),
         style: { "margin-bottom": "0.25rem" }
       }, [
-        X(N(n(h)) + " ", 1),
-        n(w) ? (d(), p("i", {
+        X(R(n(b)) + " ", 1),
+        n(C) ? (d(), _(te, {
           key: 0,
-          class: T(["fas fa-asterisk fa-xs ms-1", n(f) ? "text-success" : "text-danger"])
-        }, null, 2)) : S("", !0)
-      ], 10, Rl)) : S("", !0),
-      b("div", null, [
-        (d(!0), p(Z, null, G(q.value, (F, U) => (d(), p("div", {
+          "have-value": n(p)
+        }, null, 8, ["have-value"])) : I("", !0)
+      ], 10, Ol)) : I("", !0),
+      g("div", null, [
+        (d(!0), v(Z, null, J(q.value, (F, U) => (d(), v("div", {
           key: F.key,
-          class: T(["form-check", { "form-check-inline": !l.stacked }])
+          class: B(["form-check", { "form-check-inline": !e.stacked }])
         }, [
-          b("input", {
+          g("input", {
             id: `${n(a)}-opt-${U}`,
-            type: l.multi ? "checkbox" : "radio",
-            class: T(["form-check-input", { "is-invalid": g.value }]),
-            checked: P(F.key),
-            disabled: l.readonly,
-            name: l.multi ? void 0 : n(a),
-            onClick: (K) => u(F)
-          }, null, 10, Ol),
-          b("label", {
+            type: e.multi ? "checkbox" : "radio",
+            class: B(["form-check-input", { "is-invalid": x.value }]),
+            checked: S(F.key),
+            disabled: e.readonly,
+            name: e.multi ? void 0 : n(a),
+            onClick: (j) => u(F)
+          }, null, 10, El),
+          g("label", {
             for: `${n(a)}-opt-${U}`,
             class: "form-check-label"
-          }, N(F.label), 9, El)
+          }, R(F.label), 9, Al)
         ], 2))), 128))
       ]),
-      g.value ? (d(), p("div", Ul, N(l.errorMessage ?? r.value), 1)) : S("", !0)
+      x.value ? (d(), v("div", Ul, R(e.errorMessage ?? r.value), 1)) : I("", !0)
     ], 8, Nl));
   }
-}), Al = ["id", "value", "placeholder", "readonly", "maxlength", "rows"], zl = /* @__PURE__ */ A({
+}), _l = ["id", "value", "placeholder", "readonly", "maxlength", "rows"], zl = /* @__PURE__ */ A({
   __name: "FormControlTextarea",
   props: {
     modelValue: { default: null },
@@ -1375,46 +1393,46 @@ const yl = ["id", "value", "readonly", "min", "max"], hl = /* @__PURE__ */ A({
     errorMessage: {}
   },
   emits: ["update:modelValue"],
-  setup(l, { expose: i, emit: t }) {
-    const e = l, s = t, { id: a, haveValue: f, requiredPass: c, resolvedRequired: w, displayLabel: h, labelClasses: k, touched: B, touch: m } = z(e), g = v(() => B.value && !c.value);
+  setup(e, { expose: i, emit: t }) {
+    const l = e, o = t, { id: a, haveValue: p, requiredPass: c, resolvedRequired: C, displayLabel: b, labelClasses: y, touched: w, touch: m } = z(l), x = f(() => w.value && !c.value);
     i({ requiredPass: c, touch: m });
-    function V(I) {
-      const $ = I.target.value;
-      s("update:modelValue", $ === "" ? null : $);
+    function V(P) {
+      const $ = P.target.value;
+      o("update:modelValue", $ === "" ? null : $);
     }
-    return (I, $) => (d(), J(H, {
+    return (P, $) => (d(), _(H, {
       id: n(a),
-      label: n(h),
-      "label-classes": n(k),
+      label: n(b),
+      "label-classes": n(y),
       "icon-class": "fa-pen-fancy",
-      "have-value": n(f),
-      required: n(w),
-      readonly: l.readonly,
-      "suppress-prefix-icon": l.suppressPrefixIcon,
-      "is-invalid": g.value,
-      "error-message": l.errorMessage ?? "This field is required"
+      "have-value": n(p),
+      required: n(C),
+      readonly: e.readonly,
+      "suppress-prefix-icon": e.suppressPrefixIcon,
+      "is-invalid": x.value,
+      "error-message": e.errorMessage ?? "This field is required"
     }, {
-      default: j(() => [
-        b("textarea", {
+      default: G(() => [
+        g("textarea", {
           id: n(a),
-          class: T(["form-control", { "is-invalid": g.value }]),
-          value: l.modelValue ?? "",
-          placeholder: l.placeholder,
-          readonly: l.readonly,
-          maxlength: l.maxlength,
-          rows: l.rows,
+          class: B(["form-control", { "is-invalid": x.value }]),
+          value: e.modelValue ?? "",
+          placeholder: e.placeholder,
+          readonly: e.readonly,
+          maxlength: e.maxlength,
+          rows: e.rows,
           onInput: V,
           onBlur: $[0] || ($[0] = //@ts-ignore
           (...q) => n(m) && n(m)(...q))
-        }, null, 42, Al)
+        }, null, 42, _l)
       ]),
       _: 1
     }, 8, ["id", "label", "label-classes", "have-value", "required", "readonly", "suppress-prefix-icon", "is-invalid", "error-message"]));
   }
-}), _l = { class: "form-check form-switch" }, Kl = ["id", "disabled"], Yl = ["for"], jl = {
+}), Kl = { class: "form-check form-switch" }, jl = ["id", "disabled"], Yl = ["for"], Zl = {
   key: 0,
   class: "invalid-feedback d-block"
-}, Zl = /* @__PURE__ */ A({
+}, Gl = /* @__PURE__ */ A({
   __name: "FormControlSwitch",
   props: {
     modelValue: { type: [Boolean, null] },
@@ -1426,45 +1444,45 @@ const yl = ["id", "value", "readonly", "min", "max"], hl = /* @__PURE__ */ A({
     errorMessage: {}
   },
   emits: ["update:modelValue"],
-  setup(l, { expose: i, emit: t }) {
-    const e = l, s = t, { id: a, haveValue: f, requiredPass: c, resolvedRequired: w, displayLabel: h, labelClasses: k, touched: B, touch: m } = z(e), g = v(() => B.value && !c.value);
+  setup(e, { expose: i, emit: t }) {
+    const l = e, o = t, { id: a, haveValue: p, requiredPass: c, resolvedRequired: C, displayLabel: b, labelClasses: y, touched: w, touch: m } = z(l), x = f(() => w.value && !c.value);
     i({ requiredPass: c, touch: m });
-    const V = v({
-      get: () => e.modelValue === !0,
-      set: (I) => {
-        e.readonly || (m(), s("update:modelValue", I));
+    const V = f({
+      get: () => l.modelValue === !0,
+      set: (P) => {
+        l.readonly || (m(), o("update:modelValue", P));
       }
     });
-    return (I, $) => (d(), p("div", null, [
-      b("div", _l, [
-        ve(b("input", {
+    return (P, $) => (d(), v("div", null, [
+      g("div", Kl, [
+        me(g("input", {
           id: n(a),
           type: "checkbox",
           role: "switch",
-          class: T(["form-check-input", { "is-invalid": g.value }]),
+          class: B(["form-check-input", { "is-invalid": x.value }]),
           "onUpdate:modelValue": $[0] || ($[0] = (q) => V.value = q),
-          disabled: l.readonly
-        }, null, 10, Kl), [
-          [Ve, V.value]
+          disabled: e.readonly
+        }, null, 10, jl), [
+          [$e, V.value]
         ]),
-        b("label", {
+        g("label", {
           for: n(a),
-          class: T(["form-check-label", ...n(k).filter((q) => q !== "form-label")])
+          class: B(["form-check-label", ...n(y).filter((q) => q !== "form-label")])
         }, [
-          X(N(n(h)) + " ", 1),
-          n(w) ? (d(), p("i", {
+          X(R(n(b)) + " ", 1),
+          n(C) ? (d(), _(te, {
             key: 0,
-            class: T(["fas fa-asterisk fa-xs ms-1", n(f) ? "text-success" : "text-danger"])
-          }, null, 2)) : S("", !0)
+            "have-value": n(p)
+          }, null, 8, ["have-value"])) : I("", !0)
         ], 10, Yl)
       ]),
-      g.value ? (d(), p("div", jl, N(l.errorMessage ?? "This field is required"), 1)) : S("", !0)
+      x.value ? (d(), v("div", Zl, R(e.errorMessage ?? "This field is required"), 1)) : I("", !0)
     ]));
   }
-}), Gl = ["for"], Jl = { class: "input-group-text fw-semibold" }, Hl = ["id", "value", "placeholder", "readonly", "min", "max", "step"], Wl = {
+}), Jl = ["for"], Hl = { class: "input-group-text fw-semibold" }, Wl = ["id", "value", "placeholder", "readonly", "min", "max", "step"], Xl = {
   key: 0,
   class: "invalid-feedback"
-}, Xl = /* @__PURE__ */ A({
+}, Ql = /* @__PURE__ */ A({
   __name: "FormControlCurrency",
   props: {
     modelValue: { default: null },
@@ -1482,83 +1500,83 @@ const yl = ["id", "value", "readonly", "min", "max"], hl = /* @__PURE__ */ A({
     errorMessage: {}
   },
   emits: ["update:modelValue"],
-  setup(l, { expose: i, emit: t }) {
-    const e = l, s = t, { id: a, haveValue: f, requiredPass: c, resolvedRequired: w, displayLabel: h, labelClasses: k, touched: B, touch: m } = z(e), g = v(() => B.value && !c.value);
+  setup(e, { expose: i, emit: t }) {
+    const l = e, o = t, { id: a, haveValue: p, requiredPass: c, resolvedRequired: C, displayLabel: b, labelClasses: y, touched: w, touch: m } = z(l), x = f(() => w.value && !c.value);
     i({ requiredPass: c, touch: m });
-    const V = E(null), I = v(() => {
+    const V = E(null), P = f(() => {
       var u;
       try {
-        const r = e.locale ?? (typeof navigator < "u" ? navigator.language : "en-GB");
+        const r = l.locale ?? (typeof navigator < "u" ? navigator.language : "en-GB");
         return ((u = new Intl.NumberFormat(r, {
           style: "currency",
-          currency: e.currency ?? "GBP",
+          currency: l.currency ?? "GBP",
           minimumFractionDigits: 0,
           maximumFractionDigits: 0
-        }).formatToParts(0).find((y) => y.type === "currency")) == null ? void 0 : u.value) ?? e.currency ?? "£";
+        }).formatToParts(0).find((h) => h.type === "currency")) == null ? void 0 : u.value) ?? l.currency ?? "£";
       } catch {
-        return e.currency ?? "£";
+        return l.currency ?? "£";
       }
-    }), $ = v(() => e.min ?? -1 / 0), q = v(() => e.max ?? 1 / 0);
+    }), $ = f(() => l.min ?? -1 / 0), q = f(() => l.max ?? 1 / 0);
     function M(u) {
       const r = u.target.value;
       if (r === "") {
-        s("update:modelValue", null);
+        o("update:modelValue", null);
         return;
       }
-      const o = parseFloat(r);
-      isNaN(o) || s("update:modelValue", o);
+      const s = parseFloat(r);
+      isNaN(s) || o("update:modelValue", s);
     }
-    function P(u) {
-      if (m(), u.target.value === "" || e.modelValue === null) return;
-      const o = me($.value, q.value, e.modelValue);
-      o !== e.modelValue && (s("update:modelValue", o), V.value && (V.value.value = String(o)));
+    function S(u) {
+      if (m(), u.target.value === "" || l.modelValue === null) return;
+      const s = ye($.value, q.value, l.modelValue);
+      s !== l.modelValue && (o("update:modelValue", s), V.value && (V.value.value = String(s)));
     }
-    return (u, r) => (d(), p("div", null, [
-      n(h) ? (d(), p("label", {
+    return (u, r) => (d(), v("div", null, [
+      n(b) ? (d(), v("label", {
         key: 0,
         for: n(a),
-        class: T(n(k))
+        class: B(n(y))
       }, [
-        X(N(n(h)) + " ", 1),
-        n(w) ? (d(), p("i", {
+        X(R(n(b)) + " ", 1),
+        n(C) ? (d(), _(te, {
           key: 0,
-          class: T(["fas fa-asterisk fa-xs ms-1", n(f) ? "text-success" : "text-danger"])
-        }, null, 2)) : S("", !0)
-      ], 10, Gl)) : S("", !0),
-      b("div", {
-        class: T(["input-group", { "has-validation": g.value }])
+          "have-value": n(p)
+        }, null, 8, ["have-value"])) : I("", !0)
+      ], 10, Jl)) : I("", !0),
+      g("div", {
+        class: B(["input-group", { "has-validation": x.value }])
       }, [
-        b("span", Jl, N(I.value), 1),
-        b("input", {
+        g("span", Hl, R(P.value), 1),
+        g("input", {
           id: n(a),
           ref_key: "inputRef",
           ref: V,
           type: "number",
-          class: T(["form-control", { "is-invalid": g.value }]),
-          value: l.modelValue ?? "",
-          placeholder: l.placeholder,
-          readonly: l.readonly,
-          min: l.min,
-          max: l.max,
-          step: l.step,
+          class: B(["form-control", { "is-invalid": x.value }]),
+          value: e.modelValue ?? "",
+          placeholder: e.placeholder,
+          readonly: e.readonly,
+          min: e.min,
+          max: e.max,
+          step: e.step,
           onInput: M,
-          onBlur: P
-        }, null, 42, Hl),
-        g.value ? (d(), p("div", Wl, N(l.errorMessage ?? "This field is required"), 1)) : S("", !0)
+          onBlur: S
+        }, null, 42, Wl),
+        x.value ? (d(), v("div", Xl, R(e.errorMessage ?? "This field is required"), 1)) : I("", !0)
       ], 2)
     ]));
   }
-}), Ql = ["for"], et = {
+}), et = ["for"], lt = {
   key: 0,
   class: "input-group-text"
-}, lt = { class: "position-relative flex-grow-1 d-flex" }, tt = ["id", "placeholder", "readonly"], at = ["aria-label"], nt = ["aria-selected", "onMousedown", "onMouseover"], st = {
+}, tt = { class: "position-relative flex-grow-1 d-flex" }, at = ["id", "placeholder", "readonly"], nt = ["aria-label"], ot = ["aria-selected", "onMousedown", "onMouseover"], st = {
   key: 1,
   class: "dropdown-menu show position-absolute w-100 p-0 mb-0",
   style: { top: "100%", left: "0", "z-index": "1000" }
-}, ot = {
+}, rt = {
   key: 1,
   class: "invalid-feedback"
-}, rt = /* @__PURE__ */ A({
+}, ut = /* @__PURE__ */ A({
   __name: "FormControlLookup",
   props: {
     modelValue: {},
@@ -1575,168 +1593,168 @@ const yl = ["id", "value", "readonly", "min", "max"], hl = /* @__PURE__ */ A({
     errorMessage: {}
   },
   emits: ["update:modelValue", "search"],
-  setup(l, { expose: i, emit: t }) {
-    const e = l, s = t, { id: a, haveValue: f, requiredPass: c, resolvedRequired: w, displayLabel: h, labelClasses: k, touched: B, touch: m } = z(e), g = v(() => B.value && !c.value);
+  setup(e, { expose: i, emit: t }) {
+    const l = e, o = t, { id: a, haveValue: p, requiredPass: c, resolvedRequired: C, displayLabel: b, labelClasses: y, touched: w, touch: m } = z(l), x = f(() => w.value && !c.value);
     i({ requiredPass: c, touch: m });
     const V = ["Lookup", "LookupMulti", "User", "UserMulti"];
-    function I(C) {
-      return typeof e.optionValue == "function" ? e.optionValue(C) : typeof e.optionValue == "string" ? typeof C == "string" || typeof C == "number" ? C : C[e.optionValue] ?? null : typeof C == "string" || typeof C == "number" ? C : e.spType && V.includes(e.spType) ? C.Id ?? null : C;
+    function P(T) {
+      return typeof l.optionValue == "function" ? l.optionValue(T) : typeof l.optionValue == "string" ? typeof T == "string" || typeof T == "number" ? T : T[l.optionValue] ?? null : typeof T == "string" || typeof T == "number" ? T : l.spType && V.includes(l.spType) ? T.Id ?? null : T;
     }
-    function $(C) {
-      return C == null ? "" : typeof C == "object" ? JSON.stringify(C) : String(C);
+    function $(T) {
+      return T == null ? "" : typeof T == "object" ? JSON.stringify(T) : String(T);
     }
-    const q = v(
-      () => (e.options ?? []).map((C) => ({
-        label: ae(C, e.optionLabel),
-        value: I(C),
-        key: $(I(C))
+    const q = f(
+      () => (l.options ?? []).map((T) => ({
+        label: ne(T, l.optionLabel),
+        value: P(T),
+        key: $(P(T))
       }))
-    ), M = v(() => {
-      if (e.modelValue === null || e.modelValue === void 0) return null;
-      const C = $(e.modelValue), R = q.value.find((x) => x.key === C);
-      return (R == null ? void 0 : R.label) ?? String(e.modelValue);
-    }), P = E(""), u = E(!1), r = E(0), o = E(null);
-    ee(M, (C) => {
-      C !== null && (P.value = C);
+    ), M = f(() => {
+      if (l.modelValue === null || l.modelValue === void 0) return null;
+      const T = $(l.modelValue), N = q.value.find((k) => k.key === T);
+      return (N == null ? void 0 : N.label) ?? String(l.modelValue);
+    }), S = E(""), u = E(!1), r = E(0), s = E(null);
+    ee(M, (T) => {
+      T !== null && (S.value = T);
     }, { immediate: !0 });
-    const y = v(() => {
-      const C = P.value.trim().toLowerCase(), R = $(e.modelValue);
-      return q.value.filter((x) => x.key === R ? !1 : C ? x.label.toLowerCase().includes(C) : !0);
+    const h = f(() => {
+      const T = S.value.trim().toLowerCase(), N = $(l.modelValue);
+      return q.value.filter((k) => k.key === N ? !1 : T ? k.label.toLowerCase().includes(T) : !0);
     });
-    ee(y, (C) => {
-      r.value >= C.length && (r.value = 0);
+    ee(h, (T) => {
+      r.value >= T.length && (r.value = 0);
     });
     function F() {
-      e.readonly || (u.value = !0, r.value = 0);
+      l.readonly || (u.value = !0, r.value = 0);
     }
     function U() {
-      m(), u.value = !1, r.value = 0, s("search", ""), M.value !== null && (P.value = M.value);
+      m(), u.value = !1, r.value = 0, o("search", ""), M.value !== null && (S.value = M.value);
     }
-    function K(C) {
-      s("update:modelValue", C.value), P.value = C.label, u.value = !1, s("search", "");
+    function j(T) {
+      o("update:modelValue", T.value), S.value = T.label, u.value = !1, o("search", "");
     }
-    function te() {
-      s("update:modelValue", null), P.value = "", s("search", ""), fe(() => {
-        var C;
-        return (C = o.value) == null ? void 0 : C.focus();
+    function ae() {
+      o("update:modelValue", null), S.value = "", o("search", ""), fe(() => {
+        var T;
+        return (T = s.value) == null ? void 0 : T.focus();
       });
     }
-    function ne() {
-      e.modelValue !== null && e.modelValue !== void 0 && s("update:modelValue", null), u.value = !0, r.value = 0, s("search", P.value);
+    function oe() {
+      l.modelValue !== null && l.modelValue !== void 0 && o("update:modelValue", null), u.value = !0, r.value = 0, o("search", S.value);
     }
     function se() {
       F();
     }
-    function re() {
+    function ue() {
       setTimeout(U, 150);
     }
-    function ue(C) {
-      const R = y.value;
-      switch (C.key) {
+    function ie(T) {
+      const N = h.value;
+      switch (T.key) {
         case "ArrowDown":
-          if (C.preventDefault(), !u.value) {
+          if (T.preventDefault(), !u.value) {
             F();
             return;
           }
-          r.value = R.length ? (r.value + 1) % R.length : 0;
+          r.value = N.length ? (r.value + 1) % N.length : 0;
           break;
         case "ArrowUp":
-          if (C.preventDefault(), !u.value) {
+          if (T.preventDefault(), !u.value) {
             F();
             return;
           }
-          r.value = R.length ? (r.value - 1 + R.length) % R.length : 0;
+          r.value = N.length ? (r.value - 1 + N.length) % N.length : 0;
           break;
         case "Enter":
-          if (C.preventDefault(), u.value && R.length) {
-            const x = r.value >= 0 && r.value < R.length ? r.value : 0;
-            K(R[x]);
+          if (T.preventDefault(), u.value && N.length) {
+            const k = r.value >= 0 && r.value < N.length ? r.value : 0;
+            j(N[k]);
           }
           break;
         case "Escape":
-          C.preventDefault(), U();
+          T.preventDefault(), U();
           break;
         case "Delete":
         case "Backspace":
-          e.modelValue !== null && e.modelValue !== void 0 && !P.value && (C.preventDefault(), te());
+          l.modelValue !== null && l.modelValue !== void 0 && !S.value && (T.preventDefault(), ae());
           break;
       }
     }
-    return (C, R) => (d(), p("div", null, [
-      n(h) ? (d(), p("label", {
+    return (T, N) => (d(), v("div", null, [
+      n(b) ? (d(), v("label", {
         key: 0,
         for: n(a),
-        class: T(n(k))
+        class: B(n(y))
       }, [
-        X(N(n(h)) + " ", 1),
-        n(w) ? (d(), p("i", {
+        X(R(n(b)) + " ", 1),
+        n(C) ? (d(), _(te, {
           key: 0,
-          class: T(["fas fa-asterisk fa-xs ms-1", n(f) ? "text-success" : "text-danger"])
-        }, null, 2)) : S("", !0)
-      ], 10, Ql)) : S("", !0),
-      b("div", {
-        class: T(["input-group", { "has-validation": g.value }])
+          "have-value": n(p)
+        }, null, 8, ["have-value"])) : I("", !0)
+      ], 10, et)) : I("", !0),
+      g("div", {
+        class: B(["input-group", { "has-validation": x.value }])
       }, [
-        l.suppressPrefixIcon ? S("", !0) : (d(), p("span", et, [...R[1] || (R[1] = [
-          b("i", { class: "fas fa-search" }, null, -1)
+        e.suppressPrefixIcon ? I("", !0) : (d(), v("span", lt, [...N[1] || (N[1] = [
+          g("i", { class: "fas fa-search" }, null, -1)
         ])])),
-        b("div", lt, [
-          ve(b("input", {
+        g("div", tt, [
+          me(g("input", {
             id: n(a),
             ref_key: "inputRef",
-            ref: o,
+            ref: s,
             type: "text",
-            class: T(["form-control border-end-0", { "is-invalid": g.value }]),
-            "onUpdate:modelValue": R[0] || (R[0] = (x) => P.value = x),
-            placeholder: l.placeholder ?? "Type to search…",
-            readonly: l.readonly,
+            class: B(["form-control border-end-0", { "is-invalid": x.value }]),
+            "onUpdate:modelValue": N[0] || (N[0] = (k) => S.value = k),
+            placeholder: e.placeholder ?? "Type to search…",
+            readonly: e.readonly,
             autocomplete: "off",
-            onInput: ne,
+            onInput: oe,
             onFocus: se,
-            onBlur: re,
-            onKeydown: ue
-          }, null, 42, tt), [
-            [be, P.value]
+            onBlur: ue,
+            onKeydown: ie
+          }, null, 42, at), [
+            [ge, S.value]
           ]),
-          u.value && y.value.length ? (d(), p("ul", {
+          u.value && h.value.length ? (d(), v("ul", {
             key: 0,
             class: "dropdown-menu show position-absolute w-100 p-0 mb-0",
             style: { top: "100%", left: "0", "z-index": "1000" },
             role: "listbox",
-            "aria-label": n(h) ?? "Suggestions"
+            "aria-label": n(b) ?? "Suggestions"
           }, [
-            (d(!0), p(Z, null, G(y.value, (x, L) => (d(), p("li", {
-              key: x.key,
+            (d(!0), v(Z, null, J(h.value, (k, L) => (d(), v("li", {
+              key: k.key,
               role: "option",
               "aria-selected": L === r.value,
-              class: T(["dropdown-item", { active: L === r.value }]),
-              style: ge(L === r.value ? "text-decoration: underline dotted;" : ""),
-              onMousedown: ce((D) => K(x), ["prevent"]),
+              class: B(["dropdown-item", { active: L === r.value }]),
+              style: xe(L === r.value ? "text-decoration: underline dotted;" : ""),
+              onMousedown: pe((D) => j(k), ["prevent"]),
               onMouseover: (D) => r.value = L
-            }, N(x.label), 47, nt))), 128))
-          ], 8, at)) : u.value && P.value && !y.value.length ? (d(), p("ul", st, [...R[2] || (R[2] = [
-            b("li", { class: "dropdown-item disabled text-muted fst-italic" }, "No matches", -1)
-          ])])) : S("", !0)
+            }, R(k.label), 47, ot))), 128))
+          ], 8, nt)) : u.value && S.value && !h.value.length ? (d(), v("ul", st, [...N[2] || (N[2] = [
+            g("li", { class: "dropdown-item disabled text-muted fst-italic" }, "No matches", -1)
+          ])])) : I("", !0)
         ]),
-        g.value ? (d(), p("div", ot, N(l.errorMessage ?? "Please select a value"), 1)) : S("", !0),
-        n(f) && !l.readonly ? (d(), p("button", {
+        x.value ? (d(), v("div", rt, R(e.errorMessage ?? "Please select a value"), 1)) : I("", !0),
+        n(p) && !e.readonly ? (d(), v("button", {
           key: 2,
           type: "button",
           class: "btn btn-outline-secondary",
           title: "Clear selection",
           "aria-label": "Clear selection",
           tabindex: "-1",
-          onClick: te
-        }, [...R[3] || (R[3] = [
-          b("i", { class: "fas fa-times" }, null, -1)
-        ])])) : S("", !0)
+          onClick: ae
+        }, [...N[3] || (N[3] = [
+          g("i", { class: "fas fa-times" }, null, -1)
+        ])])) : I("", !0)
       ], 2)
     ]));
   }
-}), ut = {
+}), it = {
   key: 0,
   class: "form-text text-muted"
-}, it = /* @__PURE__ */ A({
+}, dt = /* @__PURE__ */ A({
   __name: "SpvFormControl",
   props: {
     spType: {},
@@ -1769,170 +1787,170 @@ const yl = ["id", "value", "readonly", "min", "max"], hl = /* @__PURE__ */ A({
     mustMatch: {}
   },
   emits: ["update:modelValue", "search"],
-  setup(l, { expose: i, emit: t }) {
-    const e = l, s = t, a = v(() => e.type ? e.type : e.spType ? Ye[e.spType] : "text"), f = v(() => {
-      if (e.maxlength !== void 0) return e.maxlength;
-      if (e.spType) return je[e.spType];
-    }), c = v(() => {
+  setup(e, { expose: i, emit: t }) {
+    const l = e, o = t, a = f(() => l.type ? l.type : l.spType ? Ye[l.spType] : "text"), p = f(() => {
+      if (l.maxlength !== void 0) return l.maxlength;
+      if (l.spType) return Ze[l.spType];
+    }), c = f(() => {
       switch (a.value) {
         case "password":
-          return ul;
+          return il;
         case "number":
-          return dl;
+          return cl;
         case "percent":
-          return pl;
+          return vl;
         case "date":
-          return hl;
+          return bl;
         case "datetime-local":
-          return xl;
+          return kl;
         case "select":
-          return wl;
+          return Cl;
         case "lookupMulti":
-          return Ll;
+          return Fl;
         case "color":
-          return Dl;
+          return Rl;
         case "checkboxes":
-          return he;
+          return be;
         case "radio":
-          return he;
+          return be;
         case "textarea":
           return zl;
         case "switch":
-          return Zl;
+          return Gl;
         case "currency":
-          return Xl;
+          return Ql;
         case "lookup":
-          return rt;
+          return ut;
         case "text":
         default:
-          return nl;
+          return ol;
       }
-    }), w = E(null), h = v(() => {
+    }), C = E(null), b = f(() => {
       var m;
-      return ((m = w.value) == null ? void 0 : m.requiredPass) ?? !0;
+      return ((m = C.value) == null ? void 0 : m.requiredPass) ?? !0;
     });
-    function k() {
-      var m, g;
-      (g = (m = w.value) == null ? void 0 : m.touch) == null || g.call(m);
+    function y() {
+      var m, x;
+      (x = (m = C.value) == null ? void 0 : m.touch) == null || x.call(m);
     }
-    i({ requiredPass: h, touch: k });
-    const B = v(() => ({
-      modelValue: e.modelValue,
-      spType: e.spType,
-      label: e.label,
-      labelClass: e.labelClass,
-      placeholder: e.placeholder,
-      required: e.required,
-      readonly: e.readonly,
-      suppressPrefixIcon: e.suppressPrefixIcon,
-      stacked: e.stacked,
+    i({ requiredPass: b, touch: y });
+    const w = f(() => ({
+      modelValue: l.modelValue,
+      spType: l.spType,
+      label: l.label,
+      labelClass: l.labelClass,
+      placeholder: l.placeholder,
+      required: l.required,
+      readonly: l.readonly,
+      suppressPrefixIcon: l.suppressPrefixIcon,
+      stacked: l.stacked,
       multi: a.value === "checkboxes",
-      min: e.min,
-      max: e.max,
-      step: e.step,
-      maxlength: f.value,
-      rows: e.rows,
-      currency: e.currency,
-      locale: e.locale,
-      timezone: e.timezone,
-      options: e.options,
-      optionLabel: e.optionLabel,
-      optionValue: e.optionValue,
-      optionStrict: e.optionStrict,
-      errorMessage: e.errorMessage,
-      minLength: e.minLength,
-      requiredCharacters: e.requiredCharacters,
-      mixedCase: e.mixedCase,
-      mustMatch: e.mustMatch
+      min: l.min,
+      max: l.max,
+      step: l.step,
+      maxlength: p.value,
+      rows: l.rows,
+      currency: l.currency,
+      locale: l.locale,
+      timezone: l.timezone,
+      options: l.options,
+      optionLabel: l.optionLabel,
+      optionValue: l.optionValue,
+      optionStrict: l.optionStrict,
+      errorMessage: l.errorMessage,
+      minLength: l.minLength,
+      requiredCharacters: l.requiredCharacters,
+      mixedCase: l.mixedCase,
+      mustMatch: l.mustMatch
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     }));
-    return (m, g) => (d(), p("div", null, [
-      (d(), J($e(c.value), we({
+    return (m, x) => (d(), v("div", null, [
+      (d(), _(we(c.value), Ce({
         ref_key: "innerRef",
-        ref: w
-      }, B.value, {
-        "onUpdate:modelValue": g[0] || (g[0] = (V) => s("update:modelValue", V)),
-        onSearch: g[1] || (g[1] = (V) => s("search", V))
+        ref: C
+      }, w.value, {
+        "onUpdate:modelValue": x[0] || (x[0] = (V) => o("update:modelValue", V)),
+        onSearch: x[1] || (x[1] = (V) => o("search", V))
       }), null, 16)),
-      l.helpText ? (d(), p("div", ut, N(l.helpText), 1)) : S("", !0)
+      e.helpText ? (d(), v("div", it, R(e.helpText), 1)) : I("", !0)
     ]));
   }
 });
-function dt(l = 1500) {
+function ct(e = 1500) {
   const i = E(!1), t = E(!1);
-  let e = null;
-  async function s(a) {
-    e && clearTimeout(e);
+  let l = null;
+  async function o(a) {
+    l && clearTimeout(l);
     try {
       await navigator.clipboard.writeText(a), i.value = !0, t.value = !1;
     } catch {
       i.value = !1, t.value = !0;
     }
-    e = setTimeout(() => {
+    l = setTimeout(() => {
       i.value = !1, t.value = !1;
-    }, l);
+    }, e);
   }
-  return { copied: i, error: t, copy: s };
+  return { copied: i, error: t, copy: o };
 }
-const ct = { class: "spv-copyable position-relative d-inline-block" }, pt = ["title"], ft = /* @__PURE__ */ A({
+const pt = { class: "spv-copyable position-relative d-inline-block" }, vt = ["title"], ft = /* @__PURE__ */ A({
   __name: "SpvCopyable",
   props: {
     text: {}
   },
   emits: ["copied"],
-  setup(l, { emit: i }) {
-    const t = l, e = i, s = E(null), { copied: a, error: f, copy: c } = dt(), w = v(() => a.value ? "fas fa-check" : f.value ? "fas fa-times" : "fas fa-copy");
-    async function h() {
-      var B;
-      const k = t.text ?? ((B = s.value) == null ? void 0 : B.innerText) ?? "";
-      k && (await c(k), a.value && e("copied", k));
+  setup(e, { emit: i }) {
+    const t = e, l = i, o = E(null), { copied: a, error: p, copy: c } = ct(), C = f(() => a.value ? "fas fa-check" : p.value ? "fas fa-times" : "fas fa-copy");
+    async function b() {
+      var w;
+      const y = t.text ?? ((w = o.value) == null ? void 0 : w.innerText) ?? "";
+      y && (await c(y), a.value && l("copied", y));
     }
-    return (k, B) => (d(), p("span", ct, [
-      b("span", {
+    return (y, w) => (d(), v("span", pt, [
+      g("span", {
         ref_key: "contentRef",
-        ref: s
+        ref: o
       }, [
-        _(k.$slots, "default", {}, void 0, !0)
+        K(y.$slots, "default", {}, void 0, !0)
       ], 512),
-      b("button", {
+      g("button", {
         type: "button",
-        class: T(["spv-copyable__btn btn btn-sm btn-light border position-absolute top-0 end-0 p-1 lh-1", { "is-active text-success": n(a), "is-active text-danger": n(f) }]),
+        class: B(["spv-copyable__btn btn btn-sm btn-light border position-absolute top-0 end-0 p-1 lh-1", { "is-active text-success": n(a), "is-active text-danger": n(p) }]),
         title: n(a) ? "Copied!" : "Copy to clipboard",
-        onClick: h
+        onClick: b
       }, [
-        b("i", {
-          class: T(w.value)
+        g("i", {
+          class: B(C.value)
         }, null, 2)
-      ], 10, pt)
+      ], 10, vt)
     ]));
   }
-}), vt = (l, i) => {
-  const t = l.__vccOpts || l;
-  for (const [e, s] of i)
-    t[e] = s;
+}), mt = (e, i) => {
+  const t = e.__vccOpts || e;
+  for (const [l, o] of i)
+    t[l] = o;
   return t;
-}, mt = /* @__PURE__ */ vt(ft, [["__scopeId", "data-v-249ac02f"]]), yt = {
-  SpvAlert: Ce,
-  SpvModal: qe,
+}, yt = /* @__PURE__ */ mt(ft, [["__scopeId", "data-v-249ac02f"]]), ht = {
+  SpvAlert: Te,
+  SpvModal: Me,
   SpvToast: Ne,
   SpvOffcanvas: Ue,
-  SpvNavTabs: Ke,
-  SpvFormControl: it,
-  SpvCopyable: mt
-}, bt = {
-  install(l) {
-    for (const [i, t] of Object.entries(yt))
-      l.component(i, t);
+  SpvNavTabs: je,
+  SpvFormControl: dt,
+  SpvCopyable: yt
+}, gt = {
+  install(e) {
+    for (const [i, t] of Object.entries(ht))
+      e.component(i, t);
   }
 };
 export {
-  Ce as SpvAlert,
-  mt as SpvCopyable,
-  it as SpvFormControl,
-  qe as SpvModal,
-  Ke as SpvNavTabs,
+  Te as SpvAlert,
+  yt as SpvCopyable,
+  dt as SpvFormControl,
+  Me as SpvModal,
+  je as SpvNavTabs,
   Ue as SpvOffcanvas,
   Ne as SpvToast,
-  bt as default,
-  dt as useClipboard
+  gt as default,
+  ct as useClipboard
 };
