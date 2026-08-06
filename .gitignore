@@ -7,3 +7,4 @@ node_modules
 dist/*
 !dist/spv-toolpack.umd.js
 !dist/spv-toolpack.es.js
+!dist/spv-toolpack.md
