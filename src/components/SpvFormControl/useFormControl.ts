@@ -6,6 +6,7 @@ export interface UseFormControlOptions {
   label?: string
   required?: boolean
   labelClass?: string
+  invalid?: boolean
 }
 
 // Stable unique ID per control instance
@@ -56,6 +57,13 @@ export function useFormControl(props: UseFormControlOptions) {
   // Exposed for parent form validation — true when field is optional OR has a value
   const requiredPass = computed<boolean>(() => !resolvedRequired.value || haveValue.value)
 
+  // Invalid state pushed in by the consumer — server responses, cross-field rules,
+  // anything the control cannot work out for itself. Deliberately not gated on
+  // `touched`: an externally determined error is already known to be real, so it
+  // shows the moment it arrives rather than waiting for the user to blur the field.
+  // Controls OR this into their own validity check.
+  const externalInvalid = computed<boolean>(() => props.invalid === true)
+
   // Label CSS classes — always includes form-label, plus any consumer overrides
   const labelClasses = computed<string[]>(() => {
     const base = ['form-label']
@@ -70,5 +78,5 @@ export function useFormControl(props: UseFormControlOptions) {
   const touched = ref(false)
   const touch = () => { touched.value = true }
 
-  return { id, haveValue, requiredPass, resolvedRequired, displayLabel, labelClasses, touched, touch }
+  return { id, haveValue, requiredPass, externalInvalid, resolvedRequired, displayLabel, labelClasses, touched, touch }
 }

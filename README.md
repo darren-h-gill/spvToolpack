@@ -130,6 +130,8 @@ The `timezone` prop accepts any [IANA timezone string](https://en.wikipedia.org/
 | `readonly` | `boolean` | Renders the control as read-only |
 | `placeholder` | `string` | Input placeholder text |
 | `suppressPrefixIcon` | `boolean` | Hides the Font Awesome type icon |
+| `invalid` | `boolean` | Forces the invalid state from your own validation |
+| `errorMessage` | `string` | Error text shown when the control is invalid |
 | `timezone` | `string` | IANA timezone for DateTime controls |
 | `min` / `max` | `number` \| `string` | Min/max constraints |
 
@@ -147,6 +149,48 @@ const isValid = computed(() => titleRef.value?.requiredPass ?? true)
 <button :disabled="!isValid">Save</button>
 ```
 
+### External validation
+
+`requiredPass` only covers presence. For anything the control cannot work out for
+itself — server responses, cross-field rules, business logic — drive the `invalid`
+prop and supply the message via `errorMessage`:
+
+```js
+const codeError = computed(() =>
+  item.value.Code && !/^[A-Z]{3}-\d{4}$/.test(item.value.Code)
+    ? 'Use the format ABC-1234'
+    : ''
+)
+```
+
+```html
+<SpvFormControl
+  sp-type="Text"
+  v-model="item.Code"
+  label="Project code"
+  :invalid="!!codeError"
+  :error-message="codeError"
+/>
+```
+
+Two things to know:
+
+- `invalid` is OR-ed with the built-in required check, so it can only add an error,
+  never suppress one.
+- It ignores touched state and shows immediately, since an externally determined
+  error is already known to be real. The built-in required check still waits for
+  first blur.
+
+Set `errorMessage` whenever you set `invalid` — without it the control falls back to
+its default "This field is required" text, which won't describe your rule.
+
+Note that `requiredPass` deliberately does **not** reflect `invalid`; it keeps
+meaning "required is satisfied". A submit gate should check both:
+
+```js
+const canSave = computed(() => (titleRef.value?.requiredPass ?? true) && !codeError.value)
+```
+
 ---
 
 ## General UI components
@@ -160,6 +204,7 @@ The library also includes general-purpose Bootstrap wrapper components:
 | `SpvToast` | Bootstrap toast notification. `v-model` controls show/hide. |
 | `SpvOffcanvas` | Bootstrap offcanvas panel. `v-model` controls open/close state. |
 | `SpvNavTabs` | Tab navigation. `v-model` binds the active tab key. |
+| `SpvCopyable` | Wraps content with a copy-to-clipboard button shown on hover. |
 
 ---
 
@@ -176,3 +221,10 @@ Output files:
 - `dist/spv-toolpack.umd.js` — UMD bundle for CDN / script tag use
 - `dist/spv-toolpack.es.js` — ES module for bundler projects
 - `dist/index.d.ts` — TypeScript declarations
+- `dist/spv-toolpack.md` — packaged documentation, built from `docs/spv-toolpack.md`
+
+The documentation is stamped at build time: `{{VERSION}}`-style placeholders are replaced
+with the version being built, and every source link is rewritten to the matching release
+tag on GitHub so a shipped bundle always points at the source it came from. The build
+fails if any placeholder is left unresolved. See the `spv-docs` plugin in
+[vite.config.ts](vite.config.ts).

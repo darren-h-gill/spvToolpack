@@ -34,6 +34,7 @@ const props = defineProps<{
   options?: TListItem[]
   optionLabel?: OptionLabelResolver
   optionValue?: OptionLabelResolver
+  invalid?: boolean
   errorMessage?: string
 }>()
 
@@ -42,7 +43,7 @@ const emit = defineEmits<{
   'search': [query: string]
 }>()
 
-const { id, resolvedRequired, displayLabel, labelClasses, touched, touch } = useFormControl(props)
+const { id, externalInvalid, resolvedRequired, displayLabel, labelClasses, touched, touch } = useFormControl(props)
 
 const selectedArray = computed<unknown[]>(() =>
   Array.isArray(props.modelValue) ? props.modelValue : []
@@ -50,7 +51,7 @@ const selectedArray = computed<unknown[]>(() =>
 
 const haveValue = computed(() => selectedArray.value.length > 0)
 const requiredPass = computed(() => !resolvedRequired.value || haveValue.value)
-const isInvalid = computed(() => touched.value && !requiredPass.value)
+const isInvalid = computed(() => externalInvalid.value || (touched.value && !requiredPass.value))
 
 defineExpose({ requiredPass, touch })
 

@@ -15,6 +15,7 @@ const props = withDefaults(defineProps<{
   requiredCharacters?: string[]
   mixedCase?: boolean
   mustMatch?: string | null
+  invalid?: boolean
   errorMessage?: string
 }>(), {
   modelValue: null
@@ -24,7 +25,7 @@ const emit = defineEmits<{
   'update:modelValue': [value: string | null]
 }>()
 
-const { id, haveValue, resolvedRequired, displayLabel, labelClasses, touched, touch } = useFormControl(props)
+const { id, haveValue, externalInvalid, resolvedRequired, displayLabel, labelClasses, touched, touch } = useFormControl(props)
 
 const visible = ref(false)
 // hasInteracted gates checklist visibility — show rules as user types, not just on blur
@@ -91,7 +92,7 @@ const requiredPass = computed<boolean>(() => {
   return allRulesPassed.value
 })
 
-const isInvalid = computed(() => touched.value && !requiredPass.value)
+const isInvalid = computed(() => externalInvalid.value || (touched.value && !requiredPass.value))
 
 defineExpose({ requiredPass, touch })
 

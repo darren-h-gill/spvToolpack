@@ -23,6 +23,7 @@ const props = withDefaults(defineProps<{
    * Has no effect when options is empty or not provided.
    */
   optionStrict?: boolean
+  invalid?: boolean
   errorMessage?: string
 }>(), {
   modelValue: null,
@@ -33,7 +34,7 @@ const emit = defineEmits<{
   'update:modelValue': [value: string | null]
 }>()
 
-const { id, haveValue, requiredPass, resolvedRequired, displayLabel, labelClasses, touched, touch } = useFormControl(props)
+const { id, haveValue, requiredPass, externalInvalid, resolvedRequired, displayLabel, labelClasses, touched, touch } = useFormControl(props)
 
 // --- Strict mode validity tracking ---------------------------------------
 // isValidSelection tracks whether the last blur produced a valid selection.
@@ -49,7 +50,7 @@ const exposedRequiredPass = computed<boolean>(() => {
   return basePass && (haveValue.value ? isValidSelection.value : true)
 })
 
-const isInvalid = computed(() => touched.value && !exposedRequiredPass.value)
+const isInvalid = computed(() => externalInvalid.value || (touched.value && !exposedRequiredPass.value))
 
 defineExpose({ requiredPass: exposedRequiredPass, touch })
 

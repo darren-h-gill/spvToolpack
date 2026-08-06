@@ -31,6 +31,7 @@ const props = defineProps<{
   optionLabel?: OptionLabelResolver
   optionValue?: OptionLabelResolver
   suppressPrefixIcon?: boolean
+  invalid?: boolean
   errorMessage?: string
 }>()
 
@@ -38,9 +39,9 @@ const emit = defineEmits<{
   'update:modelValue': [value: unknown]
 }>()
 
-const { id, haveValue, requiredPass, resolvedRequired, displayLabel, labelClasses, touched, touch } = useFormControl(props)
+const { id, haveValue, requiredPass, externalInvalid, resolvedRequired, displayLabel, labelClasses, touched, touch } = useFormControl(props)
 
-const isInvalid = computed(() => touched.value && !requiredPass.value)
+const isInvalid = computed(() => externalInvalid.value || (touched.value && !requiredPass.value))
 
 defineExpose({ requiredPass, touch })
 

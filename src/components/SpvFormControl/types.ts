@@ -109,6 +109,8 @@ export interface SharedControlProps {
   required?: boolean
   readonly?: boolean
   suppressPrefixIcon?: boolean
+  /** Forces the invalid state from outside — OR-ed with the built-in required check */
+  invalid?: boolean
 }
 
 // -----------------------------------------------------------------------------

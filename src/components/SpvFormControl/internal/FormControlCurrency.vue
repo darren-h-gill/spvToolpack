@@ -24,6 +24,7 @@ const props = withDefaults(defineProps<{
   min?: number
   max?: number
   step?: number
+  invalid?: boolean
   errorMessage?: string
 }>(), {
   modelValue: null,
@@ -34,9 +35,9 @@ const emit = defineEmits<{
   'update:modelValue': [value: number | null]
 }>()
 
-const { id, haveValue, requiredPass, resolvedRequired, displayLabel, labelClasses, touched, touch } = useFormControl(props)
+const { id, haveValue, requiredPass, externalInvalid, resolvedRequired, displayLabel, labelClasses, touched, touch } = useFormControl(props)
 
-const isInvalid = computed(() => touched.value && !requiredPass.value)
+const isInvalid = computed(() => externalInvalid.value || (touched.value && !requiredPass.value))
 
 defineExpose({ requiredPass, touch })
 

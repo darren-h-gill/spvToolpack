@@ -67,6 +67,15 @@ const props = withDefaults(defineProps<{
   /** Render checkboxes/radio options one per line. Defaults to inline. */
   stacked?: boolean
 
+  /**
+   * Forces the control into its invalid state — for validity the control cannot
+   * determine itself (server responses, cross-field rules, business logic).
+   * OR-ed with the built-in required check, so it can only add an error, never
+   * suppress one. Unlike the built-in check it ignores touched state and shows
+   * immediately. Pair with `errorMessage` to say what is actually wrong.
+   */
+  invalid?: boolean
+
   // number / percent props
   min?: number
   max?: number
@@ -121,7 +130,8 @@ const props = withDefaults(defineProps<{
   helpText?: string
 
   /**
-   * Error message shown beneath the control when the field is touched and invalid.
+   * Error message shown beneath the control when it is invalid — whether from
+   * the built-in required check or from `invalid`.
    * Each control type has a sensible default; use this to override it.
    * e.g. "Please enter your full name"
    */
@@ -211,6 +221,7 @@ const passThrough = computed(() => ({
   readonly:           props.readonly,
   suppressPrefixIcon: props.suppressPrefixIcon,
   stacked:            props.stacked,
+  invalid:            props.invalid,
   multi:              resolvedType.value === 'checkboxes',
   min:                props.min,
   max:                props.max,
