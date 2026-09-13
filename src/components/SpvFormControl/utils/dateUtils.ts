@@ -4,10 +4,18 @@
  * SharePoint stores all dates as ISO 8601 UTC strings, e.g. "2026-06-08T00:00:00Z".
  * HTML date/datetime-local inputs work in the user's LOCAL timezone.
  *
- * The golden rule:
- *   - Date-only fields: no timezone conversion — SP uses midnight UTC as a
- *     "date label" with no time meaning. We just strip / restore the time part.
- *   - DateTime fields: full timezone conversion both ways.
+ * The golden rule: full timezone conversion both ways, for BOTH date-only and
+ * datetime fields, defaulting to the browser's timezone when none is given.
+ *
+ * Date-only fields are NOT necessarily literal midnight UTC. SharePoint's own
+ * UI (and flows/CSOM code that doesn't explicitly force UTC) writes a "Date
+ * Only" value as midnight in the site's regional time zone, converted to UTC
+ * — so a UK site can produce "2026-06-07T23:00:00Z" for what a user picked as
+ * "8 June 2026" whenever BST (UTC+1) is in effect. Treating that string as a
+ * literal UTC date label (a naive substring) then renders the wrong (previous)
+ * day for exactly half the year. Converting through the target timezone
+ * instead — the same approach already used for datetime fields — reads back
+ * the calendar day the user actually picked, in both BST and GMT.
  */
 
 // ─── Timezone helpers ─────────────────────────────────────────────────────────
@@ -32,28 +40,46 @@ function getOffsetMinutes(date: Date, tz: string): number {
 // ─── Date-only (SP type: Date / DateTime with date-only rendering) ─────────────
 
 /**
- * Convert an SP ISO string to a value suitable for <input type="date">.
+ * Convert an SP ISO UTC string to a value suitable for <input type="date">,
+ * in the given timezone (defaults to browser timezone).
  *
- * SP stores date-only fields as midnight UTC: "2026-06-08T00:00:00Z"
- * The date input expects: "2026-06-08"
- *
- * No timezone conversion — we simply extract the YYYY-MM-DD prefix.
- * This avoids the classic "wrong day" bug where UTC midnight renders as the
- * previous day in timezones ahead of UTC.
+ * e.g. "2026-06-07T23:00:00Z" (midnight BST on 8 June) in Europe/London → "2026-06-08"
  */
-export function isoToDateInput(iso: string | null | undefined): string {
+export function isoToDateInput(
+  iso: string | null | undefined,
+  timezone?: string
+): string {
   if (!iso) return ''
-  // Just take the date portion — no timezone math needed for date-only fields
-  return iso.substring(0, 10)
+  const tz = timezone ?? getBrowserTimezone()
+  const d  = new Date(iso)
+
+  const parts = new Intl.DateTimeFormat('en-CA', {
+    timeZone: tz,
+    year:     'numeric',
+    month:    '2-digit',
+    day:      '2-digit',
+  }).formatToParts(d)
+
+  const p: Record<string, string> = {}
+  parts.forEach(({ type, value }) => { p[type] = value })
+
+  return `${p.year}-${p.month}-${p.day}`
 }
 
 /**
- * Convert a date input value ("YYYY-MM-DD") to an SP ISO string.
- * Result is always midnight UTC — the SP convention for date-only fields.
+ * Convert a date input value ("YYYY-MM-DD") to an SP ISO UTC string,
+ * representing midnight in the given timezone (defaults to browser timezone).
+ *
+ * e.g. "2026-06-08" in Europe/London (BST) → "2026-06-07T23:00:00Z"
  */
-export function dateInputToIso(dateStr: string): string | null {
+export function dateInputToIso(
+  dateStr: string,
+  timezone?: string
+): string | null {
   if (!dateStr) return null
-  return `${dateStr}T00:00:00Z`
+  // Midnight local time, converted to UTC the same way a datetime-local
+  // input is — reuses the same DST-safe offset math for both control types.
+  return dateTimeInputToIso(`${dateStr}T00:00`, timezone)
 }
 
 // ─── DateTime (SP type: DateTime with time rendering) ─────────────────────────

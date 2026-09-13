@@ -2,16 +2,20 @@
 /**
  * Date-only control — spType="DateTime" rendered as type="date"
  *
- * modelValue: string | null — SP ISO format, e.g. "2026-06-08T00:00:00Z"
+ * modelValue: string | null — SP ISO UTC format, e.g. "2026-06-08T00:00:00Z"
  *
- * No timezone conversion needed. SP date-only fields are always stored as
- * midnight UTC and we treat the YYYY-MM-DD prefix as the authoritative date,
- * avoiding the classic "wrong day" bug for timezones ahead of UTC.
+ * Full timezone conversion both ways, same as the datetime-local control.
+ * SP "Date Only" values are not guaranteed to be literal midnight UTC — a
+ * value entered via SharePoint's own UI is midnight in the site's regional
+ * time zone, converted to UTC, so a UK site can produce a value like
+ * "2026-06-07T23:00:00Z" for "8 June" while BST is in effect. Converting
+ * through the target timezone (defaulting to the browser's) reads back the
+ * calendar day that was actually picked, in both BST and GMT.
  */
 import { computed } from 'vue'
 import FormControlWrapper from './FormControlWrapper.vue'
 import { useFormControl } from '../useFormControl'
-import { isoToDateInput, dateInputToIso } from '../utils/dateUtils'
+import { isoToDateInput, dateInputToIso, getBrowserTimezone } from '../utils/dateUtils'
 
 const props = withDefaults(defineProps<{
   modelValue: string | null
@@ -21,6 +25,7 @@ const props = withDefaults(defineProps<{
   required?: boolean
   readonly?: boolean
   suppressPrefixIcon?: boolean
+  timezone?: string
   min?: string
   max?: string
   invalid?: boolean
@@ -39,14 +44,22 @@ const isInvalid = computed(() => externalInvalid.value || (touched.value && !req
 
 defineExpose({ requiredPass, touch })
 
-const displayValue = computed<string>(() => isoToDateInput(props.modelValue))
-const inputMin = computed(() => props.min ? isoToDateInput(props.min) : undefined)
-const inputMax = computed(() => props.max ? isoToDateInput(props.max) : undefined)
+const resolvedTimezone = computed(() => props.timezone ?? getBrowserTimezone())
+
+const displayValue = computed<string>(() =>
+  isoToDateInput(props.modelValue, resolvedTimezone.value)
+)
+const inputMin = computed(() =>
+  props.min ? isoToDateInput(props.min, resolvedTimezone.value) : undefined
+)
+const inputMax = computed(() =>
+  props.max ? isoToDateInput(props.max, resolvedTimezone.value) : undefined
+)
 
 function onChange(e: Event) {
   touch()
   const val = (e.target as HTMLInputElement).value
-  emit('update:modelValue', dateInputToIso(val))
+  emit('update:modelValue', dateInputToIso(val, resolvedTimezone.value))
 }
 </script>
 
@@ -74,5 +87,12 @@ function onChange(e: Event) {
       :max="inputMax"
       @change="onChange"
     >
+    <span
+      v-if="timezone"
+      class="input-group-text text-muted small"
+      :title="`Dates shown in ${resolvedTimezone}`"
+    >
+      <i class="fas fa-globe fa-xs" />
+    </span>
   </FormControlWrapper>
 </template>

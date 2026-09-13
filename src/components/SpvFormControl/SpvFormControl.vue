@@ -16,7 +16,7 @@
  *              type differ (e.g. spType="Number" type="percent").
  *              When omitted, derived automatically from spType via SP_TYPE_DEFAULTS.
  *   timezone — IANA timezone string for DateTime controls (e.g. "Europe/London").
- *              Defaults to the browser's local timezone. Ignored for date-only controls.
+ *              Defaults to the browser's local timezone.
  */
 import { computed, ref } from 'vue'
 import type { FormControlType, SpType, TListItem, OptionLabelResolver } from './types'
@@ -92,9 +92,10 @@ const props = withDefaults(defineProps<{
   locale?: string
 
   /**
-   * IANA timezone string for DateTime controls, e.g. "Europe/London".
-   * Defaults to the browser's local timezone.
-   * Has no effect on date-only controls.
+   * IANA timezone string for date and datetime controls, e.g. "Europe/London".
+   * Defaults to the browser's local timezone. Used by both `type="date"` and
+   * `type="datetime-local"` controls to convert the SP UTC value correctly
+   * (including across DST changes, e.g. BST).
    */
   timezone?: string
 

@@ -145,13 +145,22 @@ Available: `text`, `password`, `textarea`, `number`, `percent`, `currency`, `dat
 
 ### Date and DateTime handling
 
-`v-model` stays in ISO UTC — the format SharePoint stores and expects. The control
-converts to and from the browser's local timezone for display, or a specific zone via
-`timezone` (any [IANA timezone string](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones)):
+`v-model` stays in ISO UTC — the format SharePoint stores and expects. Both `type="date"`
+and `type="datetime-local"` convert to and from a timezone for display: the browser's
+local timezone by default, or a specific zone via `timezone` (any
+[IANA timezone string](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones)):
 
 ```html
 <SpvFormControl sp-type="DateTime" type="datetime-local" v-model="item.Start" timezone="Europe/London" />
+<SpvFormControl sp-type="DateTime" type="date" v-model="item.DueDate" timezone="Europe/London" />
 ```
+
+This matters for `type="date"` too, not just `datetime-local`: a SharePoint "Date Only"
+value isn't guaranteed to be literal midnight UTC. A value entered through SharePoint's
+own UI is midnight in the site's regional time zone, converted to UTC — so a UK site can
+store `2026-06-07T23:00:00Z` for a date picked as "8 June". Converting through the target
+timezone (rather than reading the UTC date substring directly) is what keeps the
+displayed day correct across the BST/GMT boundary.
 
 ### Common props
 
@@ -169,7 +178,7 @@ converts to and from the browser's local timezone for display, or a specific zon
 | `invalid` | `boolean` | Forces the invalid state from your own validation |
 | `errorMessage` | `string` | Error text shown when the control is invalid |
 | `helpText` | `string` | Helper text rendered below the control |
-| `timezone` | `string` | IANA timezone for DateTime controls |
+| `timezone` | `string` | IANA timezone for `date` and `datetime-local` controls |
 | `min` / `max` / `step` | `number` | Numeric constraints |
 | `maxlength` | `number` | Character limit (defaults to 255 for `Text`) |
 | `rows` | `number` | Visible rows for textarea (default 3) |
